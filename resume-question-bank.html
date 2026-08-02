@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Question Bank — Kadiam Rao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  :root{
+    --bg:#F5F6F2; --panel:#FFFFFF; --ink:#18222E; --muted:#5A6673;
+    --line:#DFE3DA; --teal:#0E6B5C; --teal-soft:#E3F0EC;
+    --amber:#B4700F; --amber-soft:#FBF1DF;
+    --red:#9E3B2E; --red-soft:#F8E9E5;
+    --mono:'JetBrains Mono',monospace; --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6}
+  a{color:var(--teal)}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 120px}
+
+  header{padding:56px 0 28px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+  h1{font-family:var(--disp);font-size:clamp(28px,5vw,42px);line-height:1.12;font-weight:700}
+  .sub{color:var(--muted);margin-top:12px;max-width:640px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{font-family:var(--mono);font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+  .chip b{font-weight:600}
+  .chip.deep b{color:var(--teal)} .chip.trap b{color:var(--amber)} .chip.num b{color:var(--red)}
+
+  nav{position:sticky;top:0;background:rgba(245,246,242,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:50;overflow-x:auto;white-space:nowrap;padding:10px 0;margin-bottom:8px}
+  nav a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;margin-right:18px}
+  nav a:hover{color:var(--teal)}
+
+  section{margin-top:52px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--teal)}
+  h2{font-family:var(--disp);font-size:22px;font-weight:700}
+  .sec-note{color:var(--muted);font-size:14px;margin:8px 0 18px;max-width:720px}
+  .sec-note em{font-style:normal;color:var(--red);font-weight:500}
+
+  details{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  details[open]{border-color:#BFC8BB;box-shadow:0 2px 10px rgba(24,34,46,.05)}
+  summary{cursor:pointer;padding:14px 18px;font-weight:500;list-style:none;display:flex;gap:12px;align-items:flex-start}
+  summary::-webkit-details-marker{display:none}
+  summary .q-ix{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:3px;min-width:34px}
+  summary .arrow{margin-left:auto;color:var(--muted);transition:transform .18s;padding-top:2px}
+  details[open] .arrow{transform:rotate(90deg)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:2px 7px;border-radius:4px;margin-left:8px;vertical-align:2px;white-space:nowrap}
+  .tag.deep{background:var(--teal-soft);color:var(--teal)}
+  .tag.trap{background:var(--amber-soft);color:var(--amber)}
+  .tag.num{background:var(--red-soft);color:var(--red)}
+  .a{padding:2px 18px 18px 64px;color:#2A3542;font-size:14.5px;border-top:1px dashed var(--line)}
+  .a p{margin-top:10px}
+  .a ul{margin:10px 0 0 18px}
+  .a li{margin-bottom:6px}
+  .a .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:block;margin-top:14px}
+  .a code{font-family:var(--mono);font-size:13px;background:#F0F2ED;padding:1px 5px;border-radius:4px}
+  @media(max-width:640px){.a{padding-left:18px}}
+
+  .flow{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0 24px}
+  .flow h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+  .flow p.cap{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .mermaid{display:flex;justify-content:center;overflow-x:auto}
+
+  .callout{background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 18px;margin:20px 0;font-size:14.5px}
+  .callout.warn{background:var(--amber-soft);border-color:var(--amber)}
+
+  footer{margin-top:70px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Interview Question Bank · built from your resume · Aug 2026</div>
+  <h1>Every question your resume invites —<br>and how to survive each one.</h1>
+  <p class="sub">≈130 questions an interviewer can derive from what you've declared. Each toggle opens with what they're really testing and what a strong answer must contain. Work through one section per sitting; the numbers section last, and twice.</p>
+  <div class="legend">
+    <span class="chip deep"><b>DEEP-DIVE</b> · expect 2–3 follow-ups</span>
+    <span class="chip trap"><b>TRAP</b> · a shallow answer here fails the round</span>
+    <span class="chip num"><b>METRIC</b> · you claimed a number; defend it</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#s1">1 Opener</a>
+  <a href="#s2">2 RAG Assistant</a>
+  <a href="#s3">3 Latency & Cost</a>
+  <a href="#s4">4 Embeddings</a>
+  <a href="#s5">5 ML Platform</a>
+  <a href="#s6">6 Pipelines</a>
+  <a href="#s7">7 Coding Agent</a>
+  <a href="#s8">8 Offline Sims</a>
+  <a href="#s9">9 CRM</a>
+  <a href="#s10">10 Evals & RL</a>
+  <a href="#s11">11 Voice Agent</a>
+  <a href="#s12">12 AML RAG</a>
+  <a href="#s13">13 Wealth</a>
+  <a href="#s14">14 Earlier Roles</a>
+  <a href="#s15">15 Metrics</a>
+  <a href="#s16">16 Behavioral</a>
+  <a href="#s17">17 Cross-cutting</a>
+</nav>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>The opener & summary claims</h2></div>
+  <p class="sec-note">The first five minutes come from your summary line: 8+ years, LLM systems since 2023, six client engagements, offline deployments. Every phrase there is a hook.</p>
+
+  <details><summary><span class="q-ix">1.1</span><span>Walk me through your background in two minutes.</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether you can compress 8 years into a story with a direction, not a chronology.
+    <span class="lbl">Strong answer contains</span><ul><li>One arc: Python developer → ML engineer → owner of AI features → agent training/eval consultant. Each step framed as "problem I moved toward."</li><li>End on the present: production LLM systems + evaluation is your specialty, and that's exactly what this role needs.</li><li>Under 120 seconds. Rehearse with a timer; stop at two metrics maximum.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">1.2</span><span>You say "working on LLM and agent systems since 2023." What was your very first LLM project, and what did you get wrong?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Authenticity. Everyone claims 2023; few can describe early mistakes convincingly.
+    <span class="lbl">Strong answer contains</span><ul><li>A real first build with a real naive mistake — e.g. trusting the model's answer without grounding, no eval set, prompt in a string literal.</li><li>What you do differently now, stated as a habit ("nothing ships without a golden set").</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">1.3</span><span>"More than six client engagements" — pick the hardest one. What made it hard, and what did you personally do?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether "six engagements" is depth or a headcount. Also your I-vs-we ratio.
+    <span class="lbl">Strong answer contains</span><ul><li>One engagement, named by domain (respecting confidentiality), with the constraint that made it hard — e.g. air-gapped deployment, ambiguous requirements, multi-system integration.</li><li>Your specific role: decisions you made, code you wrote, alignment you drove.</li><li>Outcome with a number, then one thing you'd change.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">1.4</span><span>"Working out what the customer actually needed" — give an example where what they asked for and what they needed were different.</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>FDE/consultant instincts — requirements discovery, saying no productively.
+    <span class="lbl">Strong answer contains</span><ul><li>The stated ask, the question you asked that exposed the real problem, and the smaller/different thing you shipped instead.</li><li>How you got the client to agree — the persuasion step is the point.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">1.5</span><span>Why are you looking to move now?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Pull, not push: you want to go deeper on production agent systems / GenAI at scale than the current platform allows. Never criticize KNS or Turing.</li><li>One sentence connecting that pull to this company's product specifically.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Enterprise RAG Knowledge Assistant</h2></div>
+  <p class="sec-note">10,000+ documents · hallucination guardrails · eval dashboards · <em>~35% answer-relevance improvement</em>. This is your headline project — expect the longest grilling here.</p>
+
+  <div class="flow">
+    <h3>Flow — the pipeline you must be able to draw in 3 minutes</h3>
+    <p class="cap">Practice narrating this left to right, naming a failure mode at every arrow.</p>
+    <pre class="mermaid">
+flowchart LR
+  subgraph Ingest["Ingestion (offline)"]
+    A[Docs 10k+] --> B[Parse & clean] --> C[Chunk] --> D[Embed] --> E[(Pinecone index)]
+  end
+  subgraph Query["Query path (online)"]
+    Q[Student query] --> QE[Embed query] --> R[Retrieve top-k] --> RR[Rerank] --> P[Grounded prompt + citations] --> G[LLM generate]
+  end
+  E --> R
+  G --> V{Guardrails: grounded? cites context?}
+  V -- pass --> U[Answer to student]
+  V -- fail --> F[Refuse / fallback answer]
+  U --> M[Eval dashboard: relevance, faithfulness, latency, cost]
+  M -. golden set regressions .-> P
+    </pre>
+  </div>
+
+  <details><summary><span class="q-ix">2.1</span><span>Walk me through the architecture end to end.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The two paths above: ingestion vs. query, spoken as separate systems with separate failure modes.</li><li>Concrete choices with reasons: chunking strategy and size, embedding model, top-k, whether you reranked, prompt structure, citation format.</li><li>Where guardrails and evaluation sit in the loop — not bolted on at the end.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.2</span><span>How did you chunk 10,000 documents? What chunk size, what overlap, and why?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>"Recursive splitter, 500 tokens" with no reason = you copied a tutorial.
+    <span class="lbl">Strong answer contains</span><ul><li>Doc types in the corpus (course PDFs? FAQs? slides?) and how structure drove the strategy.</li><li>An experiment: you tried 2–3 sizes against the eval set and picked by retrieval metrics — precision/hit-rate, not vibes.</li><li>The trade-off out loud: small chunks = precise retrieval but lost context; parent-child if you used it.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.3</span><span>What exactly are your "hallucination guardrails"? Walk me through one request that got blocked.</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether "guardrails" is a real mechanism or a resume word.
+    <span class="lbl">Strong answer contains</span><ul><li>Named mechanisms: answer-only-from-context prompting, citation requirement, faithfulness check (LLM-as-judge or NLI-style), similarity threshold below which you refuse, out-of-scope classifier.</li><li>One concrete blocked example: the query, which check fired, what the student saw instead.</li><li>The false-positive cost: how often guardrails blocked a good answer, and how you tuned that.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.4</span><span>Answer relevance improved ~35%. Measured how, against what baseline?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The metric definition: relevance scored how (LLM-as-judge rubric? human raters? thumbs-up rate?), on what eval set, how many examples.</li><li>The baseline: the pre-RAG system or v1 of the pipeline.</li><li>Honest caveats: judge bias, sample size. Naming the limitation yourself reads as senior.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.5</span><span>Retrieval returns good chunks but the answer is still wrong. Debug it live.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Isolate the stage: if context contains the answer, the fault is generation — prompt, ordering ("lost in the middle"), conflicting/duplicate chunks, too much context.</li><li>Fixes in order: tighten the instruction, rerank + trim to fewer better chunks, deduplicate, add faithfulness eval to catch recurrence.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.6</span><span>Why Pinecone? What would make you choose pgvector or FTS instead?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The honest trade: Pinecone = managed, fast to ship, scales without ops. pgvector = you already run Postgres, one less system, cheaper at small scale, transactional with your data.</li><li>Bonus credibility: point at your AML project where you deliberately went the other way (SQLite FTS5 + local dense) — proves it was a choice, not the only tool you know.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.7</span><span>A document is updated or deleted. What happens in your system?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Index freshness strategy: re-embed on change (webhook/scheduled), delete-then-upsert by doc ID, versioned namespaces if you did full re-indexes.</li><li>The stale-answer risk window and how you bounded it.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.8</span><span>What was on the evaluation dashboard, and who looked at it?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Metrics: faithfulness, answer relevance, retrieval hit-rate, p95 latency, cost/query, thumbs-down rate.</li><li>The audience and the action: who saw a regression and what happened next. A dashboard nobody acts on is decoration.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.9</span><span>How would this design change at 1M documents and 100× the query volume?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Retrieval: hybrid search + reranking becomes mandatory; namespace/shard by course or tenant; ingestion becomes a streaming pipeline with a queue.</li><li>Cost: caching (semantic + prompt), model routing, batch embedding.</li><li>Eval: automated regression gates because you can no longer eyeball anything.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">2.10</span><span>Students are minors / the domain is education. What safety or content controls did that force?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Input/output filtering, restricted scope (answer only from the KB), tone controls, escalation to a human for sensitive queries, logging with PII care.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Latency −40% & cost −30%</h2></div>
+  <p class="sec-note">"Prompt and context optimization and caching, with production accuracy tracked continuously." Two claimed numbers, one claimed safety net — three attack surfaces.</p>
+
+  <details><summary><span class="q-ix">3.1</span><span>Latency down ~40% — from what to what, at which percentile, and which change contributed most?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Real numbers: e.g. p95 from Xs to Ys. Saying "p95" instead of "average" already puts you ahead.</li><li>Attribution: which lever gave what — shorter prompts, trimmed context, caching hits, streaming (perceived), smaller model on easy paths.</li><li>How you measured: tracing per stage, before/after on the same traffic.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">3.2</span><span>What did you cache, exactly — and how did you handle invalidation?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Distinguish prompt-prefix caching (provider-side, shared system prompt) from semantic caching (embedding-match on similar queries, skip the LLM).</li><li>Semantic-cache risks you handled: similarity threshold tuning, stale answers after KB updates, per-user personalization leaks.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">3.3</span><span>You cut context to save cost. How do you know you didn't hurt answer quality?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether "accuracy tracked continuously" is real. This is the follow-up your own bullet begs for.
+    <span class="lbl">Strong answer contains</span><ul><li>The regression gate: every optimization re-ran the golden eval set; a change shipped only if quality held within a tolerance.</li><li>One example where an optimization DID regress quality and you rolled it back — the strongest possible proof the process exists.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">3.4</span><span>Cost down ~30% — what was the monthly bill before and after? Walk me through the arithmetic.</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The formula out loud: requests/day × tokens per request × price per token. Even rough numbers show you think in cost.</li><li>Where the 30% came from: token reduction vs. cache hit-rate vs. cheaper model routing.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">3.5</span><span>If I gave you one more week to cut another 20%, where would you look first?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Measure first: token histogram per endpoint, cache hit-rate, model mix. Attack the biggest line item, not the most interesting one.</li><li>Likely levers: route easy queries to a small model behind a confidence gate; batch offline work; cap output tokens.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Embeddings, Pinecone & auto-tagging</h2></div>
+  <p class="sec-note">"Production LLM applications built on embeddings and Pinecone vector search. Automated content tagging reduced manual effort by roughly 60%."</p>
+
+  <details><summary><span class="q-ix">4.1</span><span>Which embedding model, what dimensionality, and how did you choose it?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The candidates you compared and the criteria: quality on your domain (MTEB as a starting point, your own eval as the decider), dimension vs. storage/speed, cost, context length.</li><li>The re-index constraint: switching models means re-embedding everything — docs and queries must share one model.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">4.2</span><span>Cosine vs. dot product vs. Euclidean — which did you use and does it matter?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Cosine for normalized text embeddings; note that with normalized vectors cosine and dot rank identically. Knowing that equivalence is the senior tell.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">4.3</span><span>How did the auto-tagging work — classifier or LLM? Why that choice?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether you reach for an LLM when a cheaper method wins.
+    <span class="lbl">Strong answer contains</span><ul><li>The design: fixed taxonomy → embedding similarity or a small classifier can beat an LLM on cost and consistency; open taxonomy → LLM with structured output + validation.</li><li>Quality control: how tags were spot-checked, precision on a labeled sample, human-in-the-loop for low-confidence.</li><li>The 60%: manual hours before vs. after, and what humans still do.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">4.4</span><span>Two very similar documents keep crowding out the right answer in retrieval. What do you do?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Dedup at ingestion (near-duplicate detection), MMR/diversity at retrieval, or rerank with a cross-encoder; explain which you'd try first and why.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Student Performance ML Platform</h2></div>
+  <p class="sec-note">50,000 assessment records · ~85% accuracy · scikit-learn · Bayesian networks · automatic balanced teams. Your one classical-ML story — they'll use it to test fundamentals.</p>
+
+  <details><summary><span class="q-ix">5.1</span><span>85% accuracy — is accuracy even the right metric here? What was the class balance?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>The classic: 85% accuracy is meaningless if 85% of students pass. This is the single most likely trap on your resume.
+    <span class="lbl">Strong answer contains</span><ul><li>The class distribution, and precision/recall/F1 or AUC alongside accuracy. If you only tracked accuracy, say what you'd report today and why.</li><li>Which error is costlier here (missing an at-risk student = false negative) and how that shaped the threshold.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">5.2</span><span>What features drove the prediction, and how did you validate you weren't leaking the target?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Feature families: past scores, attempt patterns, engagement/timing signals.</li><li>Leakage checks: temporal split (train on past terms, test on later), no post-outcome features, feature importance sanity review.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">5.3</span><span>Why classical scikit-learn models and not a neural net — or an LLM?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Tabular data at 50K rows: gradient-boosted / classical models are the right tool — better sample efficiency, interpretable, cheap. Saying "an LLM would be overkill here" earns points, not loses them.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">5.4</span><span>The resume says Bayesian networks. Explain what they gave you over a plain classifier.</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Whether every term on the resume is defensible. If Bayesian networks were exploratory, say so precisely.
+    <span class="lbl">Strong answer contains</span><ul><li>What they model: conditional dependencies between skills/concepts; useful for explainable "why is this student at risk" reasoning and handling missing data.</li><li>Honest scoping of how far you took it vs. the production classifier.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">5.5</span><span>How does "forms balanced teams automatically" work? What does balanced mean, and how do you know it's fair?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The objective: distribute predicted ability/skills evenly; the method (constraint-based assignment / greedy with swaps / optimization).</li><li>Fairness angle: predictions influencing student grouping is an ethics question — how you audited for systematic bias against any group. Raising this unprompted is a strong senior signal.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">5.6</span><span>How is the model monitored in production? What happens when the student population shifts?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Drift monitoring on features and outcomes, periodic retraining cadence, backtest before promoting a retrained model.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Data pipelines & the .NET migration</h2></div>
+  <p class="sec-note">"~1M events a day in pandas and SQLAlchemy" — an interviewer will push on whether pandas is the right tool at that volume. Plus the FastAPI migration story.</p>
+
+  <details><summary><span class="q-ix">6.1</span><span>1M events/day through pandas — batch or streaming? Why is pandas the right tool, and when does it stop being?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Scale honesty. 1M/day ≈ 12 events/sec — fine for batch pandas, and admitting that plainly is the right move.
+    <span class="lbl">Strong answer contains</span><ul><li>The shape: scheduled batch jobs, chunked processing, idempotent runs, memory management for big frames.</li><li>The graduation criteria: at what volume/latency you'd move to Polars/DuckDB, a warehouse, or a streaming system — and why you didn't need to yet.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">6.2</span><span>A pipeline run fails at 3am, halfway through. What happens to the data?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Idempotency and atomicity: reruns don't duplicate (upserts/transactions/watermarks), partial writes are detectable, alerting exists, backfill procedure is documented.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">6.3</span><span>How did you run the .NET → FastAPI migration without breaking consumers?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The pattern: strangler-fig style, endpoint by endpoint behind a router/proxy; contract tests against the legacy behavior; shadow traffic or dual-run comparison where risk was high.</li><li>"Improved API response times" → have one before/after number ready.</li><li>What was hardest: undocumented business logic in the legacy code, and how you reverse-engineered it safely.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">6.4</span><span>Pydantic and SQLAlchemy — what do you actually use each for, and where do they bite you?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Pydantic: request/response validation, settings, structured LLM output parsing. Gotchas: v1→v2 changes, validation cost on hot paths.</li><li>SQLAlchemy: session lifecycle in FastAPI dependency injection, N+1 queries and eager loading, migration discipline with Alembic.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Agentic Coding Assistant (Turing)</h2></div>
+  <p class="sec-note">MCP + tool calls · PR & CI/CD hooks · webhook pipelines · <em>~45% review-turnaround reduction</em>. Agents are the hottest interview topic of 2026 — this project will carry or sink the AI deep-dive round.</p>
+
+  <div class="flow">
+    <h3>Flow — the agent loop with your guard mechanisms</h3>
+    <p class="cap">Interviewers want the loop AND the brakes. Narrate stop conditions and verification, not just the happy path.</p>
+    <pre class="mermaid">
+flowchart TD
+  W[Webhook: PR opened / CI event] --> PL[Agent: plan change]
+  PL --> T{Select tool via MCP}
+  T --> RD[read files] & ED[edit code] & RN[run tests / CI]
+  RD --> OB[Observe result]
+  ED --> OB
+  RN --> OB
+  OB --> CK{Done? budget left? loop detected?}
+  CK -- continue --> PL
+  CK -- budget/loop limit --> HITL[Escalate to human]
+  CK -- done --> VF[Validate: tests pass + diff review]
+  VF -- pass --> PR[Comment / propose commit on PR]
+  VF -- fail --> HITL
+  PR --> HR[Human reviewer approves]
+    </pre>
+  </div>
+
+  <details><summary><span class="q-ix">7.1</span><span>Walk me through one full run: webhook fires → agent finishes. What tools does it have and what can it NOT do?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The loop above with concrete tools (read, edit, run tests) and their MCP schemas.</li><li>The permission boundary: what required human approval (merging, anything irreversible). Least-privilege stated explicitly.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.2</span><span>What's the worst thing your agent ever did, and what did you change after?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Anyone who runs agents in production has war stories. No war story = no production experience.
+    <span class="lbl">Strong answer contains</span><ul><li>A real failure: loop that burned budget, confidently wrong edit, wrong tool with malformed args.</li><li>The systemic fix: step/budget caps, schema validation, tracing, a new eval case — not "we were more careful."</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.3</span><span>How do you stop the agent looping forever or burning tokens?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Hard caps (steps, tokens, wall-clock), repeated-state/loop detection, cost budget per run, and escalation to a human as the terminal state — never silent retry-forever.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.4</span><span>Review turnaround down ~45% — turnaround of what, measured where? Did quality hold?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Definition: e.g. median time from PR-open to first meaningful review action, from the PR system's own timestamps, before vs. after.</li><li>The counter-metric you watched: post-merge defect rate / reverts — proving speed didn't cost quality.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.5</span><span>Why MCP instead of hand-rolled function calling?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The honest reason: standardized tool interface, reuse across clients/agents, less bespoke glue per integration. And the counter-case: for one tool and one model, plain function calling is simpler.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.6</span><span>An agent edits code based on repo content. How do you think about prompt injection here?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Indirect injection via repo files/PR descriptions is the canonical agent attack. Missing this in 2026 is disqualifying at AI-first companies.
+    <span class="lbl">Strong answer contains</span><ul><li>Repo content is untrusted data, not instructions; least-privilege tools; human approval gate before anything lands; diff review; no secrets in context.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.7</span><span>How did you evaluate the agent — what does "task success" mean for a coding agent?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Deterministic checks: tests pass, lint clean, diff applies, acceptance criteria met — connect to your "deterministic state verification" experience.</li><li>A fixed task suite run per change to the agent (prompt, model, tools) = regression safety.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">7.8</span><span>Single agent or multi-agent — and would you change that today?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Default single: multi-agent adds latency, cost and coordination failure modes. Go multi only for genuinely separable parallel subtasks. Whatever you built, defend it with this frame.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Offline simulators & deterministic verification</h2></div>
+  <p class="sec-note">Air-gapped Docker builds · React/TypeScript training environments · Playwright · "every UI action verified deterministically." Your most unusual experience — lean into it, it differentiates you.</p>
+
+  <details><summary><span class="q-ix">8.1</span><span>"No external network dependency of any kind" — what actually breaks when you go fully offline, and how did you solve each?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The real pain list: package registries (vendored wheels/node_modules, local registry), base images (pre-pulled, multi-stage), fonts/CDN assets (bundled), telemetry/licence phone-homes (stubbed), time sync, DNS assumptions in libraries.</li><li>How you verified it: build and run inside a network-disabled container as a CI gate, not by hoping.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">8.2</span><span>What does "deterministic state verification" mean concretely? Give me one UI action and its check.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The principle: after an agent action, assert on application state (store/DB/DOM invariants), not screenshots or vibes.</li><li>One concrete pair: "agent clicks 'create record' → verifier asserts the record exists in state with these fields, exactly once."</li><li>Why it matters for RL/agent training: reward signals must be exact — a flaky verifier poisons training.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">8.3</span><span>How did you make the environments reproducible run-to-run? Where does nondeterminism sneak in?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Seeded data, fixed clocks, pinned dependencies, no reliance on external services, animation/timing control in Playwright, ordering-stable APIs.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">8.4</span><span>Playwright vs. Selenium — you list both. When each, and what flaky-test lessons do you carry?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Playwright default (auto-waiting, tracing, speed); Selenium for legacy grids/browser coverage. Flake control: wait on state not sleep, network stubbing, retry-with-artifact-capture, quarantine lane.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>CRM & sales-workflow integrations</h2></div>
+  <p class="sec-note">Salesforce · HubSpot · Outreach · LinkedIn Sales Navigator · Calendly · webhook pipelines · end-to-end validation. This is your enterprise/FDE credibility section.</p>
+
+  <details><summary><span class="q-ix">9.1</span><span>Pick one multi-system workflow and walk me through it end to end, including where it breaks.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>One concrete flow (e.g. lead enriched → sequence in Outreach → meeting via Calendly → synced to Salesforce), with the data contract at each hop.</li><li>The breakage list: auth expiry, rate limits, partial failures mid-chain, duplicate records, field-mapping drift — and the handling for each.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">9.2</span><span>Two systems disagree about the same contact. Who wins, and how is that enforced?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>A named strategy: system-of-record per field, last-write-wins with audit, or human review queues for conflicts. "It depends per field" with an example is the senior answer.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">9.3</span><span>A webhook is delivered twice — or never. What does your pipeline do?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Idempotency keys/dedup on event ID, signature verification, retry with backoff + DLQ, and reconciliation sweeps for the never-delivered case.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">9.4</span><span>How did you "validate the automated workflows end to end" without spamming real prospects?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Sandbox orgs/test tenants, synthetic contacts, dry-run modes, contract tests per integration, and assertion of final state across all systems — tying back to your deterministic-verification habit.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">9.5</span><span>Salesforce API limits are notoriously tight. How did you design around vendor rate limits?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Bulk APIs over per-record calls, batching, caching reference data, backoff, and budget monitoring per org.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 10 ============ -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Evals, benchmarks & RL gyms</h2></div>
+  <p class="sec-note">"Defined benchmarks and automated checks covering accuracy, latency, reliability and cost… task success rates rose ~20%." Plus RL gym setup and rubric writing. Eval methodology is the most-probed skill of 2026 — this section is your unfair advantage. Own it.</p>
+
+  <details><summary><span class="q-ix">10.1</span><span>Design an eval harness for an agent from scratch. Where do the tasks come from, and what's a "pass"?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Task sourcing: real production traces + hand-authored edge cases; each task has setup, goal, and a deterministic success check.</li><li>Pass definition: end-state assertions (the thing exists/changed correctly), not transcript vibes; partial credit only if rubric-defined.</li><li>Harness properties: reproducible, versioned, runs on every change to prompt/model/tools.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.2</span><span>Task success up ~20% — what specifically changed to cause that?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The causal chain: benchmarks exposed specific failure clusters → targeted fixes (tool descriptions, prompts, retries) → re-run showed the lift. The measurement caused the improvement; that's the story.</li><li>Baseline, sample size, and whether the gain held on fresh tasks (not just the ones you tuned on — overfitting to your own eval is the trap).</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.3</span><span>When do you trust an LLM-as-judge, and when do you refuse to?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Its biases by name: position, verbosity, self-preference. Calibrate against a human-labeled sample; prefer pairwise over absolute scores; never use it where a deterministic check exists.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.4</span><span>What makes a good rubric? Show me the difference between a bad rubric line and a good one.</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Bad: "response is helpful (1–5)." Good: binary, observable criteria — "cites at least one source from the provided context," "does not invent field names." You wrote rubrics professionally; have 2–3 real examples ready.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.5</span><span>What is an RL gym environment, and what did setting one up actually involve?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The anatomy: environment (your offline app), observation/action space (UI or API surface), reward signal (your deterministic verifiers), episode reset to a clean seeded state.</li><li>The hard parts: reward hacking (agent games the checker), reset hygiene, verifier precision — connect to why deterministic verification mattered.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.6</span><span>You rated model-generated JS/TS and backend code. What separated a 3 from a 5?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Your actual criteria: correctness vs. spec, edge/error handling, idiomatic style, security basics, tests. One memorable example of subtly-wrong model code you caught.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">10.7</span><span>A provider ships a new model version tomorrow. What's your process before switching?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Re-run the full golden set, diff metrics, canary a small traffic slice, hold the rollback path. Pinned model versions in config, never "latest."</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 11 ============ -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Telugu Voice Agent (personal)</h2></div>
+  <p class="sec-note">Pipecat · Sarvam STT/TTS · Gemini · WebRTC · sub-800ms budget · code-mixed Telugu/English · config-driven multi-tenancy. Personal projects get probed hardest — you had total freedom, so every choice is yours to defend.</p>
+
+  <div class="flow">
+    <h3>Flow — the latency budget you must recite</h3>
+    <p class="cap">Know your measured per-stage numbers. "Sub-800ms round trip" invites "break that down for me."</p>
+    <pre class="mermaid">
+flowchart LR
+  U[User speaks] --> W[WebRTC transport] --> VAD[VAD: end of speech] --> STT[Sarvam STT<br/>Telugu + English] --> L[Gemini<br/>first token fast] --> TTS[Sarvam TTS<br/>streamed] --> O[Audio out]
+  O -.->|target < 800ms total| U
+  STT -. per-stage timers .-> M[(Latency instrumentation)]
+  L -. per-stage timers .-> M
+  TTS -. per-stage timers .-> M
+    </pre>
+  </div>
+
+  <details><summary><span class="q-ix">11.1</span><span>Break the 800ms budget down by stage. Which stage is the bottleneck and what did you do about it?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Your measured splits (VAD/endpointing, STT, LLM time-to-first-token, TTS first-audio, network). If LLM TTFT dominates: short prompts, streaming into TTS as sentences complete, warm connections.</li><li>How instrumentation works: per-stage timers on every turn, percentiles not averages.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">11.2</span><span>What's hard about code-mixed Telugu-English specifically?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>STT: mid-sentence language switching, transliteration ambiguity (Telugu in Latin script), named entities. Why you chose Sarvam (Indic-specialized) over a general model.</li><li>TTS side: pronunciation of English terms inside Telugu speech; how you tested quality (real listeners, not just word-error-rate).</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">11.3</span><span>How does interruption (barge-in) work? User talks over the agent — then what?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>The question that separates people who built a voice loop from people who read about one.
+    <span class="lbl">Strong answer contains</span><ul><li>VAD detects speech during playback → cancel TTS + in-flight LLM stream → truncate context to what was actually heard → process new input. If you haven't fully solved it, describe your current behavior and the fix you'd make — precisely.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">11.4</span><span>"A new client deploys by swapping a config folder." What's in the folder, and what happens when a client needs something config can't express?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Config contents: prompts/persona, language settings, tool endpoints, voice choice, business rules.</li><li>The honest limit: config-driven covers the 80%; the escape hatch (plugin hooks / code change with a versioned interface) covers the rest. Knowing where the line is = product thinking.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">11.5</span><span>Why Pipecat? What did the framework give you and where did it get in your way?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Gave: the streaming pipeline plumbing, transport handling, pluggable STT/LLM/TTS stages. Fought: any place you needed custom behavior mid-pipeline. A framework answer with no friction story sounds like you didn't go deep.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">11.6</span><span>How would you evaluate this agent? WER isn't enough — what is?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Layered: STT accuracy on code-mixed test sets, task completion rate on scripted dialogues, latency percentiles per stage, and human ratings for naturalness. Turn-level traces so failures are attributable to a stage.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 12 ============ -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>AML/CTF Compliance Assistant (personal)</h2></div>
+  <p class="sec-note">Hybrid dense + BM25 · RRF · cross-encoder rerank · SQLite FTS5 · multi-tenant · "tenant isolation enforced as a SQL predicate rather than a prompt instruction." Your most technically opinionated project — interviewers will love it or stress-test it.</p>
+
+  <div class="flow">
+    <h3>Flow — hybrid retrieval with hard tenant isolation</h3>
+    <p class="cap">The isolation predicate is the differentiator. Make sure it's visually and verbally the center of your explanation.</p>
+    <pre class="mermaid">
+flowchart TD
+  Q[Query + tenant_id from auth] --> D[Dense embedding search] & S[BM25 / FTS5 keyword search]
+  D --> FD[WHERE tenant_id = :t<br/>OR corpus = 'public law']
+  S --> FS[WHERE tenant_id = :t<br/>OR corpus = 'public law']
+  FD --> RRF[Reciprocal Rank Fusion]
+  FS --> RRF
+  RRF --> CE[Cross-encoder rerank] --> P[Grounded prompt<br/>AUSTRAC guidance + firm procedures] --> G[LLM answer with citations]
+  style FD fill:#E3F0EC,stroke:#0E6B5C
+  style FS fill:#E3F0EC,stroke:#0E6B5C
+    </pre>
+  </div>
+
+  <details><summary><span class="q-ix">12.1</span><span>Why is "tenant isolation as a SQL predicate rather than a prompt instruction" the right design? Steelman the prompt approach first.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Steelman: prompt-level filtering is zero extra infrastructure. Then demolish it: prompts are probabilistic and injectable; a security boundary must be deterministic and enforced below the model — the LLM never sees another tenant's rows, so it cannot leak them.</li><li>This one answer demonstrates security thinking better than any certification. Rehearse it until it's 45 seconds flat.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">12.2</span><span>Why hybrid retrieval for this corpus specifically?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Legal text is exact-match-heavy: section numbers ("s 41"), defined terms, acronyms — BM25 territory. Users also ask in plain language — dense territory. Hybrid + RRF captures both; a purely dense system whiffs on "Rule 4.2.1."</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">12.3</span><span>Explain reciprocal rank fusion. Why RRF over weighted score combination?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>RRF merges by rank position (score = Σ 1/(k + rank)), which sidesteps the problem that BM25 scores and cosine similarities live on incomparable scales. No score normalization, few knobs, robust default.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">12.4</span><span>SQLite for a multi-tenant system — really? Defend it, and tell me when you'd migrate off.</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Defense: single-node read-heavy workload, FTS5 built in, zero ops, perfect for a demo/small-firm scale; predicate isolation works identically.</li><li>Migration trigger: concurrent writers, horizontal scale, HA requirements → Postgres (+pgvector), same query shape. Knowing the exit proves the entry was a choice.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">12.5</span><span>The Act says one thing, the firm's internal procedure says another. What should the assistant answer?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">What they're testing</span>Domain judgment. Compliance tools that silently pick a side are dangerous.
+    <span class="lbl">Strong answer contains</span><ul><li>Surface both, labeled by source, flag the conflict explicitly, and cite — never silently merge. Authority hierarchy (Act > Rules > guidance > firm procedure) shown to the user, with a recommendation to consult compliance.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">12.6</span><span>What are the risks of an LLM assistant in a regulated compliance domain, and what did you do about them?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Hallucinated citations (verify cited sections actually exist in the corpus), stale law (versioned corpus with effective dates), overreliance (visible disclaimers, "verify with source" links), audit trail of what was retrieved for each answer.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 13 ============ -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>Wealth Co-Pilot (personal)</h2></div>
+  <p class="sec-note">Next.js · TypeScript · Vercel · AI spend analytics and suggestions. The thinnest project description on the resume — either beef up the story or be ready for skeptical probing. Also: verify the live URL works before any interview.</p>
+
+  <details><summary><span class="q-ix">13.1</span><span>"AI-powered suggestions on financial health" — what does the AI actually do? Where's the line between rules and model?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Honest decomposition: categorization (rules/embeddings/LLM?), trend analytics (plain computation), suggestion generation (LLM over computed facts, not raw data). "The LLM narrates; the numbers come from code" is a strong architecture sentence.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">13.2</span><span>Financial data is sensitive. How do you handle privacy when an LLM is involved?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Minimize what reaches the model (aggregates over raw transactions), redaction, no training on user data (provider settings), and what you'd add for production (encryption, retention limits).</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">13.3</span><span>How do you stop the model giving harmful financial advice?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>Suggestions framed as observations not directives, guardrails on advice categories, disclaimers, and the honest acknowledgment that regulated financial advice needs a human — you built an analytics aid, not an advisor.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 14 ============ -->
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>Centific & freelance years</h2></div>
+  <p class="sec-note">Pre-LLM virtual assistants, Microsoft security ops (IcM, email remediation), and 3 years of direct-to-client freelancing. Older, but interviewers mine it for range and grit.</p>
+
+  <details><summary><span class="q-ix">14.1</span><span>You built dialogue systems before LLMs. What did that teach you that pure-LLM engineers miss?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>The gold in this question: intent coverage analysis, fallback design, conversation-state machines, measuring containment — disciplines LLM apps still need but often skip. Frame your seniority as "I've seen both eras."</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">14.2</span><span>Tell me about the Microsoft security operations work. What's IcM, and what did an incident look like end to end?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>IcM = Microsoft's incident management system. One incident narrated: detection → triage/severity → remediation (email security actions) → closure. What it taught you about on-call discipline and blameless process.</li></ul></div>
+  </details>
+
+  <details><summary><span class="q-ix">14.3</span><span>Three years freelance — how did you scope work, price it, and handle a client who kept expanding scope?</span><span class="arrow">›</span></summary>
+    <div class="a"><span class="lbl">Strong answer contains</span><ul><li>A real scoping/negotiation story. This is your evidence for client-facing maturity — exactly what FDE and consulting-flavored roles screen for.</li></ul></div>
+  </details>
+</section>
+
+<!-- ============ 15 ============ -->
+<section id="s15">
+  <div class="sec-head"><span class="sec-num">15</span><h2>The metrics gauntlet</h2></div>
+  <p class="sec-note">Every number on your resume, in one place. For each: <em>definition → baseline → measurement method → caveat</em>. Write these four lines per metric on paper before any interview. An interviewer who catches one soft number will re-test every other number.</p>
+
+  <div class="callout warn"><strong>The four-line drill.</strong> For each metric below, write: (1) exact definition of what was measured, (2) the baseline it's relative to, (3) the instrument — logs, eval set, dashboards, timestamps, (4) one honest caveat. If you can't fill all four lines, soften the claim in your telling before the interviewer hardens it for you.</div>
+
+  <details><summary><span class="q-ix">15.1</span><span>~35% answer-relevance improvement (RAG assistant)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: relevance defined how? Judged by whom? How many queries in the eval set? Relative to what baseline? Did user behavior (thumbs, re-asks) confirm it?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.2</span><span>~40% latency reduction · ~30% cost reduction</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: which percentile? absolute values before/after? per-lever attribution? did quality hold (show the regression gate)? what was the monthly bill?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.3</span><span>~60% manual-effort reduction (auto-tagging)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: hours measured or estimated? tag precision on a labeled sample? what do humans still review?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.4</span><span>~85% accuracy on 50K records (ML platform)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: class balance? precision/recall? temporal vs. random split? majority-class baseline? production drift since?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.5</span><span>~1M events/day pipelines</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: peak vs. average? batch window? failure/replay story? why pandas at that volume (answer: 12 events/sec average — batch is fine, and say so plainly)?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.6</span><span>~45% review-turnaround reduction (coding agent)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: turnaround defined from which timestamp to which? sample size (how many PRs)? counter-metric for quality (defects, reverts)?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.7</span><span>~20% task-success improvement (benchmarks)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: success rate from what to what? held-out tasks or the ones you tuned on? which fixes drove it?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.8</span><span>Sub-800ms round trip (voice agent)</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: p50 or p95? per-stage breakdown? measured where — server-side or true user-perceived? under what network conditions?</p></div>
+  </details>
+  <details><summary><span class="q-ix">15.9</span><span>10,000+ documents · 6+ engagements · 8+ years</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Likely probes: corpus size in tokens/chunks not just docs; engagements you led vs. contributed to; the 2016–2019 freelance years ("what were you actually shipping?").</p></div>
+  </details>
+</section>
+
+<!-- ============ 16 ============ -->
+<section id="s16">
+  <div class="sec-head"><span class="sec-num">16</span><h2>Behavioral — anchored to your resume</h2></div>
+  <p class="sec-note">These aren't generic behaviorals; each maps to a claim you made. Prepare each as a 90-second SAIL story (Situation, Action, Impact, Learning) with a number in the Impact line.</p>
+
+  <details><summary><span class="q-ix">16.1</span><span>"Led or co-led the delivery team on several engagements" — describe your leadership style with a concrete conflict you resolved.</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Have one real disagreement (technical direction, priority, or client expectation), how you got alignment, and what shipped. "Co-led" invites "what did the other lead own vs. you?" — know the split.</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.2</span><span>Tell me about a production incident you owned end to end.</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Detection → diagnosis → fix → prevention. Bonus if it's an AI-system incident (bad model output at scale, cost spike, guardrail failure) — those stories are rarer and more valuable.</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.3</span><span>A time you pushed back on a client or PM — and a time you were wrong to.</span><span class="arrow">›</span></summary>
+    <div class="a"><p>The pair matters: one story of productive pushback, one of being wrong and updating. Interviewers increasingly ask for the second half explicitly.</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.4</span><span>How do you handle "confidential client engagements" in an interview? Show me you can discuss depth without leaking.</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Practice the abstraction: name the domain and problem shape, not the client. Fumbling this either leaks (bad) or goes so vague you sound inexperienced (also bad). Decide in advance exactly what's shareable.</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.5</span><span>You moved from developer → ML engineer → AI-features owner in one company. How did you engineer that progression?</span><span class="arrow">›</span></summary>
+    <div class="a"><p>The deliberate moves: what you volunteered for, what you learned on your own time, the moment ownership was formalized. This is your growth-mindset evidence — don't waste it on "it just happened."</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.6</span><span>Explain to a non-technical stakeholder why the assistant sometimes refuses to answer.</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Practice the translation: "when we're not confident the answer comes from the approved documents, refusing beats guessing — a wrong answer to a student costs more than a 'let me connect you to a teacher.'" No jargon allowed.</p></div>
+  </details>
+  <details><summary><span class="q-ix">16.7</span><span>How do you keep current in a field that changes weekly?</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Concrete habits only: what you build (your three personal projects ARE the answer), what you read, tools you tested last month and your opinion of them. "I follow newsletters" is a non-answer.</p></div>
+  </details>
+</section>
+
+<!-- ============ 17 ============ -->
+<section id="s17">
+  <div class="sec-head"><span class="sec-num">17</span><h2>Cross-cutting traps & design prompts</h2></div>
+  <p class="sec-note">Questions that span the whole resume — the ones a strong interviewer saves for the last twenty minutes.</p>
+
+  <details><summary><span class="q-ix">17.1</span><span>You've now built three retrieval systems (KNS RAG, AML assistant, tagging). Give me your personal RAG playbook: what do you always do, and what do you never do?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Always: eval set before tuning, hybrid retrieval by default for exact-term domains, citations, hard isolation below the model, regression gates. Never: trust one metric, ship without a refusal path, put security in the prompt. Having a codified playbook = senior.</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.2</span><span>When would you NOT use RAG? Not use an agent? Not use an LLM at all?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Small stable corpus that fits in context → no RAG. Single deterministic step → no agent. Rules/regex/classifier solves it → no LLM (your tagging and ML-platform work are proof you live this). The "when not" answer is worth more than any "how."</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.3</span><span>Fine-tuning is absent from your resume. Why — and when would you reach for it?</span><span class="tag trap">TRAP</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Own it: your problems were knowledge and orchestration problems (RAG/agents territory), not behavior-shaping at scale. Then show fluency: fine-tune (LoRA/QLoRA) for consistent format/tone, latency at scale, or distilling to a smaller model — never for injecting facts. Offer to whiteboard the LoRA setup to prove it's a choice, not a gap.</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.4</span><span>Design [their product]'s AI feature on the whiteboard, using anything from your background.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Use one frame every time: <code>Input → Retrieval → Generation → Verification → Feedback</code>. Ask 2–3 clarifying questions first, lead with product metrics, name a failure mode per stage, end with the eval plan. Rehearse against the actual company's product before each loop.</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.5</span><span>Estimate the monthly cost of your KNS assistant at 10× current usage — right now, out loud.</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
+    <div class="a"><p>The drill: queries/day × tokens/query (in+out) × price, ×30. Then the mitigation ladder in priority order: cache → route → trim → batch. Practice until the arithmetic is automatic under pressure.</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.6</span><span>Your stack is Python + TypeScript. Which are you weaker in, and what would we see in your first code review?</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Honest, specific, small: name a real habit gap (e.g. advanced TS generics, or a Python pattern you over/under-use) plus how you catch it. Claiming equal mastery of both reads as unreflective.</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.7</span><span>What's the most over-hyped thing in AI engineering right now, and the most under-rated?</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Have a genuine opinion with a reason from your own work — e.g. over-hyped: multi-agent everything; under-rated: deterministic verification and boring eval discipline (which happens to be your specialty — steer here).</p></div>
+  </details>
+  <details><summary><span class="q-ix">17.8</span><span>What questions do you have for us?</span><span class="arrow">›</span></summary>
+    <div class="a"><p>Prepare five per company, at least two only answerable by someone who read their eng blog. Strong defaults: "How do you evaluate your AI features today — golden sets or vibes?" · "What's the worst production incident your AI system has had?" · "Where does this role sit between building and client-facing work?"</p></div>
+  </details>
+</section>
+
+<div class="callout"><strong>How to use this bank.</strong> Don't read it — rehearse it. One section per sitting, answers spoken aloud on a timer. Mark every question you stumbled on; those become tomorrow's first drill. Sections 15 (metrics) and 2, 7, 10 (RAG, agent, evals) are the ones interview loops actually decide on.</div>
+
+<footer>Generated from Kadiam_Rao_Resume.docx · Aug 2026 · ~130 questions across 17 sections</footer>
+</div>
+
+<script>
+mermaid.initialize({
+  startOnLoad:true, theme:'base', securityLevel:'loose',
+  themeVariables:{
+    fontFamily:'Inter, sans-serif', fontSize:'13px',
+    primaryColor:'#FFFFFF', primaryTextColor:'#18222E', primaryBorderColor:'#5A6673',
+    lineColor:'#5A6673', clusterBkg:'#F0F2ED', clusterBorder:'#DFE3DA',
+    edgeLabelBackground:'#F5F6F2'
+  },
+  flowchart:{curve:'basis', htmlLabels:true, useMaxWidth:true}
+});
+</script>
+</body>
+</html>
