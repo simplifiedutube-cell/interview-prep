@@ -6,7 +6,7 @@
 >
 > If a sentence in a model answer isn't true of your work, **don't say it** — use the honest variant printed alongside it. A rehearsed false claim about methodology is the worst outcome available in these interviews, worse than losing the number, because it's a trust finding rather than a skills gap.
 >
-> Fill your real facts into `../metric-defence.md` first. This file shows you the *shape*, *depth* and *honesty calibration* of a strong answer — not the data.
+> Fill your real facts into `metric-defence.md` first. This file shows you the *shape*, *depth* and *honesty calibration* of a strong answer — not the data.
 
 ---
 

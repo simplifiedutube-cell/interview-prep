@@ -179,7 +179,7 @@ The highest-rejection-rate round in any loop, and currently unscripted. Write yo
 - **Timezone** — never "I'm flexible." *"I'll hold 6:30–11:30 pm IST as core hours; I did exactly that for a year on US-client work at Turing."* That's a credential, not a promise.
 - **Ask them in round 1:** EOR, contractor, or GCC entity? It determines equity eligibility, comp and tax.
 - **The 2014 B.Tech vs "8+ years"** — one consistent number tied to 2016, one line, not defensive:
-- **The Turing/KNS overlap** — 25 seconds, volunteered before they find it (script in `metric-defence.md`):
+- **The Turing/KNS overlap** — 25 seconds, volunteered before they find it (script in `answers/metric-defence.md`):
 
 ## Company values prep
 

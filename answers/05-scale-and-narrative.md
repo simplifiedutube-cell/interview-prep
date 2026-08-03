@@ -6,7 +6,7 @@
 >
 > If a sentence in a model answer isn't true of your work, **don't say it** — use the honest variant printed alongside it. A rehearsed false claim about methodology is the worst outcome available in these interviews, worse than losing the number, because it's a trust finding rather than a skills gap.
 >
-> Fill your real facts into `../metric-defence.md` first. This file shows you the *shape*, *depth* and *honesty calibration* of a strong answer — not the data.
+> Fill your real facts into `metric-defence.md` first. This file shows you the *shape*, *depth* and *honesty calibration* of a strong answer — not the data.
 
 > ⚠️ **ILLUSTRATIVE NUMBERS, NOT YOUR DATA.** Every figure below (latencies, percentages, dates, counts, dashboards, tool names) is ONE internally-consistent fictional-but-plausible example, built so you can see what a *complete* answer sounds like with no missing pieces. **None of it is verified fact about your actual systems or your life.** Before you say any of this in an interview, replace every number with your real one — and where your real answer is "I don't know" or "I never measured that," use the honest fallback script the document already gives you for that case, don't just leave this illustrative number in. The biographical details in this file (disclosure stories, dates, reasons for gaps) are ESPECIALLY placeholder — they are not a suggestion of what actually happened to you. Use your own true story there, always.
 

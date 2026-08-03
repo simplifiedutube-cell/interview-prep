@@ -42,7 +42,7 @@ These repeat daily and are not re-listed per day. Tick them in `tracker.csv`, no
 
 ## Day 1 · Mon
 
-- [ ] **A — Metric-defence doc, claims 1–3.** Open `metric-defence.md`. Fill: **−40% LLM latency**, **−30% inference cost**, **+35% answer relevance**. For each: metric definition · instrument · baseline + date · n · who labelled · biggest confounder · measurement class (A/B/C) · the 25-second spoken answer · **DEFEND or DELETE**
+- [ ] **A — Metric-defence doc, claims 1–3.** Open `answers/metric-defence.md`. Fill: **−40% LLM latency**, **−30% inference cost**, **+35% answer relevance**. For each: metric definition · instrument · baseline + date · n · who labelled · biggest confounder · measurement class (A/B/C) · the 25-second spoken answer · **DEFEND or DELETE**
   - Model answers + full follow-up chains: **`answers/01-latency-and-cost.md`** and **`answers/02-relevance-and-agent-success.md`**. Fill your own facts first, *then* read the model — reading it first produces the illusion of competence
   - ⚠️ Fix on the resume today: **MCP was announced 25 Nov 2024**; your Turing engagement ended Jan 2025. Split the claim so it doesn't read as 14 months of MCP work
 - [ ] **B — DSA.** Grokking Algorithms ch 1–4 (skim, no exercises, ~2h across today/tomorrow) + NeetCode: `Contains Duplicate`, `Valid Anagram`, `Two Sum`
