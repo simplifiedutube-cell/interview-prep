@@ -84,7 +84,9 @@ export default async function handler(req, res) {
       serverNow: now,
     });
   } catch (e) {
+    /* These endpoints sit behind the auth gate, so the real reason is safe to
+       return — and "db" on its own sends you hunting with no information. */
     console.error("push", e);
-    return res.status(500).json({ error: "db" });
+    return res.status(500).json({ error: "db", detail: String((e && e.message) || e) });
   }
 }
