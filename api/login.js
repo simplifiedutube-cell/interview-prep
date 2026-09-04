@@ -20,57 +20,89 @@ function clientIp(req) {
   ).trim().slice(0, 45);
 }
 
+/* Rate limiting is a nice-to-have; SIGNING IN IS NOT.
+
+   An in-memory counter is useless across serverless instances, so the counter
+   lives in the database — but that must never make the database a hard dependency
+   of authentication. db() throws when TURSO_DATABASE_URL is absent, so every touch
+   of it here is best-effort: a missing or broken database degrades to "no rate
+   limiting", never to "nobody can sign in".
+
+   This is exactly how it broke the first time: db() was called outside the try,
+   so an unconfigured Turso integration crashed the function and the login page
+   could only show a generic failure. */
+async function limiter() {
+  try {
+    const c = db();
+    await ensureSchema();
+    return c;
+  } catch (e) {
+    console.error("login: rate-limit store unavailable, continuing without it", e);
+    return null;
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
-  if (req.method !== "POST") return res.status(405).json({ error: "method not allowed" });
-
-  const secret = process.env.AUTH_SECRET;
-  const expected = process.env.APP_PASSPHRASE;
-  if (!secret || !expected) {
-    return res.status(500).json({ error: "server not configured: set APP_PASSPHRASE and AUTH_SECRET" });
-  }
-
-  const body = typeof req.body === "string" ? safeParse(req.body) : req.body || {};
-  const given = typeof body.passphrase === "string" ? body.passphrase : "";
-  const ip = clientIp(req);
-  const now = Date.now();
-  const c = db();
-
-  /* One passphrase on a public URL is one guessable secret, so this needs a real
-     rate limit. An in-memory counter is useless across serverless instances —
-     every cold start would reset it — so the counter lives in the database. */
-  let row = null;
   try {
-    await ensureSchema();
-    row = (await c.execute({ sql: "SELECT n, first FROM login_fail WHERE ip = ?", args: [ip] })).rows[0];
+    if (req.method !== "POST") return res.status(405).json({ error: "method not allowed" });
+
+    const secret = process.env.AUTH_SECRET;
+    const expected = process.env.APP_PASSPHRASE;
+    if (!secret || !expected) {
+      return res.status(500).json({
+        error: "server not configured: set APP_PASSPHRASE and AUTH_SECRET in Vercel, then redeploy",
+      });
+    }
+
+    const body = typeof req.body === "string" ? safeParse(req.body) : req.body || {};
+    const given = typeof body.passphrase === "string" ? body.passphrase : "";
+    const ip = clientIp(req);
+    const now = Date.now();
+    const c = await limiter();
+
+    let row = null;
+    if (c) {
+      try {
+        row = (await c.execute({ sql: "SELECT n, first FROM login_fail WHERE ip = ?", args: [ip] })).rows[0];
+      } catch (e) { console.error("login/read", e); }
+    }
+    const openWindow = row && now - Number(row.first) < WINDOW;
+    if (openWindow && Number(row.n) >= TRIES) {
+      return res.status(429).json({
+        error: "too many attempts",
+        retryIn: Math.ceil((WINDOW - (now - Number(row.first))) / 1000),
+      });
+    }
+
+    await sleep(250);        // a floor on the cost of a single guess
+
+    if (!safeEqual(given, expected)) {
+      if (c) {
+        try {
+          await c.execute(openWindow
+            ? { sql: "UPDATE login_fail SET n = n + 1 WHERE ip = ?", args: [ip] }
+            : { sql: "INSERT INTO login_fail (ip, n, first) VALUES (?, 1, ?) " +
+                     "ON CONFLICT(ip) DO UPDATE SET n = 1, first = excluded.first", args: [ip, now] });
+        } catch (e) { console.error("login/count", e); }
+      }
+      return res.status(401).json({ error: "wrong passphrase" });
+    }
+
+    if (c) {
+      try { await c.execute({ sql: "DELETE FROM login_fail WHERE ip = ?", args: [ip] }); }
+      catch (e) { console.error("login/clear", e); }
+    }
+
+    res.setHeader("Set-Cookie", setCookie(await signToken(secret), MAX_AGE));
+    return res.status(200).json({ ok: true, rateLimited: !!c });
   } catch (e) {
-    console.error("login/limit", e);          // never fail closed on a DB blip
+    /* Anything unexpected still answers as JSON. A crash here returns Vercel's
+       text/plain FUNCTION_INVOCATION_FAILED, which the login page can only report
+       as a generic failure — the caller learns nothing and neither do you. */
+    console.error("login", e);
+    return res.status(500).json({ error: "sign-in failed: " + String(e && e.message || e) });
   }
-  const openWindow = row && now - Number(row.first) < WINDOW;
-  if (openWindow && Number(row.n) >= TRIES) {
-    return res.status(429).json({
-      error: "locked",
-      retryIn: Math.ceil((WINDOW - (now - Number(row.first))) / 1000),
-    });
-  }
-
-  await sleep(250);        // a floor on the cost of a single guess
-
-  if (!safeEqual(given, expected)) {
-    try {
-      await c.execute(openWindow
-        ? { sql: "UPDATE login_fail SET n = n + 1 WHERE ip = ?", args: [ip] }
-        : { sql: "INSERT INTO login_fail (ip, n, first) VALUES (?, 1, ?) " +
-                 "ON CONFLICT(ip) DO UPDATE SET n = 1, first = excluded.first", args: [ip, now] });
-    } catch (e) { console.error("login/count", e); }
-    return res.status(401).json({ error: "wrong passphrase" });
-  }
-
-  try { await c.execute({ sql: "DELETE FROM login_fail WHERE ip = ?", args: [ip] }); }
-  catch (e) { console.error("login/clear", e); }
-
-  res.setHeader("Set-Cookie", setCookie(await signToken(secret), MAX_AGE));
-  return res.status(200).json({ ok: true });
 }
 
 function safeParse(s) {

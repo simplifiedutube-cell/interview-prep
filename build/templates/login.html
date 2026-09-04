@@ -70,7 +70,14 @@
         return;
       }
       var body = await r.json().catch(function () { return {}; });
-      fail(r.status === 401 ? "That passphrase is not right." : (body.error || "Sign-in failed."));
+      if (r.status === 401) { fail("That passphrase is not right."); return; }
+      if (r.status === 429) {
+        fail("Too many attempts. Try again in " + Math.ceil((body.retryIn || 900) / 60) + " min.");
+        return;
+      }
+      /* Surface the status when the server crashed and returned no JSON — a bare
+         "Sign-in failed." tells you nothing and sends you looking in the wrong place. */
+      fail(body.error || ("Sign-in failed (HTTP " + r.status + "). Check the Vercel function logs."));
     } catch (err) {
       fail("Could not reach the server. Check your connection.");
     }

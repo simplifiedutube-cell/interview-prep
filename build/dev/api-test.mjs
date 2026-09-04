@@ -169,6 +169,30 @@ log(r._s === 413, `7000 rows -> 413 (got ${r._s})`);
 await push(q, r);
 log(r._s === 403, `cross-origin push -> 403 (got ${r._s})`);
 
+// ---------- login must NOT depend on the database ----------
+/* The regression: db() used to be called outside the try block, so an
+   unconfigured Turso integration crashed the function with
+   FUNCTION_INVOCATION_FAILED and the login page could only say "Sign-in failed."
+   Rate limiting is a nice-to-have; signing in is not. */
+const realDb = globalThis.__PREP_DB__;
+/* Remove the injected client entirely and leave TURSO_DATABASE_URL unset, so the
+   real db() throws on its very first call — exactly what an unconfigured Turso
+   integration does in production. Stubbing a throwing client is not equivalent:
+   ensureSchema() memoises, so a stub would sail past on an already-resolved
+   promise and the test would prove nothing. */
+delete globalThis.__PREP_DB__;
+delete process.env.TURSO_DATABASE_URL;
+[q, r] = mk({ method: "POST", body: { passphrase: "correct horse battery staple" } });
+await login(q, r);
+log(r._s === 200 && cookieOf(r).startsWith("prep_auth="),
+    `login still succeeds with the database unavailable -> ${r._s}`);
+log(r._j && r._j.rateLimited === false, "response reports that rate limiting is degraded");
+
+[q, r] = mk({ method: "POST", body: { passphrase: "nope" } });
+await login(q, r);
+log(r._s === 401, `wrong passphrase with no database -> ${r._s} (want 401, not a crash)`);
+globalThis.__PREP_DB__ = realDb;
+
 console.log(L.join("\n"));
 const fails = L.filter((l) => l.startsWith("FAIL")).length;
 console.log(`\n${L.length - fails} passed, ${fails} failed`);
