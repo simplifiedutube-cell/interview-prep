@@ -83,6 +83,17 @@ git ls-files | grep -E '\.env|node_modules'      # must be empty
 
 The schema creates itself (`CREATE TABLE IF NOT EXISTS`) on the first API call.
 
+5. **Smoke-test the live deployment** before trusting it with anything:
+
+```bash
+node build/dev/smoke.mjs https://your-app.vercel.app 'your passphrase'
+```
+
+12 checks: the gate is closed to a page and to the API without a cookie, `/login.html` and
+the manifest are still reachable signed out (Add to Home Screen needs the manifest), a wrong
+passphrase is refused, the cookie comes back HttpOnly + Secure + SameSite=Lax, and a
+push/pull/tombstone round trip actually reaches the database.
+
 ## Step 4 — first login and migration
 
 Open the URL. You get redirected to `/login.html`. Enter the passphrase.
