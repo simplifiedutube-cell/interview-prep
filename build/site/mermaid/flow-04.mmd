@@ -1,0 +1,9 @@
+flowchart TD
+  Q[Query + tenant_id from auth] --> D[Dense embedding search] & S[BM25 / FTS5 keyword search]
+  D --> FD[WHERE tenant_id = :t<br/>OR corpus = 'public law']
+  S --> FS[WHERE tenant_id = :t<br/>OR corpus = 'public law']
+  FD --> RRF[Reciprocal Rank Fusion]
+  FS --> RRF
+  RRF --> CE[Cross-encoder rerank] --> P[Grounded prompt<br/>AUSTRAC guidance + firm procedures] --> G[LLM answer with citations]
+  style FD fill:#E3F0EC,stroke:#0E6B5C
+  style FS fill:#E3F0EC,stroke:#0E6B5C

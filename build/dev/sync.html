@@ -1,0 +1,97 @@
+<!DOCTYPE html><meta charset=utf-8><title>sync</title>
+<style>html,body{margin:0}iframe{border:0;width:390px;height:844px}</style>
+<pre id=out>did not run</pre>
+<script>window.onerror=(m,u,l)=>{document.getElementById("out").textContent="JS ERROR "+m+" @"+l;document.title="DONE"}</script>
+<script>
+const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
+function frame(){return new Promise(r=>{
+  const f=document.createElement("iframe"); f.src="/index.html";
+  f.onload=()=>{
+    /* stub the API before PrepSync's first scheduled flush (600ms) fires */
+    f.contentWindow.__net=[];
+    f.contentWindow.fetch=async(url,opts)=>{
+      f.contentWindow.__net.push([String(url),opts&&opts.method||"GET"]);
+      if(String(url).indexOf("/api/pull")===0)
+        return new Response(JSON.stringify({rev:0,grades:[],days:[]}),{status:200,headers:{"content-type":"application/json"}});
+      return new Response(JSON.stringify({rev:1,written:0}),{status:200,headers:{"content-type":"application/json"}});
+    };
+    setTimeout(()=>r(f),450);
+  };
+  document.body.appendChild(f);});}
+(async()=>{
+try{
+  localStorage.clear();
+  let f=await frame(), w=f.contentWindow, d=f.contentDocument;
+  const T=w.PrepSync._test, H=T.host();
+  log(!!H, "PrepSync started and exposed its host bindings");
+  log(d.getElementById("syncPanel") && !d.getElementById("syncPanel").hidden, "drawer Sync panel is shown when sync.js is present");
+
+  // ---------- 1. outbox collapses repeated toggles ----------
+  const li=[...d.querySelectorAll('li.item[data-track]')].find(l=>l.dataset.s==="0");
+  const id=li.dataset.id, tri=li.querySelector(".tri");
+  tri.click(); tri.click(); tri.click();          // 0->1->2->0
+  const ops=T.out();
+  log(Object.keys(ops).filter(k=>k==="g|"+id).length===1, "three taps on one item collapse to ONE queued op");
+  log(ops["g|"+id].v===0, "the collapsed op carries the FINAL value (0), not the intermediate ones");
+
+  // ---------- 2. seed excludes zeros ----------
+  Object.keys(T.out()).forEach(k=>delete T.out()[k]);   // in-memory, not just localStorage
+  H.state["t01.seedA"]=2; H.state["t01.seedB"]=1;
+  T.markEverything();
+  const seeded=T.out();
+  log(Object.keys(seeded).every(k=>seeded[k].v!==0), `seed queues only non-zero values (${Object.keys(seeded).length} ops)`);
+
+  // ---------- 3. applyRows mutates state IN PLACE ----------
+  const stateRef=H.state, daysRef=H.days, todayRef=H.todayStore;
+  const other=[...d.querySelectorAll('li.item[data-track]')].find(l=>l.dataset.id!==id && l.dataset.s==="0");
+  localStorage.setItem("mt.sync.out","{}"); Object.keys(T.out()).forEach(k=>delete T.out()[k]);
+  T.applyRows([[other.dataset.id,2]],[]);
+  log(H.state===stateRef, "applyRows did NOT reassign state (handlers stay attached)");
+  log(H.state[other.dataset.id]===2, "applyRows wrote the incoming grade");
+  log(other.dataset.s==="2", "the DOM repainted from the merge");
+
+  // ---------- 4. todayStore identity survives, and ticking still persists ----------
+  const t0=[...d.querySelectorAll('#t00 li.item')][0], t0id=t0.dataset.id;
+  T.applyRows([],[[H.TODAY,t0id,1]]);
+  log(H.days[H.TODAY]===todayRef, "days[TODAY] is still the SAME object after a day merge");
+  log(H.days===daysRef, "days itself was not reassigned");
+  log(t0.querySelector("input").checked, "Today checkbox repainted from the merge");
+  /* The closure regression, now through the sync path: after a merge has written
+     into todayStore, a real click must still reach the object that gets saved. */
+  const cb=t0.querySelector("input");
+  const dayKey=()=>Object.keys(JSON.parse(localStorage.getItem("mt.days.v2"))).sort().pop();
+  cb.click();                                            // checked -> unchecked
+  let saved=JSON.parse(localStorage.getItem("mt.days.v2"))[H.TODAY]||{};
+  log(!saved[t0id], "un-ticking Today after a sync merge persists the removal");
+  cb.click();                                            // unchecked -> checked
+  saved=JSON.parse(localStorage.getItem("mt.days.v2"))[H.TODAY]||{};
+  log(saved[t0id]===1, "re-ticking Today after a sync merge persists the tick");
+
+  // ---------- 5. an un-acked local write outranks the server ----------
+  Object.keys(T.out()).forEach(k=>delete T.out()[k]);
+  const li3=[...d.querySelectorAll('li.item[data-track]')].find(l=>l.dataset.s==="0");
+  li3.querySelector(".tri").click();               // -> 1, queued
+  T.applyRows([[li3.dataset.id,0]],[]);            // server says 0
+  log(li3.dataset.s==="1" && H.state[li3.dataset.id]===1, "pending local write is NOT clobbered by the server row");
+
+  // ---------- 6. once acked, the server row applies ----------
+  Object.keys(T.out()).forEach(k=>delete T.out()[k]);
+  T.applyRows([[li3.dataset.id,0]],[]);
+  log(!H.state[li3.dataset.id] && li3.dataset.s==="0", "after ack, the server row is accepted");
+
+  // ---------- 7. local pruning must not emit tombstones ----------
+  for(let i=0;i<140;i++){ H.days["2020-01-"+String((i%28)+1).padStart(2,"0")+""]=null; }
+  delete H.days["2020-01-01"];
+  Object.keys(T.out()).forEach(k=>delete T.out()[k]);
+  H.days["2019-05-05"]={}; H.days["2019-05-05"]["t00.zzz"]=1;
+  T.diffDays();                                    // picks up the addition
+  const beforePrune=Object.keys(T.out()).length;
+  delete H.days["2019-05-05"];                     // simulate the retention prune
+  Object.keys(T.out()).forEach(k=>delete T.out()[k]);
+  T.diffDays();
+  log(Object.keys(T.out()).length===0, "a day removed by retention pruning emits NO tombstones");
+
+  f.remove();
+}catch(e){L.push("ERROR "+e.message+"\n"+e.stack)}
+document.getElementById("out").textContent=L.join("\n");document.title="DONE";})();
+</script>

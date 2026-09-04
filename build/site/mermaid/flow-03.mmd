@@ -1,0 +1,6 @@
+flowchart LR
+  U[User speaks] --> W[WebRTC transport] --> VAD[VAD: end of speech] --> STT[Sarvam STT<br/>Telugu + English] --> L[Gemini<br/>first token fast] --> TTS[Sarvam TTS<br/>streamed] --> O[Audio out]
+  O -.->|target < 800ms total| U
+  STT -. per-stage timers .-> M[(Latency instrumentation)]
+  L -. per-stage timers .-> M
+  TTS -. per-stage timers .-> M

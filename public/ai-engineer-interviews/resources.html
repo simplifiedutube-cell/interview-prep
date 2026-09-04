@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Resources by interview round · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Resources by interview round</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html" class="here">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Resources</div>
+    <h1>Resources mapped to real AI-engineer interview rounds</h1>
+    <div class="doc-meta">1,198 words · ~5 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 4 sections</summary><ol><li><a href="#per-round-resource-map">Per-round resource map</a></li><li><a href="#free-and-essential--bookmark-today">Free and essential — bookmark today</a></li><li><a href="#mismatched-for-these-rounds--dont-spend-hours-here">Mismatched for these rounds — don’t spend hours here</a></li><li><a href="#the-reprioritisation-this-research-implies">The reprioritisation this research implies</a></li></ol></details>
+  <div class="prose">
+
+<p><strong>How this differs from <a class="xref" href="/resources.html"><code>../resources.md</code></a>.</strong> That file answers <em>“what should I learn?”</em> — books, Coursera, the canon. This one answers a narrower question: <strong>for each round that actually appears in real AI-engineer loops, what practice material rehearses that round’s real format?</strong></p>
+<p>The filter is match-to-format, not popularity. A resource that teaches the right topic in the wrong format doesn’t rehearse the round — and that mismatch is where prep hours die.</p>
+<hr />
+<h2 id="per-round-resource-map">Per-round resource map</h2>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Real round</th>
+<th>Primary</th>
+<th>Backup</th>
+<th>Why it matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Practical LLM-API coding</strong> (the modal round)</td>
+<td>Build 2–3 <strong>real published take-homes</strong> under a clock, from <code>alexeygrigorev/ai-engineering-field-guide</code> → <code>interview/questions/06-home-assignments.md</code></td>
+<td>Anthropic + OpenAI cookbooks for async/streaming/tool-call patterns</td>
+<td>The only corpus of <em>actual</em> specs with candidate submissions attached. Rehearsing a real spec is the round</td>
+</tr>
+<tr>
+<td><strong>NumPy / ML-from-scratch drills</strong></td>
+<td><strong><a href="https://www.deep-ml.com/" target="_blank" rel="noopener">Deep-ML.com</a></strong> — free, 100+ graded from-scratch problems, linear algebra → attention</td>
+<td><strong><a href="https://tensorgym.com/" target="_blank" rel="noopener">TensorGym</a></strong> — free browser PyTorch tensor drills</td>
+<td>Replicates the exact format: blank editor, implement from memory, instant tests. Independently recommended by two candidates who ran full lab loops</td>
+</tr>
+<tr>
+<td><strong>Transformer components from memory</strong></td>
+<td><strong>Karpathy — “Let’s build GPT” + nanoGPT</strong></td>
+<td><strong>Raschka, Ch 2–3</strong> (already on your buy list)</td>
+<td>Named specifically as prep for the “code architectures from memory” bar. Builds causal-attention / KV-cache muscle</td>
+</tr>
+<tr>
+<td><strong>OOP multi-level round</strong> (Anthropic/OpenAI/Databricks)</td>
+<td><strong>LeetCode “Design” tag</strong> — LC-2408 Design SQL, LRU/LFU, Time-Based KV Store</td>
+<td>NeetCode’s design/OOP material</td>
+<td>Maps directly to the progressive-levels format these labs use instead of classic LeetCode</td>
+</tr>
+<tr>
+<td><strong>Take-home</strong></td>
+<td>Same field-guide take-home bank + <strong>steal its rubric</strong>: eval harness first, README trade-offs, cost table, demo video</td>
+<td>Your own AML/CTF repo as the reusable skeleton</td>
+<td>The rubric <em>is</em> the grading signal. “Doesn’t start with evals” is documented red flag #1</td>
+</tr>
+<tr>
+<td><strong>Eval design round</strong></td>
+<td><strong>Hamel Husain’s Evals FAQ</strong> (free, <code>hamel.dev/blog/posts/evals-faq</code>) + write real evals over your own mini-RAG</td>
+<td>Eugene Yan’s three eval posts</td>
+<td>The vocabulary in the FAQ (error analysis, judge validation with TPR/TNR, binary over Likert) is what the round tests</td>
+</tr>
+<tr>
+<td><strong>Debugging round</strong></td>
+<td>Clone an unfamiliar repo, <strong>plant 3 bugs a week earlier, fix them cold in 45 min</strong></td>
+<td>Sierra’s format description as the rubric</td>
+<td>No product rehearses this. Self-administration is the only faithful option</td>
+</tr>
+<tr>
+<td><strong>RAG-debugging scenario</strong></td>
+<td>Rehearse the retrieval-failure vs generation-failure split out loud until it’s 60 s</td>
+<td>Your Week-3 eval harness as the worked example</td>
+<td>It’s a <em>verbal</em> round. Practising it silently doesn’t rehearse it</td>
+</tr>
+<tr>
+<td><strong>GenAI system design</strong></td>
+<td><strong><a href="https://www.evidentlyai.com/ml-system-design" target="_blank" rel="noopener">evidentlyai.com/ml-system-design</a></strong> — 800 real case studies, 150+ companies, updated Dec 2025</td>
+<td>Hello Interview free tier for the 45-min structure</td>
+<td><em>“DoorDash does X, we’d do Y because our constraint is Z”</em> is the single highest-value sentence in this round</td>
+</tr>
+<tr>
+<td><strong>AI-assisted coding round</strong></td>
+<td><strong>interviewing.io’s Meta AI-assisted round guide</strong> (real prompts and examples)</td>
+<td>Any repo + narrate: decompose → delegate → <strong>verify</strong> → integrate</td>
+<td>The round grades decomposition and verification of AI output, not typing</td>
+</tr>
+<tr>
+<td><strong>Customer / discovery round</strong></td>
+<td>Peer roleplay: “VP Eng at a 5,000-person fintech.” Rule: <strong>no solution before five questions</strong></td>
+<td>Your own 6+ Turing client engagements as the story bank</td>
+<td>Documented failure mode is pitching instead of investigating — only roleplay rehearses that</td>
+</tr>
+<tr>
+<td><strong>Classical-ML ambush</strong></td>
+<td><strong>Coursera ML Specialization C2 Wk3 “Advice for Applying ML”</strong> (already enrolled) + Chip Huyen’s free <em>ML Interviews</em> book as a hole-finder</td>
+<td>Deep-ML for the from-scratch implementations</td>
+<td>Two documented rejections trace to this bucket. C2 Wk3 is the highest-ROI hour for your 85%-accuracy claim</td>
+</tr>
+<tr>
+<td><strong>Verbal question drilling</strong></td>
+<td><strong><a class="xref" href="/ai-engineer-interviews/real-questions.html"><code>real-questions.md</code></a> in this folder</strong> — frequency-ranked from actual accounts</td>
+<td>field-guide <code>01-theory.md</code></td>
+<td>Drill the recurring 20%; skip the long tail</td>
+</tr>
+<tr>
+<td><strong>DSA (unicorns/GCCs only)</strong></td>
+<td><strong>NeetCode 150</strong> — arrays/hashing, sliding window, trees, graphs/BFS, 1-D DP</td>
+<td>Sean Prashad’s 179 as a week-5+ second pass</td>
+<td>The problems actually named in accounts cluster exactly there. No hard DP appears anywhere in the corpus</td>
+</tr>
+<tr>
+<td><strong>Mock reps</strong></td>
+<td><strong>Exponent Practice</strong> (free peer) + <strong>BCtCI’s bundled AI interviewer</strong></td>
+<td>Self-recording, watched back once</td>
+<td>You’ve excluded paid mocks; these are the credible free substitutes</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="free-and-essential--bookmark-today">Free and essential — bookmark today</h2>
+<ul>
+<li><strong><a href="https://www.deep-ml.com/" target="_blank" rel="noopener">Deep-ML.com</a></strong> — the closest thing to a rehearsal environment for the NumPy/ML-from-scratch round</li>
+<li><strong><a href="https://github.com/alexeygrigorev/ai-engineering-field-guide" target="_blank" rel="noopener">alexeygrigorev/ai-engineering-field-guide</a></strong> — 51 documented company processes, ~60 real take-homes with candidate submissions, real question banks. <strong>The single most useful free artifact for this search</strong></li>
+<li><strong><a href="https://hamel.dev/blog/posts/evals-faq" target="_blank" rel="noopener">hamel.dev/blog/posts/evals-faq</a></strong> — the eval round, free, by the person who taught it to 4,500+ engineers</li>
+<li><strong><a href="https://www.evidentlyai.com/ml-system-design" target="_blank" rel="noopener">evidentlyai.com/ml-system-design</a></strong> — 800 real architectures to cite</li>
+<li><strong><a href="https://interviewing.io/blog" target="_blank" rel="noopener">interviewing.io/blog</a></strong> — the Meta AI-assisted round guide with real prompts; the Amazon LP guide</li>
+<li><strong><a href="https://sierra.ai/blog/the-ai-native-interview" target="_blank" rel="noopener">sierra.ai/blog/the-ai-native-interview</a></strong> — a company describing its own loop in detail. Read it as a rubric</li>
+<li><strong><a href="https://www.anthropic.com/candidate-ai-guidance" target="_blank" rel="noopener">anthropic.com/candidate-ai-guidance</a></strong> — first-party AI-usage policy; settles the “can I use AI?” question for one major target</li>
+<li><strong>Karpathy — “Let’s build GPT”</strong> and <strong>nanoGPT</strong></li>
+<li><strong>Glassdoor / AmbitionBox interview tabs</strong> for every company you apply to — read them the week before the loop. This is free, company-specific, and almost nobody does it</li>
+</ul>
+<hr />
+<h2 id="mismatched-for-these-rounds--dont-spend-hours-here">Mismatched for these rounds — don’t spend hours here</h2>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Why it doesn’t rehearse the real round</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Grinding LC Hard / DP</strong></td>
+<td>Anthropic, OpenAI and Scale ran <strong>zero classic LeetCode rounds</strong> in a documented Fall-2024 loop — they use OOP/practical instead. No hard DP appears anywhere in this corpus. LC grind pays only at Google/Meta/Glean/Perplexity</td>
+</tr>
+<tr>
+<td><strong>“Top 50 LLM interview questions” listicles</strong></td>
+<td>Synthesized from each other, not from candidates. Overlap <a class="xref" href="/ai-engineer-interviews/real-questions.html"><code>real-questions.md</code></a> only at the surface, and contain <strong>zero</strong> coding/debugging/take-home formats — which is where loops are actually decided</td>
+</tr>
+<tr>
+<td><strong><code>ombharatiya/AI-Engineer-Interview-Questions</code></strong></td>
+<td>The repo itself states questions are built from <strong>public info — job posts and blogs, not real interviews</strong>. Fine as a syllabus checklist; invalid as evidence of what’s asked</td>
+</tr>
+<tr>
+<td><strong>Ranking/recsys ML system design</strong> (DLRM, ads CTR)</td>
+<td>Real and heavy in <em>MLE</em> loops, wasted for AI-engineer/GenAI product roles unless the JD says recommendations</td>
+</tr>
+<tr>
+<td><strong>Framework tutorial completion</strong> (LangChain/CrewAI courses)</td>
+<td>Interviewers report the pipeline is flooded with <em>“tutorial-completers who never shipped systems that failed.”</em> Design exercises exist specifically to filter them. You get grilled <em>underneath</em> your framework choice, not on it</td>
+</tr>
+<tr>
+<td><strong>Heavy math rederivation</strong></td>
+<td>An experienced interviewer calls expecting rederivation-from-memory a broken interview. Survives mainly in research-scientist tracks — which you’re not targeting</td>
+</tr>
+<tr>
+<td><strong>PyTorch training-loop mastery</strong></td>
+<td>Training-from-scratch rounds concentrate in <strong>research-engineer</strong> tracks. Product AI-eng loops test fine-tune <em>decisions</em> (LoRA vs RAG vs prompt) verbally. <strong>Your no-training-loop gap matters far less than your NumPy-from-scratch gap</strong> — which shows up everywhere</td>
+</tr>
+<tr>
+<td><strong>AI interview copilots</strong> (Final Round AI et al.)</td>
+<td>~1/3 of surveyed FAANG interviewers have caught suspected AI cheating; 11% run detection; Meta mandates full-screen share. Permanent-blacklist event</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="the-reprioritisation-this-research-implies">The reprioritisation this research implies</h2>
+<p>Three things move, given your profile:</p>
+<ol type="1">
+<li><p><strong>NumPy-from-scratch moves UP, PyTorch training moves DOWN.</strong> Cosine similarity, k-means, logistic regression with SGD, softmax, attention — these appear in real screens at Mistral, Amazon, Adobe. A full training loop appears mainly in research-engineer tracks you’re not targeting. This inverts the earlier plan’s emphasis. <strong>Deep-ML.com, 30 min/day, is the highest-value new habit here.</strong></p></li>
+<li><p><strong>The practical async/streaming coding round moves UP.</strong> It’s the modal AI-engineer round and it was under-weighted before. Six drills, timed, camera on.</p></li>
+<li><p><strong>Classical ML moves UP from “remediation” to “will decide a loop.”</strong> Two documented rejections trace to it, and it’s your <code>~85% accuracy</code> resume line’s home turf. Coursera ML Spec C2 Wk3 is already in your plan for Day 18 — that placement is right, don’t let it slip.</p></li>
+</ol>
+<p>Everything else in the 28-day plan stands. This folder complements it; it doesn’t replace it.</p>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/ai-engineering/resources.html"><div class="k">Previous</div><div class="l">AI Engineering — Builder&#x27;s Canon</div></a><a class="nx" href="/accenture/question-bank.html"><div class="k">Next</div><div class="l">Accenture — Question Bank</div></a></nav>
+  <footer class="site">
+    Source: <code>ai-engineer-interviews/resources.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

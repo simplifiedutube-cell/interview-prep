@@ -1,0 +1,58 @@
+<!DOCTYPE html><meta charset=utf-8><title>regress</title>
+<style>html,body{margin:0}iframe{border:0;width:390px;height:844px}</style>
+<pre id=out>did not run</pre>
+<script>window.onerror=(m,u,l)=>{document.getElementById("out").textContent="JS ERROR "+m+" @"+l;document.title="DONE"}</script>
+<script>
+const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
+const frame=()=>new Promise(r=>{const f=document.createElement("iframe");f.src="/index.html";
+  f.onload=()=>setTimeout(()=>r(f),450);document.body.appendChild(f);});
+(async()=>{
+try{
+  localStorage.clear();
+  let f=await frame(), d=f.contentDocument, w=f.contentWindow;
+  const ids=[...d.querySelectorAll('li.item[data-track]')].slice(0,37).map(l=>l.dataset.id);
+  const t0=[...d.querySelectorAll('#t00 li.item')].slice(0,4).map(l=>l.dataset.id);
+  f.remove(); localStorage.clear();
+
+  const rescue={v:2,saved:new Date().toISOString(),
+    state:Object.fromEntries(ids.map(i=>[i,1])),
+    days:{"2026-09-01":Object.fromEntries(t0.map(i=>[i,1]))}};
+
+  f=await frame(); d=f.contentDocument; w=f.contentWindow;
+  const n=w.ingest(JSON.parse(JSON.stringify(rescue)));
+  log(n===37, `v2 rescue restored ${n} items`);
+  log([...d.querySelectorAll('li.item[data-track][data-s="2"]')].length===37, "all 37 land as cold");
+  log(!!JSON.parse(localStorage.getItem("mt.days.v2"))["2026-09-01"], "daily history survived");
+
+  // --- REGRESSION: a tap AFTER a restore must reach the store that gets saved ---
+  const one=d.querySelector('li.item[data-track][data-s="2"]');
+  const oid=one.dataset.id;
+  one.querySelector(".tri").click(); one.querySelector(".tri").click();   // 2 -> 0 -> 1
+  log(one.dataset.s==="1", "tap after restore updates the DOM");
+  const saved=JSON.parse(localStorage.getItem("mt.v3")).items;
+  log(saved[oid]===1, `tap after restore PERSISTS (mt.v3[${oid.slice(0,9)}…] = ${saved[oid]}, want 1)`);
+  const p=w.payload();
+  log(p.state[oid]===1, "backup payload reflects the post-restore tap");
+  const n2=w.ingest(JSON.parse(JSON.stringify(p)));
+  log([...d.querySelectorAll('li.item[data-track][data-s="2"]')].length===36 &&
+      [...d.querySelectorAll('li.item[data-track][data-s="1"]')].length===1,
+      "v3 backup round-trips exactly (36 cold / 1 read)");
+
+  // --- REGRESSION: a tick AFTER "reset today" must persist ---
+  const cb=d.querySelector('#t00 li.item input[type=checkbox]');
+  const cid=cb.closest("li").dataset.id;
+  cb.click();
+  log(JSON.parse(localStorage.getItem("mt.days.v2"))[w.TODAY===undefined?Object.keys(JSON.parse(localStorage.getItem("mt.days.v2"))).pop():w.TODAY][cid]===1,
+      "Today tick persists before reset");
+  w.confirm=()=>true;
+  d.getElementById("todayReset").click();
+  log(!d.querySelector('#t00 li.item.done'), "reset today clears the UI");
+  cb.click();
+  const dayMap=JSON.parse(localStorage.getItem("mt.days.v2"));
+  const todayKey=Object.keys(dayMap).sort().pop();
+  log(dayMap[todayKey] && dayMap[todayKey][cid]===1,
+      `tick AFTER reset-today PERSISTS (days[${todayKey}] has the id)`);
+  f.remove();
+}catch(e){L.push("ERROR "+e.message+"\n"+e.stack)}
+document.getElementById("out").textContent=L.join("\n");document.title="DONE";})();
+</script>

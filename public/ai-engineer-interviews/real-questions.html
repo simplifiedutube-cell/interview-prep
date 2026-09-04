@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Real Questions Asked · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Real Questions Asked</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html" class="here">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Question banks</div>
+    <h1>Real Questions Asked — AI Engineer / GenAI / Applied AI / MLE / FDE roles</h1>
+    <div class="doc-meta">2,458 words · ~11 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 15 sections</summary><ol><li><a href="#1-rag--retrieval--the-densest-bucket-in-the-entire-corpus">1. RAG &amp; retrieval — the densest bucket in the entire corpus</a></li><li><a href="#2-llm--transformer-fundamentals">2. LLM &amp; transformer fundamentals</a></li><li><a href="#3-agents-tool-use--mcp">3. Agents, tool use &amp; MCP</a></li><li><a href="#4-evaluation">4. Evaluation</a></li><li><a href="#5-fine-tuning--training">5. Fine-tuning &amp; training</a></li><li><a href="#6-inference-serving--cost">6. Inference, serving &amp; cost</a></li><li><a href="#7-classical-ml--the-ambush-bucket">7. Classical ML — the ambush bucket</a></li><li><a href="#8-practical-coding-tasks-actually-given">8. Practical coding tasks actually given</a></li><li><a href="#9-debugging-scenarios">9. Debugging scenarios</a></li><li><a href="#10-system-design-prompts">10. System design prompts</a></li><li><a href="#11-dsa-problems-actually-named-in-accounts">11. DSA problems actually named in accounts</a></li><li><a href="#12-prompt-engineering">12. Prompt engineering</a></li><li><a href="#13-behavioral--the-india-specific-oddities">13. Behavioral &amp; the India-specific oddities</a></li><li><a href="#14-adjacent-stack-questions-that-appear-inside-ai-engineer-loops">14. Adjacent-stack questions that appear inside “AI engineer” loops</a></li><li><a href="#source-notes">Source notes</a></li></ol></details>
+  <div class="prose">
+
+<p>Every question here comes from a first-person interview account or a company-published process description. Nothing from prep-site listicles.</p>
+<p><strong>Frequency:</strong> <code>[5+]</code> seen in five or more independent accounts · <code>[3-4]</code> · <code>[2]</code> · <code>[1]</code> single but credibly attributed. <strong>Tags:</strong> <code>[company, date, source]</code>. Where a question recurs across many companies, the tag names the most specific attested instance.</p>
+<hr />
+<h2 id="1-rag--retrieval--the-densest-bucket-in-the-entire-corpus">1. RAG &amp; retrieval — the densest bucket in the entire corpus</h2>
+<p><strong>Lead with these five. They recur more than anything else in AI-engineer loops.</strong></p>
+<ol type="1">
+<li><strong>“Explain how RAG works, end to end.”</strong> <code>[5+]</code> — <em>Sierra uses it as its SWE screen opener [company-published]; also Accenture Dec 2025, ZS late 2024, unnamed GenAI intern Oct 2024 [all first-person]</em></li>
+<li><strong>“When do you fine-tune vs use RAG vs just prompt engineering?”</strong> <code>[4]</code> — <em>[Mistral, McKinsey QB, field-guide aggregate]</em></li>
+<li><strong>“What drives chunk size? How do you chunk tables and PDFs?”</strong> <code>[3]</code> — <em>[Tiger Analytics Nov 2025, first-person]</em></li>
+<li><strong>“Your RAG hallucinates even though the right context was retrieved. Fix it.”</strong> <code>[4]</code> — <em>[multiple; also a debugging-round staple]</em></li>
+<li><strong>“Scale this to 10M+ documents”</strong> / <strong>“retrieval is too slow, speed it up”</strong> <code>[3]</code></li>
+</ol>
+<p>Then:</p>
+<ul>
+<li>“What are you storing in the Vector Database?” — <em>[Accenture LLM Ops, Dec 2025, first-person, verbatim]</em></li>
+<li>“What are embeddings?” / “How does chunking happen?” — <em>[GenAI intern, Oct 2024, first-person, verbatim]</em></li>
+<li><strong>“How do you refresh embeddings when the source data updates?”</strong> — <em>[Tiger Analytics, Nov 2025, Glassdoor first-person]</em> ← asked directly; have the incremental-reindex answer</li>
+<li>“Which vector DB did you choose and what are the alternatives?” — <em>[Tiger Analytics; Fractal Dec 2024, both first-person]</em></li>
+<li>Hybrid search: BM25 + vector, RRF, text-vs-vector trade-offs <code>[2-3]</code></li>
+<li>Vector DB internals: HNSW / LSH indexing; vector DB vs traditional DB <code>[2]</code></li>
+<li>How do you benchmark and choose an embedding model for your data <code>[2]</code></li>
+<li>Citations / source attribution; answering “I don’t know” when context is insufficient <code>[3]</code> — <em>an explicit requirement in 5+ real take-homes</em></li>
+<li>Semantic caching <code>[2]</code></li>
+<li>Reranking: why, and what it costs you in latency</li>
+<li>“Latest advancements in GenAI” — hybrid RAG, multimodal agents, MoE-LLaVA — <em>[ZS, late 2024, first-person]</em></li>
+</ul>
+<hr />
+<h2 id="2-llm--transformer-fundamentals">2. LLM &amp; transformer fundamentals</h2>
+<ol type="1">
+<li><strong>“Explain self-attention / how do transformers work.”</strong> <code>[5+]</code> — <em>asked everywhere from Adobe to frontier labs; labs may ask you to</em> code <em>it</em></li>
+<li><strong>“Temperature, top-k, top-p — what do they do?”</strong> <code>[3-4]</code> — <em>[ZS, first-person, verbatim]</em></li>
+<li><strong>“What is the context window? What happens when you exceed it? How do you extend it?”</strong> <code>[3-4]</code></li>
+<li><strong>“What is the KV cache, why does it speed up inference, and how big is it?”</strong> <code>[3]</code></li>
+<li><strong>“Explain tokenization — BPE vs WordPiece.”</strong> <code>[3]</code></li>
+</ol>
+<p>Then:</p>
+<ul>
+<li>Encoder-only vs decoder-only vs encoder-decoder, and when to use each <code>[2]</code> — <em>[Sarvam, Dec 2024; Amazon AS, Nov 2025]</em></li>
+<li>“Why do hallucinations happen, and what forms do they take?” <code>[3-4]</code></li>
+<li>Mixture of Experts — what and why <code>[2]</code></li>
+<li>BERT vs GPT; masked vs causal language modelling — <em>[Amazon AS Intern, Nov 2025, first-person]</em></li>
+<li>“Attention is O(N²) — how do Sparse/Flash Attention help?” — <em>[Amazon AS Intern, Nov 2025, first-person]</em></li>
+<li>Softmax and the temperature parameter (rapid-fire phone-screen style) <code>[2]</code></li>
+<li>RNN vs LSTM, “why transformers” — <em>[Capgemini GenAI, Aug 2025, first-person]</em></li>
+<li>“Explain the Whisper-JAX architecture” · optimizing Whisper latency · VAD on CPU vs GPU — <em>[Sarvam AI, Dec 2024, first-person]</em> ← <strong>directly relevant to your voice agent</strong></li>
+<li>Benchmark literacy: define MMLU, HELM, HumanEval, Big-Bench — <em>[ZS, late 2024, first-person]</em></li>
+</ul>
+<hr />
+<h2 id="3-agents-tool-use--mcp">3. Agents, tool use &amp; MCP</h2>
+<ol type="1">
+<li><strong>“Walk me through a production agent architecture — what logic lives in the orchestrator vs the LLM?”</strong> <code>[3]</code></li>
+<li><strong>“How does the agent decide which tool to call? What happens when a tool fails — retries, idempotency?”</strong> <code>[3]</code></li>
+<li><strong>“How do you detect and stop infinite planning loops? Implement termination conditions.”</strong> <code>[3]</code></li>
+<li><strong>“When is an agent the wrong solution?”</strong> <code>[2]</code></li>
+</ol>
+<p>Then:</p>
+<ul>
+<li>“What is the key difference between a Generative AI system and an Agentic AI system?” — <em>[Accenture, Dec 2025, first-person, verbatim]</em></li>
+<li><strong>“Have you heard about MCP?”</strong> — <em>[Accenture, Dec 2025, first-person, verbatim]</em>. MCP is rising but still rare in verbatim reports <code>[1-2]</code>. Know the control model: tools = model-controlled, resources = app-controlled, prompts = user-controlled</li>
+<li>“Which framework did you use — LangChain or CrewAI — and why?” · “What are the components of CrewAI?” · “Can agents work asynchronously in CrewAI?” — <em>[Accenture, Dec 2025, first-person, verbatim]</em></li>
+<li>Sandboxing tool execution; prompt injection via retrieved content or tool output <code>[2-3]</code></li>
+<li>“Explain ReAct — with code” <code>[2]</code></li>
+<li>Design a customer-support-ticket or code-review agent <code>[2]</code> — <em>[Scale: insurance-claims agent with cost control; Sierra: customer-service agents]</em></li>
+<li>Agent misbehaviour triage: loops forever / over-plans / picks wrong tools — detect, add termination + observability</li>
+</ul>
+<hr />
+<h2 id="4-evaluation">4. Evaluation</h2>
+<ol type="1">
+<li><strong>“How do you evaluate an LLM system / RAG pipeline / chatbot?”</strong> <code>[5+]</code> — expects faithfulness, answer relevancy, context precision/recall vocabulary; <strong>an explicit rubric item in 10%+ of real take-homes</strong></li>
+<li><strong>“How do you detect and measure hallucination rate in production?”</strong> <code>[3-4]</code></li>
+<li><strong>“How does LLM-as-judge work, and how does it fail?”</strong> <code>[3]</code></li>
+<li><strong>“How would you build a golden dataset from a vague spec?”</strong> <code>[3]</code></li>
+</ol>
+<p>Then:</p>
+<ul>
+<li>“Metrics beyond perplexity for generation quality” <code>[2]</code></li>
+<li>“How would you evaluate the quality of an LLM’s response — what criteria for correctness, relevance, clarity?” — <em>[Turing LLM Trainer, 2024-25, Glassdoor]</em></li>
+<li>“The model is confident but factually wrong in a high-risk context — diagnose it” — <em>[Anthropic ML track]</em></li>
+<li>Separating <strong>retrieval</strong> metrics (recall@k, MRR, nDCG) from <strong>generation</strong> metrics (groundedness, citation correctness) — <em>knowing these are two different eval problems is itself a differentiator</em></li>
+<li>A good reverse-question candidates report asking: <em>“Is there an actual eval framework here, or is it vibes-based?”</em></li>
+</ul>
+<blockquote>
+<p><strong>Never name RAGAS as your talking point.</strong> Say instead: <em>“We started with RAGAS-style metrics, found they didn’t correlate with our reviewers’ judgments, so we built a domain-specific binary judge and validated it against 100 hand-labelled traces.”</em></p>
+</blockquote>
+<hr />
+<h2 id="5-fine-tuning--training">5. Fine-tuning &amp; training</h2>
+<p><em>For product AI-engineer roles this is tested at the level of</em> decisions*, not PyTorch mechanics. Training-loop questions concentrate in research-engineer tracks.*</p>
+<ol type="1">
+<li><strong>“What is LoRA / QLoRA / PEFT, and when over full fine-tuning?”</strong> <code>[4]</code></li>
+<li><strong>“Explain RLHF. Compare with DPO.”</strong> <code>[3]</code> — <strong>“reward policies: DPO vs PPO” asked directly</strong> <em>[Flipkart DS2 Foundational Model Team, 2025, first-person]</em></li>
+<li><strong>“Why does quantization barely hurt accuracy? What are the trade-offs?”</strong> <code>[3]</code></li>
+<li>Instruction tuning vs pre-training <code>[2]</code> · catastrophic forgetting <code>[2]</code> · “how would you fine-tune with limited data?” <code>[2]</code></li>
+</ol>
+<p>Also seen: fine-tuning LLMs <strong>and VLMs</strong>; “explain your VLM’s architecture and justify the design choices” — <em>[Flipkart; Amazon AS, both first-person]</em></p>
+<hr />
+<h2 id="6-inference-serving--cost">6. Inference, serving &amp; cost</h2>
+<ol type="1">
+<li><strong>“You get 1M queries/day — reduce token cost.”</strong> <code>[4]</code></li>
+<li><strong>“Design an inference batching system”</strong> (single GPU, ≤100 inputs/batch, synchronous users) <code>[2-3]</code> — <em>Anthropic reportedly reuses this across SWE, ML, hardware and EM loops</em></li>
+<li><strong>“What is time-to-first-token, and why does streaming matter?”</strong> <code>[3]</code></li>
+<li>Model tiering / routing, exact + semantic caching, provider failover <code>[3]</code></li>
+<li>Handling 429s and rate limits: exponential backoff, which codes to retry <code>[2-3]</code></li>
+</ol>
+<p>Also: quantization/distillation for serving <code>[2]</code> · KV-cache sizing · distributed training + non-LeetCode coding — <em>[Nvidia, 2025, first-person]</em> · KV-cache, LoRA, beam search, MoE routing at Nvidia LLM teams</p>
+<hr />
+<h2 id="7-classical-ml--the-ambush-bucket">7. Classical ML — the ambush bucket</h2>
+<p><strong>Do not skip this because you’re targeting GenAI roles.</strong> Two documented rejections trace directly to it.</p>
+<ol type="1">
+<li><strong>“What was the class balance? What does a majority-class baseline get?”</strong> — the first question on any accuracy claim</li>
+<li><strong>Bias–variance, overfitting scenarios, regularization</strong> — <em>“explain the gradient effects that make L1 produce sparsity”</em> <em>[DeepMind, first-person]</em></li>
+<li><strong>Precision/recall/F1, ROC-AUC vs PR-AUC at low prevalence, threshold from a cost matrix</strong></li>
+<li><strong>Bagging vs boosting, and when to use each</strong> — <em>[Amazon AS, late 2025, first-person]</em></li>
+<li><strong>Implement from scratch in NumPy:</strong> logistic regression with SGD + L2 + early stopping <em>[Mistral]</em> · cosine similarity <em>[Amazon GenAI L6]</em> · k-means / KNN / decision tree <code>[4]</code></li>
+</ol>
+<p>Then:</p>
+<ul>
+<li><strong>Compute entropy and Gini by hand</strong> — <em>[Amazon AS Intern, Nov 2025, first-person — a reported surprise]</em></li>
+<li>How to pick the number of clusters; optimizers; activation and loss functions; LR schedules; vanishing gradients <code>[3]</code></li>
+<li>Data leakage; train/test split design; <strong>grouped splitting</strong> <code>[2]</code></li>
+<li>Bayesian coin-toss coding problem — <em>[Amazon AS, first-person]</em></li>
+<li>Full sweep in one round: linear → logistic → trees → NN → RNN/LSTM → LLMs, <strong>plus offline validation for each</strong> — <em>[LinkedIn Senior AI Eng, ~2024, first-person — rejected]</em></li>
+<li>Logistic regression depth + CLIP/BLIP in a “Depth in Math Modelling” round — <em>[Flipkart, 2025, first-person]</em></li>
+<li>Traditional-ML <strong>case studies</strong> — <em>[McKinsey QuantumBlack, Nov 2025, first-person — this is what he was rejected on]</em></li>
+</ul>
+<hr />
+<h2 id="8-practical-coding-tasks-actually-given">8. Practical coding tasks actually given</h2>
+<p>Ranked by frequency across accounts.</p>
+<ol type="1">
+<li><strong>Project-style LLM-API build</strong> — a small working feature calling OpenAI/Anthropic live, with async retry, backoff, timeouts, streaming, cost awareness. 45–90 min. <strong>The modal AI-engineer coding round.</strong></li>
+<li><strong>OOP multi-level toy systems</strong> (the lab replacement for LeetCode), 60 min, progressive levels: in-memory KV store with SET/GET/DELETE <em>[Anthropic]</em> · in-memory SQL-like DB / LC-2408 “Design SQL” <em>[OpenAI L5]</em> · GPU-credits management system <em>[OpenAI]</em> · LRU cache O(1) <em>[xAI]</em> · rate limiter, circuit breaker, thread pool</li>
+<li><strong>ML classics in NumPy</strong>, 20–45 min — logistic regression w/ SGD <em>[Mistral]</em>, cosine similarity <em>[Amazon]</em>, k-means, then overfit on toy data</li>
+<li><strong>Transformer components from scratch</strong> — causal self-attention, softmax, layer norm, beam search, LoRA layer, KV cache. Adobe asked attention in TF + NumPy <em>[first-person]</em>. <strong>Common for lab/research-adjacent roles, rare at product startups</strong></li>
+<li><strong>Mini-RAG build</strong> — dominant as a take-home (40%+ of all real take-homes), occasionally live in 60–90 min</li>
+<li><strong>Agent / tool-calling loop build</strong> — 30%+ of take-homes</li>
+<li><strong>AI-assisted coding round</strong> — drive an AI to fix/extend a multi-file codebase <em>[Meta Oct 2025; Microsoft]</em></li>
+<li><strong>Eval harness / LLM-judge build</strong> — usually a take-home sub-requirement <em>[Hippocratic AI: Spec Builder → Storyteller → LLM Judge → Rewriter]</em></li>
+<li><strong>Refactor messy code</strong> — OpenAI: refactor 100–120 lines of deeply nested code · BitHealth: refactor a messy RAG app preserving API behaviour</li>
+<li><strong>Domain-specific builds</strong> — Voice Activity Detector from scratch, 2.5 hr <em>[Sarvam]</em> · sound classification <em>[Observe.AI]</em> · streaming Whisper transcription + SSE insight extraction</li>
+</ol>
+<p><strong>Rare but reported:</strong> implement a research paper live <em>[Contextual AI]</em> · autograd from scratch · website crawler · OCR + LLM document-extraction pipelines</p>
+<hr />
+<h2 id="9-debugging-scenarios">9. Debugging scenarios</h2>
+<ol type="1">
+<li><strong>“RAG gives confident wrong answers — the right doc IS in the index. Debug it.”</strong> <code>[4+]</code> — the canonical scenario. Expected: don’t guess (“switch to GPT-4”, “re-index”); isolate via trace logs, inspect exactly what landed in the context window, split <strong>retrieval failure</strong> from <strong>generation failure</strong></li>
+<li><strong>Debug a hallucinating prompt</strong> — given prompt + source doc + 5 sample outputs, some hallucinated: find root cause, propose targeted fixes. 20–30 min</li>
+<li><strong>Find ~3 planted bugs in a 4–5 file agent codebase</strong>, with an intended-behaviour diagram; interviewer narrates scenarios <em>[Sierra, first-person]</em></li>
+<li><strong>Review and improve a colleague’s draft PR</strong>, iterating with coding agents <em>[Sierra 2026 pilot, company-published]</em></li>
+<li><strong>Model/training code with planted issues</strong> — explain why performance is bad, fix it</li>
+<li><strong>Multi-file phases</strong>: find bugs → analyse complexity → implement feature → optimise, ~60 min. <em>Orientation eats 5–6 min; budget ~35–40 min of real work</em></li>
+<li><strong>Agent misbehaviour triage</strong> — loops forever, over-plans, wrong tools</li>
+<li><strong>Senior variant:</strong> a failing production pipeline — propose and <em>prioritise</em> a debugging plan (cost spike, quality regression, latency)</li>
+<li><strong>AI-assisted twist:</strong> your AI-generated solution breaks when the interviewer mutates the problem — debug your own prompt <em>[Microsoft, first-person]</em></li>
+</ol>
+<hr />
+<h2 id="10-system-design-prompts">10. System design prompts</h2>
+<ul>
+<li><strong>“Design a RAG system for a customer support chatbot”</strong> — reported as the single most common opener</li>
+<li>Design ChatGPT / LLM inference serving at scale — queueing, GPU worker scheduling, TTFT, streaming, fairness across tiers</li>
+<li>Inference-serving system for large models; training clusters <em>[Mistral]</em></li>
+<li>Retrieval / search architecture <em>[Glean]</em></li>
+<li>ML infra: feature stores, distributed training, serving <em>[Databricks, late 2025]</em></li>
+<li>“Improve the Task Queue System” <em>[Notion, Nov 2025, first-person]</em></li>
+<li>Job scheduler, LLD + HLD <em>[Salesforce LMTS India, Sept 2025, first-person]</em></li>
+<li>Product decomposition: messy manual workflow → design UI, API and backend end-to-end <em>[ElevenLabs]</em></li>
+<li>GenAI business case studies <em>[McKinsey QB]</em> · product-underperformance KPI case <em>[Microsoft IDC]</em></li>
+</ul>
+<hr />
+<h2 id="11-dsa-problems-actually-named-in-accounts">11. DSA problems actually named in accounts</h2>
+<p><em>Cluster: arrays/hashing, sliding window, trees, graphs/BFS, 1-D DP. No hard DP appears anywhere in this corpus.</em></p>
+<p>Single Element in a Sorted Array · Container With Most Water <em>[Groww, Oct 2025]</em> · Minimum Window Substring · distance between two nodes of a binary tree <em>[Amazon AS, Nov 2025]</em> · islands grid + BFS shortest path · Minimum Coins (1-D DP) <em>[Amazon AS]</em> · longest repeated substring (“banana” → “ana”) · detect cycle in a linked list <em>[ZS, late 2024]</em> · medium sliding-window <em>[Fractal, Dec 2024]</em> · graph BFS with directions <em>[Eightfold, Dec 2025]</em> · 2-Sum, Python slicing/scope, constructors <em>[Quantiphi, 2024]</em> · max-stack, k-th greatest in subarrays, positive/negative reorder <em>[Salesforce LMTS, 2025]</em> · primes, anagram check <em>[GenAI intern, Oct 2024]</em> · kth largest across m sorted arrays, min-distance-in-string + 2D Manhattan, prove median minimises sum of absolute deviations <em>[Glean, 2024-25]</em> · graph shortest path <em>[Google SWE III AI/ML, early 2025]</em> · Connect4 backend <em>[Glean SDE II]</em></p>
+<hr />
+<h2 id="12-prompt-engineering">12. Prompt engineering</h2>
+<ul>
+<li>Structured outputs / reliable JSON <code>[3]</code> — <em>strict JSON required in several real take-homes</em></li>
+<li>Prompt injection &amp; jailbreak defenses <code>[3]</code> — <em>one take-home is literally “resist prompt injection”</em></li>
+<li>In-context learning; zero/few-shot; CoT vs ToT and when <code>[2-3]</code></li>
+<li><strong>“Which prompt techniques improved quality in your real projects?”</strong> <code>[2]</code> — <em>interviewers probe for lived experience, not taxonomy</em></li>
+</ul>
+<hr />
+<h2 id="13-behavioral--the-india-specific-oddities">13. Behavioral &amp; the India-specific oddities</h2>
+<ul>
+<li><strong>“Tell me about the biggest project you’re proud of — be specific about what YOU built yourself”</strong> <em>[ElevenLabs, first-person]</em></li>
+<li>Deep dive on the most complex thing you’ve shipped — <strong>repeatedly the hardest round</strong> <em>[OpenAI Applied, first-person]</em></li>
+<li>Ownership, ambiguity, explaining technical limitations to non-technical stakeholders <em>[OpenAI FDE HM round]</em></li>
+<li>Why-this-company motivation checks — <strong>everywhere</strong>, and India loops ask directly</li>
+<li><strong>45-question Leadership Principles battery inside the OA</strong> <em>[Amazon, Nov 2025, first-person]</em></li>
+<li><strong>Family-background questions</strong> <em>[ZS and Fractal, both 2024, first-person]</em> — unusual to Western candidates, normal in Indian services-firm loops</li>
+<li>“Have you led a project / handled conflict?” · managing internship alongside coursework <em>[Fractal]</em></li>
+</ul>
+<hr />
+<h2 id="14-adjacent-stack-questions-that-appear-inside-ai-engineer-loops">14. Adjacent-stack questions that appear inside “AI engineer” loops</h2>
+<p>Don’t be caught out — these were asked in AI-titled interviews:</p>
+<ul>
+<li>“What is Docker?” · “Why Selenium?” · “Have you heard about Redis?” <em>[GenAI intern, Oct 2024, first-person]</em></li>
+<li>REST methods, PUT vs PATCH, <code>__init__</code> and dunder naming <em>[Accenture, Dec 2025, first-person]</em></li>
+<li>async/await, DOM manipulation <em>[Fractal, Dec 2024, first-person]</em></li>
+<li>AWS SageMaker / Azure ML / Databricks + networking <em>[Mastercard GenAI, ~2025]</em></li>
+<li>AWS Bedrock usage <em>[ZS, late 2024]</em></li>
+<li>SQL: joins, p-test/t-test, random forest, clustering scenarios <em>[Flipkart DS, Nov 2025]</em> · medium SQL in the OA <em>[Fractal]</em> · top-5 customers by revenue in 30 days</li>
+<li>Java + GenAI + “core subjects mentioned in your resume” <em>[Walmart Global Tech India, 2025]</em></li>
+</ul>
+<hr />
+<h2 id="source-notes">Source notes</h2>
+<p><strong>Primary (first-person):</strong> Blind threads (Sarvam MLE, OpenAI Applied, Anthropic Applied AI, Cursor work trial, Meta AI-enabled round, McKinsey QB, Intuit, DeepMind) · LeetCode Discuss (Groww, Eightfold, Flipkart DS2, Salesforce LMTS, Glean full loop/MLE/SDE-II, Nvidia) · GeeksforGeeks interview experiences (Accenture LLM Ops Dec 2025, ZS LLM Engineer, Quantiphi) · Medium (Amazon AS Intern ×2, Eightfold, Fractal, Google SWE III AI/ML, GenAI engineer hired Oct 2024) · gaijineer.co (Sierra SWE-Agent, OpenAI FDE) · Taro (Notion Nov 2025, Adobe Oct 2025, Capgemini Aug 2025, Glean Bengaluru) · Exponent experiences (ElevenLabs Solutions Architect).</p>
+<p><strong>Company-published:</strong> Sierra “The AI-native interview” · Anthropic candidate AI-usage guidance · Anysphere/Cursor CEO via Business Insider Jun 2025 · Decagon “Introducing the Agent Engineer”.</p>
+<p><strong>Aggregate:</strong> Glassdoor / AmbitionBox interview sections · <code>alexeygrigorev/ai-engineering-field-guide</code> (51 documented company processes, ~60 real take-homes with candidate submissions) · interviewing.io interviewer survey (67 FAANG+ interviewers, 2025).</p>
+<p><strong>Caveats.</strong> (1) Blind, LeetCode and Grapevine partially block automated fetching; several details came from search-index snippets rather than full threads. (2) Verbal-question frequencies are <strong>floor estimates</strong> — the true counts are higher. (3) The take-home inventory skews toward candidates who publish submissions publicly (startup/India/EU-heavy); US big-tech take-homes are under-represented because they’re NDA’d. (4) Krutrim, Postman, Hasura, Atlan, Chargebee, CRED, PhonePe, Swiggy and several US AI-natives (Vapi, Retell, Braintrust, Baseten, Together, Pinecone, Weaviate, Qdrant, LlamaIndex, Cognition) surfaced <strong>no verifiable first-person AI-role accounts</strong> — claims about them elsewhere are prep-site marketing and were excluded.</p>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/pipeline.html"><div class="k">Previous</div><div class="l">Pipeline</div></a><a class="nx" href="/resources.html"><div class="k">Next</div><div class="l">Resources — buy list, canon, traps</div></a></nav>
+  <footer class="site">
+    Source: <code>ai-engineer-interviews/real-questions.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

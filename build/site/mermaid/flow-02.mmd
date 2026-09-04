@@ -1,0 +1,14 @@
+flowchart TD
+  W[Webhook: PR opened / CI event] --> PL[Agent: plan change]
+  PL --> T{Select tool via MCP}
+  T --> RD[read files] & ED[edit code] & RN[run tests / CI]
+  RD --> OB[Observe result]
+  ED --> OB
+  RN --> OB
+  OB --> CK{Done? budget left? loop detected?}
+  CK -- continue --> PL
+  CK -- budget/loop limit --> HITL[Escalate to human]
+  CK -- done --> VF[Validate: tests pass + diff review]
+  VF -- pass --> PR[Comment / propose commit on PR]
+  VF -- fail --> HITL
+  PR --> HR[Human reviewer approves]

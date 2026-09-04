@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Accenture — Answer Frameworks · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Accenture — Answer Frameworks</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html" class="here">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Company-specific</div>
+    <h1>Answer Frameworks — Accenture Custom Software Engineer</h1>
+    <div class="doc-meta">2,398 words · ~11 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 10 sections</summary><ol><li><a href="#1-explain-how-rag-works-end-to-end-acn-verbatim-highest-frequency">1. “Explain how RAG works, end to end.” [ACN-verbatim, highest frequency]</a></li><li><a href="#2-what-is-the-difference-between-generative-ai-and-agentic-ai-acn-verbatim">2. “What is the difference between Generative AI and Agentic AI?” [ACN-verbatim]</a></li><li><a href="#3-have-you-heard-about-mcp-acn-verbatim">3. “Have you heard about MCP?” [ACN-verbatim]</a></li><li><a href="#4-your-rag-hallucinates-even-though-the-right-context-was-retrieved-fix-it">4. “Your RAG hallucinates even though the right context was retrieved. Fix it.”</a></li><li><a href="#5-how-do-you-evaluate-a-rag-pipeline--llm-system">5. “How do you evaluate a RAG pipeline / LLM system?”</a></li><li><a href="#6-async-vs-threading-vs-multiprocessing-in-python--and-the-gil">6. “async vs threading vs multiprocessing in Python — and the GIL”</a></li><li><a href="#7-why-fastapi-over-flask-or-django">7. “Why FastAPI over Flask or Django?”</a></li><li><a href="#8-design-a-document-qa-system-for-an-enterprise-with-per-user-permissions">8. “Design a document Q&amp;A system for an enterprise, with per-user permissions”</a></li><li><a href="#9-walk-me-through-your-resume">9. “Walk me through your resume”</a></li><li><a href="#10-why-accenture">10. “Why Accenture?”</a></li></ol></details>
+  <div class="prose">
+
+<p>Format per the helper-app instructions: <strong>Core Answer → Key Points → Mini Explanation → Example to Cite → Watch-outs.</strong> The Mini Explanation is there so you can <em>explain the mechanism</em>, not recite it. Read it, close the file, say it in your own words. If you can’t, you don’t have it yet.</p>
+<p>All examples are drawn from <code>Kadiam_Rao_Resume.docx</code>. Nothing here is invented.</p>
+<hr />
+<h2 id="1-explain-how-rag-works-end-to-end-acn-verbatim-highest-frequency">1. “Explain how RAG works, end to end.” [ACN-verbatim, highest frequency]</h2>
+<p><strong>Core Answer:</strong> Retrieve relevant context from a knowledge base at query time, put it in the prompt, and have the model answer grounded in it rather than from memory.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Ingestion: documents → chunks → embeddings → vector store (+ metadata)</li>
+<li>Query: embed the question → similarity search → top-k chunks</li>
+<li>Optional: rerank, hybrid BM25 + dense, metadata filters</li>
+<li>Generation: chunks + question → prompt → answer, with citations</li>
+<li>Guardrail: if context is insufficient, say “I don’t know” rather than generate</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The core problem RAG solves is that an LLM only knows what was in its training data, and it can’t tell you when it doesn’t know something — it will produce fluent text either way. RAG fixes that by making the answer conditional on documents you control. At ingestion you split documents into chunks, convert each to a vector that captures its meaning, and store it. At query time you embed the question the same way and pull the nearest chunks. Those chunks go into the prompt as context, so the model is summarising a source rather than recalling. Everything hard about RAG is in the retrieval half — if the right chunk never gets fetched, no amount of prompting saves the answer.</p>
+<p><strong>Example to Cite:</strong> The 10,000+ document EdTech knowledge assistant — Pinecone, hallucination guardrails, automated eval dashboards, ~35% relevance improvement.</p>
+<p><strong>Watch-outs:</strong> They almost always follow with “what are you storing in the vector DB?” Answer: the embedding, the chunk text, and metadata for filtering — all three, not just the vector.</p>
+<hr />
+<h2 id="2-what-is-the-difference-between-generative-ai-and-agentic-ai-acn-verbatim">2. “What is the difference between Generative AI and Agentic AI?” [ACN-verbatim]</h2>
+<p><strong>Core Answer:</strong> Generative AI produces an output; agentic AI decides on a sequence of actions and executes them against real systems.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>GenAI: one input → one output, no state, no side effects</li>
+<li>Agentic: planning loop, tool calls, memory, termination condition</li>
+<li>The model becomes the reasoning engine, not the product</li>
+<li>Failure modes differ — GenAI hallucinates text, agents take wrong <em>actions</em></li>
+<li>Needs orchestration, observability, guardrails, human-in-the-loop escalation</li>
+</ul>
+<p><strong>Mini Explanation:</strong> With plain generative AI the model writes something and a human decides what to do with it — the blast radius is a bad paragraph. An agent is given a goal instead of a prompt, and it loops: decide what to do, call a tool, look at the result, decide again, until some stopping condition. That loop is where all the engineering lives. The model is no longer producing the deliverable; it’s choosing actions, and a wrong choice mutates a real system — a CRM record updated, a PR merged, an email sent. So agentic systems need things generative ones don’t: retry and idempotency on tools, loop termination, tracing so you can reconstruct why it did what it did, and an escalation path when it’s uncertain.</p>
+<p><strong>Example to Cite:</strong> The agentic coding assistant at Turing — multi-step orchestration with tool calls wired into PR and CI/CD hooks, ~45% cut in manual review turnaround.</p>
+<p><strong>Watch-outs:</strong> Follow-up is usually “when is an agent the <em>wrong</em> solution?” Have it: when the task is deterministic, when a wrong action is expensive and irreversible, or when a scripted pipeline would do the same job more cheaply and predictably.</p>
+<hr />
+<h2 id="3-have-you-heard-about-mcp-acn-verbatim">3. “Have you heard about MCP?” [ACN-verbatim]</h2>
+<p><strong>Core Answer:</strong> Model Context Protocol — an open standard for connecting models to tools and data sources, so integrations aren’t rebuilt per app.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Solves the M×N integration problem: M apps × N tools becomes M + N</li>
+<li>Client–server: your app hosts a client, each integration is a server</li>
+<li>Three primitives with different control: <strong>tools</strong> model-controlled, <strong>resources</strong> app-controlled, <strong>prompts</strong> user-controlled</li>
+<li>Announced Nov 2024; you adopted it late in the Turing engagement as it emerged</li>
+</ul>
+<p><strong>Mini Explanation:</strong> Before MCP every team wrote bespoke glue between their app and each tool, and none of it was reusable. MCP standardises that boundary: a tool provider writes one server, any MCP-aware client can use it. The control distinction is the part worth knowing because it’s a safety design, not a technicality — tools are the things the <em>model</em> decides to invoke, resources are context the <em>application</em> chooses to supply, and prompts are templates the <em>user</em> triggers. Keeping those separate means the model can’t quietly pull in context nobody sanctioned.</p>
+<p><strong>Example to Cite:</strong> MCP adoption in the coding-assistant work at Turing, in the last stretch of the engagement.</p>
+<p><strong>Watch-outs:</strong> ⚠️ Timeline trap flagged in your own <code>metric-defence.md</code> — MCP was announced 25 Nov 2024 and the Turing engagement ended Jan 2025. Say “in the last stretch of that engagement,” not “throughout.” Don’t let them do that subtraction out loud.</p>
+<hr />
+<h2 id="4-your-rag-hallucinates-even-though-the-right-context-was-retrieved-fix-it">4. “Your RAG hallucinates even though the right context was retrieved. Fix it.”</h2>
+<p><strong>Core Answer:</strong> Retrieval is fine, so the problem is in generation — constrain the model to the context and make abstention possible.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Prompt: explicit instruction to answer only from context, and to say “I don’t know”</li>
+<li>Require citations per claim — makes ungrounded claims visible</li>
+<li>Lower temperature; check whether context is buried mid-prompt (lost-in-the-middle)</li>
+<li>Post-hoc faithfulness check: does each claim trace to a retrieved chunk</li>
+<li>Check the chunk actually <em>contains</em> the answer, not just the topic</li>
+</ul>
+<p><strong>Mini Explanation:</strong> When retrieval is correct and the answer still drifts, the model is blending the context with its own parametric knowledge — usually because nothing in the prompt told it that the context is the <em>only</em> permitted source, or because there’s no acceptable way for it to fail. If “I don’t know” isn’t an allowed output, the model will always produce something. Adding citations helps twice: it disciplines the generation, and it makes the failure auditable afterwards. Position matters too — models attend less to material in the middle of a long prompt, so a correct chunk sitting in the middle of fifteen others can effectively be ignored.</p>
+<p><strong>Example to Cite:</strong> The hallucination guardrails on the 10k-doc assistant, with continuous accuracy tracking.</p>
+<p><strong>Watch-outs:</strong> Don’t jump straight to “fine-tune it.” That reads as reaching for the expensive tool first.</p>
+<hr />
+<h2 id="5-how-do-you-evaluate-a-rag-pipeline--llm-system">5. “How do you evaluate a RAG pipeline / LLM system?”</h2>
+<p><strong>Core Answer:</strong> Evaluate retrieval and generation separately, against a golden set, with production monitoring on top.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Retrieval: context precision / recall, hit rate at k</li>
+<li>Generation: faithfulness (grounded in context), answer relevance</li>
+<li>Golden dataset of question/answer pairs; who labelled it matters</li>
+<li>LLM-as-judge for scale, but validate the judge against human labels</li>
+<li>Production: track accuracy continuously, not just at build time</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The reason you split the two is diagnostic — a bad answer tells you nothing on its own, but “retrieval recall was 0.9 and faithfulness was 0.4” tells you exactly which half to fix. The golden set is the expensive part and the part people skip; without it you’re comparing vibes across prompt versions. LLM-as-judge makes evaluation affordable, but a judge is a model with its own biases — it favours longer answers and its own phrasing — so you validate it against a few hundred human-labelled examples before trusting it, and you re-check when you change judge models.</p>
+<p><strong>Example to Cite:</strong> The eval harnesses, rubrics and benchmark definitions you built at Turing — accuracy, latency, reliability, cost — after which agent task success rose ~20%.</p>
+<p><strong>Watch-outs:</strong> This is your strongest territory and most candidates are weak in it. Spend a beat longer here than elsewhere. Follow-up: “how does LLM-as-judge fail?”</p>
+<hr />
+<h2 id="6-async-vs-threading-vs-multiprocessing-in-python--and-the-gil">6. “async vs threading vs multiprocessing in Python — and the GIL”</h2>
+<p><strong>Core Answer:</strong> async for I/O-bound concurrency, multiprocessing for CPU-bound work, threading rarely the right answer in between.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>GIL = one thread executes Python bytecode at a time in a process</li>
+<li>I/O releases the GIL, so threads help with I/O but not CPU</li>
+<li>asyncio: single thread, cooperative, no GIL contention, huge concurrency at low cost</li>
+<li>multiprocessing: separate interpreters, real parallelism, IPC cost</li>
+<li>FastAPI: <code>async def</code> runs on the event loop; blocking code inside it stalls everything</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The GIL means CPU-bound Python doesn’t get faster with threads, because only one thread runs bytecode at a time. But most backend work isn’t CPU-bound — it’s waiting on a database, an HTTP call, an LLM API. During that wait the GIL is released, so concurrency is achievable. Async is the cleaner way to express it: one thread, an event loop, and tasks that voluntarily yield while waiting. The trap in FastAPI is mixing models — if you put a blocking call inside an <code>async def</code> handler you block the whole event loop, and throughput collapses for every request, not just that one. Blocking work goes in a regular <code>def</code> handler, which FastAPI runs in a threadpool.</p>
+<p><strong>Example to Cite:</strong> The .NET → FastAPI/Pydantic/SQLAlchemy migration, and the LLM-serving paths where latency dropped ~40%.</p>
+<p><strong>Watch-outs:</strong> Be ready for “so how did you actually cut latency 40%?” — that’s a metric-defence question, not a Python question. Prefill vs decode, caching, prompt/context reduction. See <a class="xref" href="/answers/01-latency-and-cost.html"><code>answers/01-latency-and-cost.md</code></a>.</p>
+<hr />
+<h2 id="7-why-fastapi-over-flask-or-django">7. “Why FastAPI over Flask or Django?”</h2>
+<p><strong>Core Answer:</strong> Native async plus Pydantic type validation and generated OpenAPI docs — it fits API-first services better than either.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Async-first: matters when every request awaits an LLM or DB call</li>
+<li>Pydantic: validation and serialisation from type hints, errors at the boundary</li>
+<li>Auto OpenAPI/Swagger — real value on client-facing integration work</li>
+<li>Django is heavier and batteries-included; right for admin/ORM-driven apps, not thin services</li>
+<li>Flask is minimal but async support and validation are bolt-ons</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The honest version is that the choice follows the workload. If your service spends most of its time waiting on other systems, async concurrency is the difference between handling tens and thousands of simultaneous requests on the same box. Pydantic then removes an entire class of bug by validating at the edge — bad input fails with a clear 422 instead of surfacing as a <code>None</code> three layers down. Django earns its weight when you want its ORM, admin and auth as a package; for the API-and-integration services you’ve been building, most of that goes unused.</p>
+<p><strong>Example to Cite:</strong> Migrating legacy .NET logic to FastAPI/Pydantic/SQLAlchemy services — improved response times, easier to maintain.</p>
+<p><strong>Watch-outs:</strong> Don’t say “FastAPI is faster” and stop. That’s the answer of someone who read a benchmark chart, and the follow-up (“faster at what?”) is where it falls apart.</p>
+<hr />
+<h2 id="8-design-a-document-qa-system-for-an-enterprise-with-per-user-permissions">8. “Design a document Q&amp;A system for an enterprise, with per-user permissions”</h2>
+<p><strong>Core Answer:</strong> Standard RAG pipeline, but permissions enforced as a hard filter in the data layer — never as a prompt instruction.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Ingest → chunk → embed → store with tenant/ACL metadata</li>
+<li>Query: resolve user’s permissions <em>first</em>, filter, then search</li>
+<li>Hybrid retrieval (dense + BM25, RRF) then rerank if latency allows</li>
+<li>Citations back to source documents</li>
+<li>Eval harness + monitoring; freshness/re-index strategy for changed docs</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The interesting decision here isn’t the retrieval stack, it’s where isolation lives. If you tell the model “only use documents this user can see,” you’ve made a security control out of an instruction the model may ignore or be talked out of — one prompt injection in a retrieved document and it leaks. Enforcing it as a predicate in the query means the unauthorised chunks are never candidates in the first place; the model cannot leak what was never put in front of it. The cost is that filtering before an approximate nearest-neighbour search can hurt recall, especially when a user can see only a small slice of the corpus, and that trade-off is worth naming out loud.</p>
+<p><strong>Example to Cite:</strong> The AML/CTF compliance assistant — multi-tenant, tenant isolation as a SQL predicate rather than a prompt instruction, hybrid dense + BM25 with RRF and cross-encoder rerank. Also the 10k-doc production system at KNS.</p>
+<p><strong>Watch-outs:</strong> This is the strongest single design decision you have. Know precisely <em>why</em> prompt-level isolation fails, because if they’re any good that’s the follow-up.</p>
+<hr />
+<h2 id="9-walk-me-through-your-resume">9. “Walk me through your resume”</h2>
+<p><strong>Core Answer:</strong> 90 seconds, arc not inventory: backend → ML → owning AI features, with the through-line being systems that had to work in production.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>8+ years, started 2016; Centific (enterprise assistants) → KNS (AI features on an EdTech platform) → Turing contract (agent training and evaluation)</li>
+<li>Currently: own the AI features end to end — backend, ML pipelines, dashboards</li>
+<li>Signature work: 10k-doc RAG with guardrails and eval dashboards; agentic coding assistant into PR/CI-CD; air-gapped agent training environments</li>
+<li>The differentiator: evaluation — you built the harnesses that decided ship/no-ship</li>
+</ul>
+<p><strong>Mini Explanation:</strong> Interviewers use this to pick what to probe, so it’s a menu you’re writing for them, not an autobiography. Lead with the shape of the career and land on the two or three things you most want to be asked about. Stop at 90 seconds even if you haven’t covered everything — trailing off into year five of a chronological list is the most common way this question goes badly, and the interviewer stops listening well before you stop talking.</p>
+<p><strong>Example to Cite:</strong> Land on the 10k-doc RAG and the eval-harness work; let them pull the rest.</p>
+<p><strong>Watch-outs:</strong> Don’t open with tool names. Open with the problem. And expect the Turing/KNS overlap question immediately after — volunteer it rather than waiting.</p>
+<hr />
+<h2 id="10-why-accenture">10. “Why Accenture?”</h2>
+<p><strong>Core Answer:</strong> Breadth of client problems and the chance to apply GenAI systems across industries rather than one product surface.</p>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Your consulting-shaped background already: 6+ client engagements, five-system CRM integration, offline/air-gapped constraints</li>
+<li>You like shipping under real client constraints, not lab conditions</li>
+<li>Scale of GenAI delivery Accenture is doing across regulated industries</li>
+<li>Hyderabad-based, comfortable with client-facing work and office presence</li>
+</ul>
+<p><strong>Mini Explanation:</strong> The failure mode on this question is answering it as if it were “why any job.” Interviewers at services firms are specifically screening for people who will be fine with client-facing delivery, changing project contexts, and constraints someone else set — because that’s the job, and people who quietly wanted a product role leave within a year. Your actual history supports the honest version: multi-client delivery, integration work against systems you didn’t control, and shipping into an air-gapped environment is about as constrained as delivery gets.</p>
+<p><strong>Example to Cite:</strong> The 6+ client engagements at Turing and the offline containerised training environments.</p>
+<p><strong>Watch-outs:</strong> Don’t say anything that reads as “I want out of my current role.” Frame forward.</p>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/accenture/question-bank.html"><div class="k">Previous</div><div class="l">Accenture — Question Bank</div></a><a class="nx" href="/accenture/claim-defence-card.html"><div class="k">Next</div><div class="l">Accenture — Claim Defence Card</div></a></nav>
+  <footer class="site">
+    Source: <code>accenture/answer-frameworks.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+flowchart LR
+  subgraph Ingest["Ingestion (offline)"]
+    A[Docs 10k+] --> B[Parse & clean] --> C[Chunk] --> D[Embed] --> E[(Pinecone index)]
+  end
+  subgraph Query["Query path (online)"]
+    Q[Student query] --> QE[Embed query] --> R[Retrieve top-k] --> RR[Rerank] --> P[Grounded prompt + citations] --> G[LLM generate]
+  end
+  E --> R
+  G --> V{Guardrails: grounded? cites context?}
+  V -- pass --> U[Answer to student]
+  V -- fail --> F[Refuse / fallback answer]
+  U --> M[Eval dashboard: relevance, faithfulness, latency, cost]
+  M -. golden set regressions .-> P

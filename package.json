@@ -1,0 +1,12 @@
+{
+  "name": "interview-prep",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interview prep tracker and library. Static site built by build/build.py, with Vercel functions syncing progress to Turso (libSQL).",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@libsql/client": "^0.15.9",
+    "@vercel/functions": "^2.0.0"
+  }
+}

@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!--BUILD:HEAD-->
+<title>AI Engineer Tracker — daily routine, CCAR-F, and the syllabus</title>
+<style>
+  :root{
+    --bg:#F5F6F2; --panel:#FFFFFF; --ink:#18222E; --muted:#5A6673;
+    --line:#DFE3DA; --teal:#0E6B5C; --teal-soft:#E3F0EC;
+    --amber:#B4700F; --amber-soft:#FBF1DF;
+    --red:#9E3B2E; --red-soft:#F8E9E5;
+    --done:#8A9490;
+    --teal-mid:#8FC0B3;          /* state 1 "read" — already the heatmap mid-tone */
+    --side:246px;
+    /* Declared honestly: these families were never loaded, so the page has always
+       rendered in the system stack. Phone-first + offline-first keep it that way. */
+    --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
+    --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+    --disp:ui-rounded,-apple-system,'SF Pro Display',system-ui,'Segoe UI',sans-serif;
+    --body:-apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,var(--emoji);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth;color-scheme:light}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6;
+       -webkit-text-size-adjust:100%;padding-left:var(--side)}
+  a{color:var(--teal)}
+  .wrap{max-width:940px;margin:0 auto;
+       padding-left:max(20px,env(safe-area-inset-left));
+       padding-right:max(20px,env(safe-area-inset-right));
+       padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+
+  header{padding:40px 0 22px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+  h1{font-family:var(--disp);font-size:clamp(24px,4.4vw,36px);line-height:1.14;font-weight:700}
+  .sub{color:var(--muted);margin-top:11px;max-width:680px;font-size:14.5px}
+
+  /* ---- left sidebar ---- */
+  aside{position:fixed;left:0;top:0;bottom:0;width:var(--side);background:var(--panel);
+        border-right:1px solid var(--line);overflow-y:auto;overscroll-behavior-y:contain;z-index:80;
+        -webkit-overflow-scrolling:touch;
+        padding:max(22px,env(safe-area-inset-top)) 12px calc(30px + env(safe-area-inset-bottom))
+                max(12px,env(safe-area-inset-left))}
+  .side-h{padding:0 10px 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .side-h .t{font-family:var(--disp);font-size:15px;font-weight:700;line-height:1.25}
+  .side-h .s{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+  .side-h .p{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:9px}
+  .side-h .pbar{width:100%;margin-top:5px}
+  nav a{position:relative;display:flex;gap:9px;align-items:baseline;
+        padding:8px 10px 11px;border-radius:7px;text-decoration:none;color:var(--ink)}
+  nav a.ext .l{color:var(--teal)}
+  nav a.ext .n{color:var(--teal)}
+  nav a:hover{background:#F3F5F0}
+  nav a.active{background:var(--teal-soft)}
+  nav a.active .l{color:var(--teal);font-weight:600}
+  nav a .n{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex:0 0 auto}
+  nav a.active .n{color:var(--teal)}
+  nav a .l{font-size:13px;line-height:1.3;flex:1;min-width:0}
+  nav a .c{font-family:var(--mono);font-size:10px;color:var(--muted);flex:0 0 auto;white-space:nowrap}
+  nav a .mini{position:absolute;left:10px;right:10px;bottom:5px;height:2px;background:var(--line);border-radius:2px;overflow:hidden;display:flex}
+  nav a .mini b{height:100%;width:0;background:var(--teal);transition:width .2s}
+  nav a .mini b.r{background:var(--teal-mid)}
+  nav a.today .l{font-weight:600}
+  .navsep{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+          color:var(--muted);padding:14px 10px 5px;border-top:1px solid var(--line);margin-top:8px}
+  .menu{display:none}
+  #scrim{display:none;position:fixed;inset:0;background:rgba(24,34,46,.38);z-index:70}
+  #scrim.on{display:block}
+
+  /* ---- sticky control bar ---- */
+  .bar{position:sticky;top:0;z-index:60;background:rgba(245,246,242,.96);backdrop-filter:blur(8px);
+       border-bottom:1px solid var(--line);padding:max(10px,env(safe-area-inset-top)) 0 10px}
+  .bar-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .bar-row2{display:flex;align-items:center;gap:10px;margin-top:8px}
+  #find{display:none}
+  .gstat{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  .gstat b{color:var(--ink);font-weight:600}
+  .gbar{flex:1;min-width:100px;height:6px;background:var(--line);border-radius:99px;overflow:hidden;display:flex}
+  .gbar>i{height:100%;background:var(--teal);width:0;transition:width .2s}
+  .gbar>i.r{background:var(--teal-mid)}
+  .btn{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;
+       display:inline-flex;align-items:center;justify-content:center;touch-action:manipulation}
+  .btn:hover{border-color:var(--teal);color:var(--teal)}
+  .btn:active{transform:scale(.97)}
+  .btn.on{background:var(--teal);border-color:var(--teal);color:#fff}
+  /* 16px is not a style choice: any focused input below 16px makes iOS Safari zoom
+     the page in and never zoom back out. The filter is one of the most-tapped controls. */
+  input.q{font-family:var(--mono);font-size:16px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-width:130px;flex:1}
+  input.q:focus{outline:none;border-color:var(--teal)}
+  @media(min-width:1001px){ input.q{font-size:12.5px;padding:5px 10px} }
+
+  /* ---- sections ---- */
+  section{margin-top:44px;scroll-margin-top:110px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--teal)}
+  h2{font-family:var(--disp);font-size:21px;font-weight:700}
+  .sec-meta{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .pct{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+  .pbar{width:110px;height:5px;background:var(--line);border-radius:99px;overflow:hidden;display:flex}
+  .pbar>i{height:100%;background:var(--teal);width:0;transition:width .2s}
+  .pbar>i.r{background:var(--teal-mid)}
+  .sec-note{color:var(--muted);font-size:14px;margin:12px 0 4px;max-width:760px}
+  .sec-note em{font-style:normal;color:var(--red);font-weight:500}
+  .sec-note code,.item code,.callout code,.grp-note code,.txt code,.meta code{font-family:var(--mono);font-size:12.5px;background:#EDF0EA;padding:1px 5px;border-radius:4px}
+
+  .grp{margin-top:20px}
+  .grp-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:500}
+  .wt{font-family:var(--mono);font-size:11px;color:var(--red);background:var(--red-soft);padding:1px 7px;border-radius:4px}
+  .grp-note{color:var(--muted);font-size:13.5px;margin:4px 0 10px;max-width:760px}
+  ul.items{list-style:none}
+  li.item{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin-bottom:7px}
+  li.item.done{background:#FAFBF8;border-color:#E9ECE5}
+  li.item.done .txt{color:var(--done);text-decoration:line-through;text-decoration-thickness:1px}
+  li.item.hidden{display:none}
+  /* 44px hit area, 20px visible mark. The negative margins absorb the difference so
+     442 rows don't get taller. Applies to both the binary box and the tri-state control. */
+  li.item input[type=checkbox],li.item .tri{
+     flex:0 0 auto;width:44px;height:44px;margin:-11px 0 -11px -12px;padding:0;
+     appearance:none;-webkit-appearance:none;border:0;background:none;cursor:pointer;
+     position:relative;display:grid;place-items:center;touch-action:manipulation;
+     -webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+  li.item input[type=checkbox]::before,li.item .glyph{
+     content:"";width:20px;height:20px;border:1.5px solid #BFC8BB;border-radius:6px;
+     background:#fff;position:relative;transition:background .12s,border-color .12s}
+  li.item input[type=checkbox]:checked::before{background:var(--teal);border-color:var(--teal)}
+  li.item input[type=checkbox]:checked::after{content:"";position:absolute;left:18.5px;top:14.5px;
+     width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+  li.item input[type=checkbox]:active::before,li.item .tri:active .glyph{transform:scale(.9)}
+  li.item input[type=checkbox]:focus-visible::before,li.item .tri:focus-visible .glyph{
+     outline:2px solid var(--teal);outline-offset:3px}
+
+  /* ---- three-state confidence: unseen -> read -> can explain cold ----
+     State is on the <li> as data-s; every rule below descends from it.
+     The "read" glyph is half-FILLED, not merely a different colour, so the three
+     states stay distinguishable at arm's length and without colour vision. */
+  li.item[data-s="1"] .glyph{border-color:var(--teal-mid);
+     background:linear-gradient(180deg,#fff 0 50%,var(--teal-mid) 50% 100%)}
+  li.item[data-s="2"] .glyph{background:var(--teal);border-color:var(--teal)}
+  li.item[data-s="2"] .glyph::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+     border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+  /* the rail is what makes state readable while scrolling past, without looking at the glyph */
+  li.item[data-s="1"]{box-shadow:inset 3px 0 0 var(--teal-mid)}
+  li.item[data-s="2"]{box-shadow:inset 3px 0 0 var(--teal);background:#FAFBF8;border-color:#E9ECE5}
+  /* deliberately NOT line-through: striking out an item you have mastered reads as
+     "discarded". Muted plus the teal rail reads as "done with it". */
+  li.item[data-s="2"] .txt{color:var(--done)}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:12px 0 2px;
+     font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend span{display:flex;gap:7px;align-items:center}
+  .legend i{width:15px;height:15px;border:1.5px solid #BFC8BB;border-radius:5px;background:#fff;flex:0 0 auto}
+  .legend i.r{border-color:var(--teal-mid);background:linear-gradient(180deg,#fff 0 50%,var(--teal-mid) 50% 100%)}
+  .legend i.c{background:var(--teal);border-color:var(--teal)}
+  .body{flex:1;min-width:0}
+  .txt,.meta,.sec-note,.grp-note,.callout,.lockbar{overflow-wrap:anywhere}
+  .txt{font-size:14.5px}
+  .meta{color:var(--muted);font-size:13px;margin-top:4px}
+  .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 6px;border-radius:4px;margin-left:7px;vertical-align:2px;white-space:nowrap}
+  .tag.deep{background:var(--teal-soft);color:var(--teal)}
+  .tag.trap{background:var(--amber-soft);color:var(--amber)}
+  .tag.num{background:var(--red-soft);color:var(--red)}
+  .tag.no{background:#EFEFEF;color:#7A7A7A}
+  .freq{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:6px}
+
+  .callout{background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 9px 9px 0;padding:12px 16px;margin:14px 0;font-size:14px}
+  .callout.warn{background:var(--amber-soft);border-color:var(--amber)}
+  .locked{opacity:.62}
+  .lockbar{display:flex;gap:10px;align-items:center;background:#EFEFEA;border:1px dashed #C6CCC0;border-radius:9px;padding:11px 15px;margin:12px 0;font-size:13.5px;color:var(--muted)}
+
+  /* ---- TODAY ---- */
+  #t00{margin-top:26px}
+  .today-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+  .today-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .today-date{font-family:var(--disp);font-size:18px;font-weight:700}
+  .today-cnt{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .today-top .btn{margin-left:auto}
+  .hist{display:flex;gap:4px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
+  .hist i{width:15px;height:15px;border-radius:4px;background:var(--line);display:block;position:relative}
+  .hist i[data-p="1"]{background:#CFE0DA} .hist i[data-p="2"]{background:#8FC0B3}
+  .hist i[data-p="3"]{background:#3F8E7C} .hist i[data-p="4"]{background:var(--teal)}
+  .hist i.today{outline:2px solid var(--ink);outline-offset:1px}
+  .hist-lbl{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:8px}
+  li.item.slot{align-items:center}
+  .time{font-family:var(--mono);font-size:11.5px;color:var(--teal);background:var(--teal-soft);
+        padding:2px 8px;border-radius:5px;flex:0 0 auto;white-space:nowrap;margin-top:1px}
+  .dur{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:7px}
+  li.item.brk{background:transparent;border-style:dashed}
+  li.item.brk .txt{color:var(--muted);font-size:13.5px}
+
+  footer{margin-top:64px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px;font-family:var(--mono);line-height:1.8}
+
+  /* ---- drawer footer: Data lives here, far from the filter controls ----
+     Restore one thumb-width from "Hide done" is asking for an accidental
+     overwrite of 442 items. */
+  .side-data{margin-top:18px;padding:14px 10px 0;border-top:1px solid var(--line)}
+  .side-data h4{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+     color:var(--muted);font-weight:400;margin-bottom:9px}
+  .side-data .btn{width:100%;margin-bottom:7px;min-height:40px;justify-content:flex-start}
+  .side-data .note{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.6;margin-top:4px}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+  .banner{border-radius:9px;padding:12px 15px;margin:14px 0;font-size:13.5px;display:flex;gap:12px;align-items:flex-start}
+  .banner.info{background:var(--teal-soft);border-left:3px solid var(--teal)}
+  .banner.warn{background:var(--amber-soft);border-left:3px solid var(--amber)}
+  .banner .x{margin-left:auto;flex:0 0 auto;background:none;border:0;color:inherit;
+     font-size:17px;cursor:pointer;line-height:1;padding:4px 6px;min-height:34px}
+  .upd-pill{position:fixed;left:50%;transform:translateX(-50%);
+     bottom:calc(18px + env(safe-area-inset-bottom));z-index:95;
+     font-family:var(--mono);font-size:12.5px;min-height:44px;padding:0 18px;border-radius:99px;
+     border:0;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(14,107,92,.35)}
+
+  @media(max-width:1000px){
+    body{padding-left:0}
+    aside{transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 0 30px rgba(24,34,46,.18)}
+    aside.open{transform:none}
+    .menu{display:inline-flex}
+    #find{display:inline-flex}
+    nav a{padding:11px 10px 14px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  @media(max-width:640px){
+    .wrap{padding-left:max(14px,env(safe-area-inset-left));
+          padding-right:max(14px,env(safe-area-inset-right));
+          padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+    .sec-meta{margin-left:0;width:100%}
+    .pbar{flex:1;width:auto}
+    li.item.slot{align-items:flex-start}
+    /* One row of chrome, not three. At 390px the old six-control flex row wrapped
+       to three rows and ate ~130px of a 667px viewport. */
+    .btn{min-height:44px;padding:0 13px}
+    /* one line of chrome: [☰] [bar] [🔍], with the numbers as a caption beneath */
+    .bar-row{gap:8px}
+    .menu{order:0} .gbar{order:1;min-width:60px} #find{order:2}
+    .gstat{order:3;flex-basis:100%;font-size:11px}
+    .bar-row2{display:none}
+    .bar-row2.on{display:flex}
+    /* 21 cells must fit one row inside the card's padding, or the strip reads as two weeks */
+    .hist{gap:3px}
+    .hist i{width:12px;height:12px;border-radius:3px}
+    .sec-head .btn{min-height:36px}
+    header{padding:26px 0 18px}
+    .side-data .btn{min-height:44px}
+  }
+</style>
+</head>
+<body>
+
+<aside id="side">
+  <div class="side-h">
+    <div class="s">AI Engineer Tracker</div>
+    <div class="t">Daily routine + syllabus</div>
+    <div class="p" id="sideStat">0 / 0 · 0%</div>
+    <span class="pbar"><i id="sideFill"></i><i class="r" id="sideFillR"></i></span>
+  </div>
+  <nav id="nav"></nav>
+  <div class="side-data">
+    <h4>Data</h4>
+    <button class="btn" id="exp">↓  Back up</button>
+    <button class="btn" id="cpy">⧉  Copy backup</button>
+    <button class="btn" id="imp">↑  Restore</button>
+    <input type="file" id="restoreFile" class="vh"
+           accept="application/json,.json,text/plain">
+    <div class="note" id="bkNote">No backup yet.</div>
+  </div>
+  <div class="side-data" id="syncPanel" hidden>
+    <h4>Sync</h4>
+    <button class="btn" id="syncNow">⟳  Sync now</button>
+    <div class="note" id="syncNote">Not synced yet.</div>
+    <button class="btn" id="signout">⏻  Sign out</button>
+  </div>
+</aside>
+<div id="scrim"></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">Daily routine · certification · syllabus · resources</div>
+  <h1>Do today's blocks. Learn the syllabus.<br>Sit the exam.</h1>
+  <p class="sub">One checklist that resets every morning, then the material it points at. Track 00 is the only thing you tick daily — everything below it is a syllabus you grade once and a resource library you keep.</p>
+  <div class="legend">
+    <span><i></i> not started</span>
+    <span><i class="r"></i> read it</span>
+    <span><i class="c"></i> can explain cold</span>
+    <span>tap an item to cycle</span>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="bar-row">
+    <button class="btn menu" id="menu" aria-label="Open navigation" aria-expanded="false">☰ Tracks</button>
+    <span class="gstat" id="gstat">0 / 0</span>
+    <span class="gbar"><i id="gfill"></i><i class="r" id="gfillR"></i></span>
+    <button class="btn" id="find" aria-label="Show filter" aria-expanded="false">🔍</button>
+  </div>
+  <div class="bar-row2" id="row2">
+    <button class="btn" id="tgl">Show: all</button>
+    <input class="q" id="q" placeholder="filter…" autocomplete="off"
+           autocorrect="off" autocapitalize="none" spellcheck="false">
+  </div>
+</div>
+
+<div id="banners"></div>
+
+<main id="main"></main>
+
+<footer>
+  Today's boxes reset at midnight, local time. Syllabus grades persist.<br>
+  Cached in this browser (<code>mt.v3</code>, <code>mt.days.v2</code>) and synced to the database, so
+  every device sees the same progress. <b>The database is a second copy, not a backup</b> — it has the
+  same delete button as everything else, so keep taking the JSON one.<br>
+  Exam facts from the official Anthropic exam guides (CCAR-F v1.0, Jul 2026). Interview material from dated first-hand accounts, not listicles.
+</footer>
+</div>
+
+<!--BUILD:SYNC-->
+<script>
+/* ============================================================
+   ⚠️  DO NOT REFORMAT OR TYPO-FIX THE DATA BELOW.
+
+   idFor(track, group, text) hashes the group title plus the item text to make each
+   checkbox's storage key. Changing any item's wording, or any group's `t` title,
+   silently orphans that item's saved grade — it comes back blank and the old value
+   is unreachable. Adding and removing whole items is fine; editing existing text
+   is not, unless you accept the loss.
+   ============================================================ */
+
+/* ============================================================
+   THE DAILY ROUTINE — resets every day
+   [time, what, detail, kind?]   kind: "brk" = break row
+   ============================================================ */
+const DAY = [
+ ["08:00","Retrieval warm-up · 30m","Blank paper, closed book. Write out yesterday's block A from memory, plus one item each from 3, 7 and 21 days ago. Then check and correct. <b>Recall first, reading second</b> — rereading feels like learning and mostly isn't"],
+ ["08:30","Block A · Theory · 90m","One topic from tracks 03–09, in order. Read the primary source, not a summary of it. Take notes as questions you must be able to answer, not as highlights"],
+ ["10:00","Break · 20m","Walk outside. No phone","brk"],
+ ["10:20","Block B · Build · 90m","Implement what you just read, from a blank file. Reading about attention and writing attention are different skills and only the second one gets tested"],
+ ["11:50","Lunch · 45m","","brk"],
+ ["12:35","Block C · Certification · 75m","One CCAR-F objective from track 01, then do it hands-on — configure the thing, don't just read about it. Domain 3 (Claude Code) is the part that needs building, not reading"],
+ ["13:50","Break · 15m","","brk"],
+ ["14:05","Block D · Drills · 75m","Rotate: DSA from track 11 · NumPy-from-scratch on Deep-ML · a timed LLM-API coding drill from track 03. Timer visible, no AI, no autocomplete"],
+ ["15:20","Exercise · 30m","Non-negotiable. It is what makes tomorrow's blocks work","brk"],
+ ["15:50","Evening retrieval · 45m","Closed-book test of <i>this morning's</i> block A. Then check and correct. The gap between the morning read and this test is where the learning actually happens"],
+ ["16:35","Speaking rep · 20m","Record yourself explaining one concept from today in 90 seconds, no notes. Watch it back once. Almost every round is verbal — silent study does not rehearse it"],
+ ["—","Stop · protect 7–8h sleep","Consolidation is not optional and cannot be made up on the weekend","brk"]
+];
+const DAY_RULES = [
+ ["No AI, no autocomplete during block D","The problems in real screens are tuned so the model can't solve them alone, and you have to defend every line. Practising with assistance does not rehearse that"],
+ ["One artifact recorded today","A 90-second explanation, or a design rep, or a working file. A day with no artifact was reading"],
+ ["Wrote down what I could not recall this morning","That list is tomorrow's block A. This is the whole feedback loop"]
+];
+
+/* ============================================================
+   SYLLABUS
+   Item shape: [text, meta?, tag?]   tag ∈ deep|trap|num|no
+   ============================================================ */
+
+const DSA_LIST = [
+["Contains Duplicate","Arrays & Hashing"],["Valid Anagram","Arrays & Hashing"],["Two Sum","Arrays & Hashing"],
+["Group Anagrams","Arrays & Hashing"],["Top K Frequent Elements","Arrays & Hashing"],["Encode and Decode Strings","Arrays & Hashing"],
+["Product of Array Except Self","Arrays & Hashing"],["Valid Sudoku","Arrays & Hashing"],["Longest Consecutive Sequence","Arrays & Hashing"],
+["Valid Palindrome","Two Pointers"],["Two Sum II","Two Pointers"],["3Sum","Two Pointers"],["Container With Most Water","Two Pointers"],
+["Best Time to Buy and Sell Stock","Sliding Window"],["Longest Substring Without Repeating Characters","Sliding Window"],["Longest Repeating Character Replacement","Sliding Window"],["Permutation in String","Sliding Window"],["Minimum Window Substring","Sliding Window"],
+["Valid Parentheses","Stack"],["Min Stack","Stack"],["Evaluate Reverse Polish Notation","Stack"],["Generate Parentheses","Stack"],
+["Binary Search","Binary Search"],["Search a 2D Matrix","Binary Search"],["Koko Eating Bananas","Binary Search — on the answer"],
+["Find Minimum in Rotated Sorted Array","Binary Search"],["Search in Rotated Sorted Array","Binary Search"],["Time Based Key-Value Store","Binary Search — plus design"],
+["Reverse Linked List","Linked List"],["Merge Two Sorted Lists","Linked List"],["Reorder List","Linked List"],["Remove Nth Node From End of List","Linked List"],
+["Copy List with Random Pointer","Linked List"],["Add Two Numbers","Linked List"],["Linked List Cycle","Fast/Slow Pointers"],["Find the Duplicate Number","Fast/Slow Pointers"],
+["Invert Binary Tree","Trees"],["Maximum Depth of Binary Tree","Trees"],["Diameter of Binary Tree","Trees — return-value design"],["Balanced Binary Tree","Trees — return-value design"],
+["Same Tree","Trees"],["Subtree of Another Tree","Trees"],["Lowest Common Ancestor of a BST","BST"],
+["Binary Tree Level Order Traversal","Trees — BFS"],["Binary Tree Right Side View","Trees — BFS"],["Count Good Nodes in Binary Tree","Trees — DFS with state"],["Validate Binary Search Tree","BST"],
+["Kth Smallest Element in a BST","BST — inorder"],["Construct Binary Tree from Preorder and Inorder Traversal","Trees"],["Binary Tree Maximum Path Sum","Trees — return-value design"],
+["Kth Largest Element in a Stream","Heap"],["Last Stone Weight","Heap"],["K Closest Points to Origin","Heap"],["Kth Largest Element in an Array","Heap / Quickselect"],["Task Scheduler","Heap + Greedy"],
+["Subsets","Backtracking"],["Combination Sum","Backtracking"],["Permutations","Backtracking"],["Subsets II","Backtracking — dedup"],["Word Search","Backtracking on a grid"],
+["LRU Cache","Design — O(1)"],["Implement Trie","Design — Trie"],["Find Median from Data Stream","Design — two heaps"],
+["Number of Islands","Graphs — DFS/BFS grid"],["Max Area of Island","Graphs — DFS grid"],["Clone Graph","Graphs — hashmap clone"],["Rotting Oranges","Graphs — multi-source BFS"],
+["Pacific Atlantic Water Flow","Graphs — reverse DFS"],["Surrounded Regions","Graphs — boundary DFS"],["Course Schedule","Graphs — cycle detection"],["Course Schedule II","Graphs — topological sort"],
+["Climbing Stairs","1-D DP"],["Min Cost Climbing Stairs","1-D DP"],["House Robber","1-D DP"],
+["Coin Change","1-D DP — unbounded"],["Word Break","1-D DP — strings"],["Longest Increasing Subsequence","1-D DP"]
+];
+function dsaGroups(){
+  const order=[], by={};
+  DSA_LIST.forEach(([n,p])=>{ const k=p.split(" —")[0].split(" +")[0].split(" on")[0].trim();
+    if(!by[k]){by[k]=[];order.push(k)} by[k].push([n,p]); });
+  return order.map(k=>({t:k, items:by[k]}));
+}
+
+const TRACKS = [
+
+/* ================= 01 ================= */
+{id:"t01", num:"01", title:"CCAR-F — the exam blueprint",
+ note:"<b>Claude Certified Architect, Foundations.</b> 60 items · 120 min · pass 720 on a 100–1000 scale · $125 · valid 12 months with a free open-book renewal · <b>closed book, AI assistance explicitly forbidden</b> · English only · 4 scenarios drawn from a bank of 6. Every item below is one published blueprint objective.<br><br><em>Spend your hours on Domain 3, not on the biggest domain.</em> Domain 1 is generic agent engineering that transfers from any stack. Domain 3 is Claude-product surface that transfers from nothing — and pass reports say it is tested to the level of exact CLI arguments.",
+ groups:[
+  {t:"Logistics — settle these before you book", items:[
+   ["Registration requires a partner email on a recognised company domain","Personal email addresses are rejected. If the domain is not yet linked to its partner record, <code>partner-support@anthropic.com</code> takes <b>7–10 business days</b> — start that before anything else","trap"],
+   ["Check the partner tier before paying","Registered pays full $125; Select / Preferred / Global Premier get <b>50% off</b>, applied automatically at checkout"],
+   ["Download the free 39-page exam guide","<a href='https://anthropic-partners.skilljar.com/page/partner-certifications' target='_blank' rel='noopener'>anthropic-partners.skilljar.com/page/partner-certifications</a> — public, no login"],
+   ["Work exam guide §9 — 12 sample questions with full answer rationales","The single highest-value free asset for this exam. Do these before scheduling, not after","deep"],
+   ["Work exam guide §8 — 4 hands-on preparation exercises mapped to domains"],
+   ["Pay on Partner Academy, then schedule with Pearson VUE","<a href='https://wsr.pearsonvue.com/testtaker/signin/SignInPage/ANTHROPIC' target='_blank' rel='noopener'>wsr.pearsonvue.com/…/ANTHROPIC</a>. OnVUE remote or a test centre. Registration stays valid <b>5 years</b> once paid, so paying early does not force an early date"],
+   ["Know the retake ladder before setting a date","14 days after a first fail, 30 after a second, 90 after a third; max 4 attempts per rolling 12 months, full fee each time"],
+   ["❌ There is no official practice exam","It was retired on 30 Jun 2026 in the move to Pearson. Anything advertising an “official practice test” is lying. Dumps sites (<code>dumpsbase</code>, <code>itexamspro</code>, <code>passquestion</code>) violate the exam policy — permanent ban plus revocation","no"]]},
+
+  {t:"What the pass reports converge on", items:[
+   ["Budget 40–80 hours; official courses cover only ~20% of exam scope","Reported by a candidate who scored 886/1000 in May 2026 after ~60–80h across three months, most of it a final two-week hands-on build sprint. <b>Building beats reading</b>","trap"],
+   ["The exam asks which <i>layer</i> solves the problem — hook vs prompt vs schema vs architecture","A candidate who scored 843/1000 plateaued at ~77% until she stopped asking “what's correct?” and started asking “why is this the right architectural layer?” Her one-line summary: <b>“prompts guide, systems enforce.”</b> Several options are always technically workable; you must pick the one Anthropic prefers","deep"],
+   ["Foundations is <i>harder</i> than Professional","One candidate took all four exams: Architect-Foundations 811, Architect-Professional 925. Foundations demands exact CLI-argument and API-parameter recall; Professional is architecture judgement"]]},
+
+  {t:"Domain 1 — Agentic Architecture & Orchestration", wt:"27%", items:[
+   ["1.1 Agentic loops for autonomous task execution","Inspect <code>stop_reason</code> (<code>\"tool_use\"</code> vs <code>\"end_turn\"</code>); append tool results to history; model-driven decisions over pre-built decision trees. Anti-patterns: parsing natural language for loop termination, an iteration cap as the <i>primary</i> stop, treating assistant text as a completion signal","trap"],
+   ["1.2 Coordinator-subagent orchestration","Hub-and-spoke. Subagents have <b>isolated context and do not inherit coordinator history</b>. Coordinator owns decomposition, delegation and aggregation; partition scope to minimise duplication; route all subagent communication through the coordinator so it stays observable"],
+   ["1.3 Subagent invocation, context passing and spawning","The <b>Task tool</b>; <code>allowedTools</code> must include <code>\"Task\"</code>; context has to be passed explicitly in the prompt; <code>AgentDefinition</code> config; <b>parallel subagents = multiple Task calls in one response</b>; prompt with goals and quality criteria, not step-by-step procedures","deep"],
+   ["1.4 Multi-step workflows with enforcement and handoff","Programmatic enforcement (hooks, prerequisite gates) vs prompt guidance — prompt instructions have a non-zero failure rate wherever deterministic compliance is required. Canonical example: block <code>process_refund</code> until <code>get_customer</code> has returned a verified ID"],
+   ["1.5 Agent SDK hooks for interception and normalisation","<code>PostToolUse</code> hooks transform results before the model sees them; intercept outgoing calls to enforce policy; normalise heterogeneous formats (Unix timestamps vs ISO 8601 vs numeric status codes) at the hook, not in the prompt"],
+   ["1.6 Task decomposition strategies","Fixed sequential pipelines (prompt chaining) vs dynamic adaptive decomposition; per-file local passes plus a separate cross-file integration pass to avoid attention dilution"],
+   ["1.7 Session state, resumption and forking","<code>--resume &lt;session-name&gt;</code>; <code>fork_session</code> for divergent branches; when a fresh session with a structured summary beats resuming with stale tool results"]]},
+
+  {t:"Domain 2 — Tool Design & MCP Integration", wt:"18%", items:[
+   ["2.1 Tool interfaces with clear descriptions and boundaries","<b>The description is the selection mechanism.</b> Include input formats, example queries, edge cases and boundaries. Ambiguous or overlapping descriptions cause misrouting; split generic tools into purpose-specific ones with defined I/O contracts","deep"],
+   ["2.2 Structured error responses for MCP tools","The <code>isError</code> flag; transient vs validation vs business vs permission errors; return <code>errorCategory</code> and <code>isRetryable</code>; recover locally inside a subagent before propagating; <b>distinguish an access failure from a valid empty result</b>"],
+   ["2.3 Tool distribution across agents, and tool choice","Too many tools degrades selection reliability (18 vs 4–5 is the worked example); scope tool access per agent; <code>tool_choice</code> as <code>\"auto\"</code>, <code>\"any\"</code>, or forced <code>{\"type\":\"tool\",\"name\":\"…\"}</code>","trap"],
+   ["2.4 Integrating MCP servers into Claude Code","Project scope <code>.mcp.json</code> vs user scope <code>~/.claude.json</code>; <b>env var expansion</b> (<code>${GITHUB_TOKEN}</code>); MCP <b>resources</b> to expose content catalogs and cut exploratory calls; write descriptions strong enough that the agent doesn't fall back to built-ins like Grep"],
+   ["2.5 The built-in tools — Read, Write, Edit, Bash, Grep, Glob","Grep for content, Glob for path patterns, Edit for unique-text matching, Read+Write as the fallback when Edit can't find a unique anchor"]]},
+
+  {t:"Domain 3 — Claude Code Configuration & Workflows", wt:"20% ← the part that needs building", items:[
+   ["3.1 CLAUDE.md files","Hierarchy: user <code>~/.claude/CLAUDE.md</code>, project <code>.claude/CLAUDE.md</code> or repo root, and directory-level. User-level is <b>not</b> shared through version control. <code>@import</code> for modularity; <code>/memory</code> to verify what actually loaded","deep"],
+   ["3.2 Custom slash commands and skills","<code>.claude/commands/</code> (project, version-controlled) vs <code>~/.claude/commands/</code> (personal). <code>.claude/skills/</code> with SKILL.md frontmatter — <code>context: fork</code>, <code>allowed-tools</code>, <code>argument-hint</code>. <code>context: fork</code> runs the skill in an isolated sub-agent context. Skills load on demand; CLAUDE.md is always loaded","deep"],
+   ["3.3 Path-specific rules","<code>.claude/rules/</code> files with YAML frontmatter <code>paths</code> globs; they load only when you edit a matching file; glob rules beat directory CLAUDE.md when a convention spans directories (<code>**/*.test.tsx</code>)"],
+   ["3.4 Plan mode vs direct execution","Plan mode for large, multi-approach, architectural or multi-file work; direct execution for well-scoped changes; the Explore subagent to keep verbose discovery out of the main context"],
+   ["3.5 Iterative refinement","2–3 concrete input/output examples beat prose; test-driven iteration; the interview pattern (have the model ask questions first); batch interacting issues into one message, send independent ones separately"],
+   ["3.6 Claude Code in CI/CD","<code>-p</code> / <code>--print</code> for non-interactive runs; <code>--output-format json</code> and <code>--json-schema</code>; CLAUDE.md as the CI context mechanism; why the session that generated code reviews it worse than a fresh instance"],
+   ["Do this by building, not reading","Take a real repo and set up: a CLAUDE.md hierarchy with <code>@import</code>, a <code>.claude/rules/</code> file with a glob, a skill with <code>context: fork</code>, and a <code>.mcp.json</code> with env expansion. That one afternoon is worth more than the whole domain in prose","deep"]]},
+
+  {t:"Domain 4 — Prompt Engineering & Structured Output", wt:"20%", items:[
+   ["4.1 Explicit criteria to reduce false positives","Categorical criteria beat “be conservative” or “only flag high-confidence”; false positives destroy trust faster than false negatives; temporarily disabling a high-FP category is a legitimate answer"],
+   ["4.2 Few-shot prompting","The most effective lever for consistent formatting. 2–4 targeted examples for the ambiguous cases, each showing <i>why</i> that action was chosen — which generalises, rather than pattern-matching the examples you happened to pick"],
+   ["4.3 Structured output via tool use and JSON schemas","<code>tool_use</code> plus a JSON schema is the most reliable approach. <b>Strict schemas eliminate syntax errors but not semantic ones</b> — line items that don't sum, values in the wrong field. Optional/nullable fields prevent fabrication; an <code>\"other\"</code> enum plus a detail string keeps it extensible; an <code>\"unclear\"</code> enum handles ambiguity","trap"],
+   ["4.4 Validation, retry and feedback loops","Retry with the specific validation errors appended. <b>Retries are useless when the information is simply absent from the source</b> — know when to stop. Extract <code>calculated_total</code> alongside <code>stated_total</code>; add <code>conflict_detected</code> booleans"],
+   ["4.5 Batch processing","<b>Message Batches API: 50% cheaper, up to a 24-hour window, no latency SLA.</b> Right for overnight and weekly jobs, wrong for a blocking pre-merge check. <b>It does not support multi-turn tool calling within a request.</b> <code>custom_id</code> for correlation; resubmit only the failures","num"],
+   ["4.6 Multi-instance and multi-pass review","Self-review is weak because the model still holds its own generation reasoning — independent review instances beat both self-review instructions and extended thinking. Per-file local passes plus cross-file integration passes"]]},
+
+  {t:"Domain 5 — Context Management & Reliability", wt:"15%", items:[
+   ["5.1 Context across long interactions","Progressive summarisation quietly drops numbers, dates and percentages; the “lost in the middle” effect; tool results eat tokens disproportionately (40 fields returned when 5 matter); keep a persistent “case facts” block outside the summarised history; put key findings at the <i>start</i> of aggregated inputs"],
+   ["5.2 Escalation and ambiguity resolution","Valid triggers: an explicit human request, a policy gap, an inability to progress. <b>Sentiment-based escalation and self-reported confidence are unreliable proxies.</b> Multiple matches means asking for an identifier, not picking heuristically","trap"],
+   ["5.3 Error propagation across multi-agent systems","Structured error context — failure type, attempted query, partial results, alternatives. Generic statuses hide what the next agent needs. Silently suppressing an error and killing the whole workflow are both anti-patterns; annotate coverage gaps in the synthesis"],
+   ["5.4 Context in large codebase exploration","Degradation shows up as the model citing “typical patterns” instead of specifics. Scratchpad files to persist findings; subagent delegation for verbose exploration; structured manifests for crash recovery; <code>/compact</code>"],
+   ["5.5 Human review workflows and confidence calibration","Aggregate accuracy hides per-segment failure — 97% overall can be 60% on one document type. Stratified random sampling; field-level confidence calibrated on a labelled validation set; validate by segment before automating","num"],
+   ["5.6 Provenance and uncertainty","Preserve claim-to-source mappings through synthesis; annotate conflicting statistics with attribution rather than silently picking one; require publication dates so a temporal difference isn't read as a contradiction"]]},
+
+  {t:"The 6 scenarios — 4 appear on your form", items:[
+   ["Customer Support Resolution Agent","Agent SDK; <code>get_customer</code>, <code>lookup_order</code>, <code>process_refund</code>, <code>escalate_to_human</code>; an 80%+ first-contact resolution target"],
+   ["Code Generation with Claude Code","Slash commands, CLAUDE.md, plan mode vs direct execution"],
+   ["Multi-Agent Research System","Coordinator plus search / analysis / synthesis / report subagents"],
+   ["Developer Productivity with Claude","Built-in tools plus MCP servers"],
+   ["Claude Code for Continuous Integration","Automated review, test generation, PR feedback"],
+   ["Structured Data Extraction","JSON schemas, validation, edge cases"]]},
+
+  {t:"Free official prep — no partner login", items:[
+   ["Claude Code in Action","<a href='https://anthropic.skilljar.com/' target='_blank' rel='noopener'>anthropic.skilljar.com</a>. The highest-value course for Domain 3","deep"],
+   ["Claude Code 101"],
+   ["Introduction to Model Context Protocol","Build MCP servers and clients in Python — tools, resources, prompts"],
+   ["Model Context Protocol: Advanced Topics","Sampling, notifications, filesystem access, transports"],
+   ["Introduction to agent skills"],
+   ["Introduction to subagents"],
+   ["Building with the Claude API"],
+   ["These are <i>certificates of completion</i>, not certifications — don't conflate them","trap"]]},
+
+  {t:"Explicitly out of scope — do not study", items:[
+   ["❌ Fine-tuning · Claude's internal architecture, training or weights · Constitutional AI and RLHF methodology","no"],
+   ["❌ Embedding models and vector DB implementation · tokenization specifics · benchmarking and model comparison","no"],
+   ["❌ Deploying or hosting MCP servers (infra, networking, containers) · cloud provider configuration","no"],
+   ["❌ Computer use · vision and image analysis · streaming and SSE implementation","no"],
+   ["❌ API auth, billing and account management · rate limits, quotas, pricing math · OAuth and key rotation","no"],
+   ["❌ Prompt caching implementation detail — know only that it exists","no"]]}
+ ]},
+
+/* ================= 02 ================= */
+{id:"t02", num:"02", title:"CCAR-P — Architect Professional", locked:true,
+ lock:"Second exam, $175. No prerequisite chain — Professional can be taken without holding Foundations. Reported as the <i>easier</i> of the two: architecture and governance judgement rather than product-trivia recall.",
+ note:"63 items · 120 min · pass 720 · valid 12 months. Domains 3–5 are RAG, evaluation, observability and governance, so most of the syllabus below already covers them.",
+ groups:[
+  {t:"Domain 1 — Solution Design & Architecture", wt:"17%", items:[
+   ["Translate a business problem into a Claude solution"],
+   ["End-to-end architectures: input → processing → output → feedback loop"],
+   ["Choose the pattern: workflow vs agentic vs augmented LLM"],
+   ["Multi-agent systems, orchestration and decomposition techniques"],
+   ["Align to business value: efficiency, transformation, productivity, cost, performance SLAs"]]},
+  {t:"Domain 2 — Models, Prompting & Context Engineering", wt:"13%", items:[
+   ["Model selection tradeoffs"],
+   ["System prompts, templates, guardrails"],
+   ["Zero-shot, few-shot, chain-of-thought"],
+   ["Context window and token optimization"],
+   ["Prompt reuse — caching, modular prompts, Skills"]]},
+  {t:"Domain 3 — Integration", wt:"19% — heaviest", items:[
+   ["Tool and agent configuration against <b>capability bloat</b>"],
+   ["AuthN / authZ gap analysis"],
+   ["Accuracy-latency tradeoffs; observability at scale"],
+   ["Design a RAG pipeline with chunking and indexing strategies","Overlaps track 05 almost entirely — the cheapest 19% on offer","deep"],
+   ["Match retrieval strategy to data shape and query pattern"],
+   ["Choose the integration mechanism — MCP vs API vs CLI vs agent-to-agent"],
+   ["Progressive discovery vs monolithic context"]]},
+  {t:"Domain 4 — Evaluation, Testing & Optimization", wt:"16%", items:[
+   ["Evaluation metrics: accuracy, latency, cost, safety, security"],
+   ["Eval datasets and mixed-methodology test frameworks; A/B testing"],
+   ["Diagnose prompt failure vs hallucination vs model mismatch"],
+   ["Token, latency and cost-performance optimization"],
+   ["Logging and observability tooling"]]},
+  {t:"Domain 5 — Governance, Safety & Risk", wt:"14%", items:[
+   ["Guardrails and safety controls"],
+   ["LLM risks, limitations and failure modes"],
+   ["Human-in-the-loop validation"],
+   ["GDPR, HIPAA, FedRAMP"],
+   ["Ethical AI — bias, fairness, transparency"]]},
+  {t:"Domain 6 — Stakeholder Communication & Lifecycle", wt:"14%", items:[
+   ["Structured discovery and requirements gathering"],
+   ["Communicating architectural tradeoffs"],
+   ["Stakeholder feedback loops and SLAs"],
+   ["Documenting architectures"],
+   ["Lifecycle phases — discovery, design, handoff, monitoring, iteration"]]},
+  {t:"Domain 7 — Developer Productivity & Enablement", wt:"7%", items:[
+   ["Configure Claude tooling for a team"],
+   ["AI-assisted developer workflows"],
+   ["Debugging and operational issue resolution"]]}
+ ]},
+
+/* ================= 03 ================= */
+{id:"t03", num:"03", title:"Python for AI engineering",
+ note:"Ranked by how often each topic shows up in <i>dated first-hand accounts</i>, not by SEO listicles — no rigorously frequency-ranked public Python list exists, and anyone claiming one is guessing. Each note is the <em>discriminating</em> version of the question, not the warm-up.",
+ groups:[
+  {t:"Tier 1 — appears in real accounts", items:[
+   ["Progressive multi-level class design","<b>The highest-yield Python topic, and the one almost nobody preps.</b> The format: implement a class exposing a public API exactly to spec, then it gets extended level by level. Drill it as: KV store with TTL → add transactions → add nested transactions. Solve level 1 fast and clean, because level 4 is where judgement happens","deep"],
+   ["<code>asyncio.Semaphore</code> for bounded concurrency","The most AI-engineer-specific primitive there is. Archetype: 100 LLM calls, at most 20 in flight, handle partial failure. Real take-homes add per-vendor token-bucket rate limits on top","deep"],
+   ["Retry with exponential backoff, as a decorator","The warm-up is “explain a decorator.” The real chain: write a retry decorator with exponential backoff → make it work for async → add jitter → distinguish retryable (429, 5xx, timeout) from non-retryable (400, 401)","deep"],
+   ["The GIL, and asyncio vs threading vs multiprocessing","The version actually asked: “given the GIL, how do you write concurrent code that runs in parallel?” Multiprocessing for CPU-bound, asyncio for I/O-bound, CPython threads give no compute parallelism — <i>but the GIL is released during I/O and inside NumPy and other C extensions</i>","trap"],
+   ["Mutability, lists vs tuples, and the shared-mutable-default trap"],
+   ["OOP fundamentals — <code>__init__</code>, abstraction, inheritance, composition over inheritance"],
+   ["REST semantics — PUT vs PATCH, status codes, FastAPI dependency injection","Asked constantly in enterprise loops. Easy marks; don't skip it because it feels basic"],
+   ["Generators and lazy evaluation for memory-bounded processing","The natural follow-up to “how would you process a 200-page PDF?”"]]},
+  {t:"Tier 2 — implied by the round formats", items:[
+   ["Pydantic v2 and typing","Structured output <i>is</i> Pydantic. BaseModel vs dataclass, validators, <code>model_validate_json</code>, Field constraints, Literal and Enum for closed vocabularies — and why a tighter schema lowers the retry rate"],
+   ["Context managers","<code>__enter__</code>/<code>__exit__</code>, <code>contextlib.asynccontextmanager</code>, client lifecycles, FastAPI <code>lifespan</code>"],
+   ["pytest — fixtures, parametrize, and mocking the LLM client","The AI twist: “how do you test a non-deterministic function?” Temperature 0 and seeds where available, mock the provider at the transport layer, assert on schema and invariants rather than exact strings, and push semantic judgement into a separate eval suite — not into pytest","deep"],
+   ["Dunder methods beyond <code>__init__</code>","<code>__repr__</code>, <code>__eq__</code>, <code>__hash__</code>, <code>__iter__</code>, <code>__call__</code>, <code>__getitem__</code> — these fall out of progressive-class rounds naturally"],
+   ["Pythonic idioms","Comprehensions vs map/filter, enumerate/zip, defaultdict/Counter/deque, itertools.islice and batched, EAFP vs LBYL, functools.lru_cache"]]},
+  {t:"Tier 3 — one paragraph each, then stop", items:[
+   ["Metaclasses","<code>type</code> is the metaclass; <code>__new__</code> on the metaclass customises class creation; Pydantic, Django ORM and ABC use them. <b>No verified account has a metaclass question in an AI-engineer loop</b> — it survives only in SEO “advanced Python” lists","no"],
+   ["Memory model","Refcounting plus generational GC and cycles, <code>sys.getrefcount</code>, <code>__slots__</code>, why <code>del</code> doesn't free memory. Only ever a GIL follow-up","no"]]},
+  {t:"Timed drills — camera on, no AI", items:[
+   ["Async batch client: 100 prompts, ≤20 concurrent, retry with backoff, collect partial results"],
+   ["SSE streaming handler that accumulates partial JSON into a validated Pydantic model"],
+   ["Token-bucket rate limiter for <i>tokens</i>, not requests"],
+   ["Tool-dispatch loop with retries and a step budget"],
+   ["Cosine similarity and top-k in NumPy, batched"],
+   ["BM25 and Reciprocal Rank Fusion (<code>Σ 1/(60+rank)</code>) from scratch","If you talk about hybrid retrieval you have to be able to write it","trap"],
+   ["LRU cache in O(1), from a blank file, twice"],
+   ["In-memory KV store with TTL, then transactions, then nested transactions"],
+   ["Refactor 100–120 lines of deeply nested code into something testable"],
+   ["Logistic regression with SGD, L2 and early stopping, in NumPy"]]},
+  {t:"Where to practise", items:[
+   ["<a href='https://www.deep-ml.com/' target='_blank' rel='noopener'>Deep-ML.com</a> — free, 100+ graded from-scratch problems, linear algebra through attention","The most efficient way to close the NumPy-from-scratch gap, and it replicates the real format: blank editor, implement from memory, instant tests. 30 min/day inside block D","deep"],
+   ["<a href='https://github.com/openai/openai-cookbook' target='_blank' rel='noopener'>openai/openai-cookbook</a>","Read the code, not the prose: retries and backoff, structured outputs, function calling, batching, streaming"],
+   ["<a href='https://github.com/alexeygrigorev/ai-engineering-field-guide' target='_blank' rel='noopener'>ai-engineering-field-guide</a> → <code>interview/questions/02-coding.md</code>","Every coding question footnoted to a real account","deep"],
+   ["<a href='https://tensorgym.com/exercises' target='_blank' rel='noopener'>TensorGym</a> — supplementary only","Much smaller than Deep-ML, and I found no independent reviews of it"]]}
+ ]},
+
+/* ================= 04 ================= */
+{id:"t04", num:"04", title:"LLM & transformer foundations",
+ note:"Enough depth to explain any of this at a whiteboard without notes. <b>You do not need to be able to train one</b> — training-loop internals sit in the specialised tier and are gated on the job description. What is not optional is being able to draw the architecture and say why each piece is there.",
+ groups:[
+  {t:"The core mechanism", items:[
+   ["Self-attention, from scratch on paper","Q/K/V, scaled dot-product, why the <code>√d_k</code> (without it the dot products grow with dimension and push softmax into a near-one-hot regime with vanishing gradients)","deep"],
+   ["Causal masking, and why decoder-only won","Each position may only attend to what precedes it, which makes every token a training signal"],
+   ["Multi-head attention — what the heads buy you"],
+   ["Positional encoding: sinusoidal → learned → <b>RoPE</b>, and why rotation generalises to longer contexts"],
+   ["Encoder-only vs decoder-only vs encoder-decoder, and when each is right"],
+   ["<b>The seven deltas from the 2017 paper to a modern Llama block</b>","decoder-only · pre-norm · RMSNorm · RoPE instead of sinusoidal · SwiGLU · GQA · no encoder. <em>Never answer the architecture question by reciting “Attention Is All You Need”</em> — in 2026 that marks you as a reader rather than a builder. The real question is what changed since","trap"],
+   ["Mixture of Experts — what it is and what it buys"],
+   ["Attention is O(n²) — what Flash Attention and sparse attention actually change","Flash Attention is an IO-aware exact algorithm, not an approximation. Getting that distinction right is a real signal"]]},
+  {t:"Tokens and context", items:[
+   ["Tokenization: BPE vs WordPiece vs SentencePiece","Plus the practical consequence — non-Latin scripts inflate token counts several-fold, which changes both cost and effective context"],
+   ["What the context window is, what happens when you exceed it, and how it gets extended"],
+   ["The <b>KV cache</b>: what it stores, why it makes generation linear rather than quadratic, and how to estimate its size","<code>2 × layers × heads × d_head × seq × batch × bytes</code>. Being able to do this arithmetic out loud is a differentiator","deep"],
+   ["Sampling: temperature, top-k, top-p, and what each does to the distribution"],
+   ["Why hallucinations happen, and the distinct forms they take"]]},
+  {t:"Training, at decision depth", items:[
+   ["The lifecycle: pretraining → SFT → reward model → RLHF, and where DPO short-circuits it","“Why DPO instead of PPO” is a standard question — DPO removes the separate reward model and the RL loop by optimising preferences directly"],
+   ["LoRA: <code>ΔW = BA</code>, B zero-initialised, the α/r ratio, which modules to target, merge vs multi-LoRA serving","trap"],
+   ["QLoRA and PEFT — when parameter-efficient beats full fine-tuning"],
+   ["Quantization: int8, int4, GPTQ/AWQ — and why accuracy holds up better than intuition suggests"],
+   ["Catastrophic forgetting, and how instruction tuning mitigates it"],
+   ["Scaling laws and the compute-vs-data tradeoff, at a conversational level"]]},
+  {t:"Build these once — they are worth more than any reading", items:[
+   ["Karpathy, <b>micrograd</b> — typed line by line, then rewritten from a blank file","<a href='https://karpathy.ai/zero-to-hero.html' target='_blank' rel='noopener'>karpathy.ai/zero-to-hero.html</a>. Backprop stops being magic after this","deep"],
+   ["Karpathy, <b>“Let's build GPT”</b> and nanoGPT"],
+   ["A 30-line MLP training loop from memory, twice","Enough to answer “what does <code>optimizer.zero_grad()</code> actually do” without hesitating"],
+   ["Causal multi-head attention on a whiteboard, from memory, recorded"],
+   ["<a href='https://github.com/rasbt/LLMs-from-scratch' target='_blank' rel='noopener'>rasbt/LLMs-from-scratch</a> — Appendix A, Ch 2 and Ch 3, typed","Free repo, runs on a laptop, no GPU. Bonus modules the print book lacks: GQA, MLA, MoE, DPO"]]}
+ ]},
+
+/* ================= 05 ================= */
+{id:"t05", num:"05", title:"RAG & retrieval",
+ note:"The densest bucket in every question corpus. <b>“Explain how RAG works, end to end” is the single most-asked question</b> — five or more independent accounts, and at least one company uses it as its screen opener. It should be your easiest 90 seconds.",
+ groups:[
+  {t:"The pipeline, and every decision in it", items:[
+   ["Explain RAG end to end, in 90 seconds, out loud <span class='freq'>[most-asked]</span>","Two separate systems with separate failure modes: an offline ingestion path and an online query path. Say it that way and you are already above most candidates","deep"],
+   ["Chunking: what drives the size, and how you handle tables, PDFs and code","The trap answer is “recursive splitter, 500 tokens” with no reason. The real answer names the document structure, an experiment across 2–3 sizes, and the tradeoff — small chunks retrieve precisely but lose context","trap"],
+   ["Embedding models: how to choose one and how to benchmark it on your own data"],
+   ["Vector index internals — HNSW and IVF, and what recall/latency knobs each exposes"],
+   ["Vector DB vs Postgres+pgvector vs plain full-text search, and when each is right","Being able to argue for the <i>simpler</i> option is the senior signal"],
+   ["<b>Hybrid retrieval</b>: dense + BM25 fused with Reciprocal Rank Fusion","<code>Σ 1/(60+rank)</code>. Know why rank fusion beats score fusion — scores from different retrievers are not on a comparable scale","deep"],
+   ["Cross-encoder reranking: what it buys and what it costs in latency"],
+   ["<b>Lost in the Middle</b> — accuracy sags when the relevant passage sits mid-context","This is the empirical result that justifies reranking and trimming rather than stuffing"],
+   ["Contextual retrieval — prepending chunk-level context before embedding","Reported to cut retrieval failures substantially; naming it unprompted is a strong signal"],
+   ["Citations and source attribution, and refusing when context is insufficient","An explicit requirement in the majority of real take-homes — the system must be able to say “I don't have that information”","trap"],
+   ["Index freshness: incremental re-embedding, delete-then-upsert by doc ID, and the stale-answer window","Asked verbatim in real loops as “how do you refresh embeddings when the source data updates?”"],
+   ["Multi-tenant isolation as a filter in the query, never as a prompt instruction","Know precisely why prompt-level isolation fails: it is a request, not a boundary","trap"]]},
+  {t:"When it goes wrong", items:[
+   ["<b>The canonical debugging question:</b> confident wrong answers, and the right document <i>is</i> in the index","Seen in four or more accounts. The expected answer is not “switch models” or “re-index” — it is: log exactly what landed in the context window, then split <b>retrieval failure</b> (never retrieved, or retrieved but ranked below the cutoff) from <b>generation failure</b> (present in context, model ignored it). Rehearse it until it is 60 structured seconds","deep"],
+   ["Scaling to 10M+ documents — what breaks first","Index size and memory, rebuild time, recall degradation at higher ef/nprobe tradeoffs, and cost per query"],
+   ["Retrieval is too slow — the ordered list of things you'd try"],
+   ["Semantic caching, and where it silently returns the wrong answer"]]},
+  {t:"The framing question you will be asked", items:[
+   ["<b>Fine-tune vs RAG vs prompt engineering</b> — the decision framework <span class='freq'>[near-guaranteed]</span>","RAG for knowledge that changes or must be cited; fine-tuning for form, format and behaviour; prompting for everything you haven't yet proven needs more. Lead with what the failure actually is","deep"],
+   ["<b>Long context vs RAG</b> — argued, not settled, in 2026","The expected answer is <i>neither, route per query</i>: RAG wins on cost and freshness at scale; long context wins under a couple hundred thousand tokens with a stable corpus and whole-corpus reasoning; long-context accuracy degrades when the answer is buried mid-window. The production pattern is hybrid — retrieve a subset, then reason over it with a long-context model","deep"]]},
+  {t:"Read these", items:[
+   ["<a href='https://github.com/NirDiamant/RAG_Techniques' target='_blank' rel='noopener'>NirDiamant/RAG_Techniques</a>","The best runnable catalogue of advanced techniques. Being able to name and explain ten of them — HyDE, RAPTOR, contextual retrieval, reranking, fusion retrieval, self-RAG — out-answers almost everyone on “how would you improve this RAG system?”","deep"],
+   ["Jason Liu — Systematically Improving RAG Applications","Open-sourced in Feb 2026; he shut the paid course down and released it, so there's no marketing incentive behind it"],
+   ["The original RAG paper (Lewis et al., 2020) — method and figures only"],
+   ["Anthropic — Contextual Retrieval"]]}
+ ]},
+
+/* ================= 06 ================= */
+{id:"t06", num:"06", title:"Agents, tools & MCP",
+ note:"Overlaps CCAR-F Domains 1 and 2 almost completely — study these together and you are working on both at once. The seniority filter in this area is not “can you build an agent”; it is <b>knowing when not to</b>.",
+ groups:[
+  {t:"Agent architecture", items:[
+   ["The five patterns, and which problem each fits","Prompt chaining · routing · parallelisation · orchestrator-workers · evaluator-optimiser. From Anthropic's <i>Building Effective Agents</i>","deep"],
+   ["<b>What lives in the orchestrator vs what lives in the model</b> <span class='freq'>[common]</span>","Control flow belongs in code. Putting it in the prompt is the most commonly penalised design mistake in these rounds","trap"],
+   ["How an agent chooses a tool — and why the tool description is the real mechanism"],
+   ["Tool failure: retries, idempotency keys, and bounded retry budgets so a retry storm doesn't become the outage"],
+   ["Detecting and stopping infinite planning loops; termination conditions that aren't just an iteration cap"],
+   ["<b>When is an agent the wrong solution?</b>","A workflow with fixed steps, a hard latency budget, or a task where a wrong action is expensive and irreversible. Have this answer crisp — it separates senior from mid","deep"],
+   ["Multi-agent coordination, and its honest cost","Anthropic's own multi-agent research system reports roughly 15× the token usage of chat. Quoting that tradeoff unprompted reads very well"],
+   ["Agent memory: scratchpads, summarisation, and what to persist between sessions"],
+   ["Context engineering as a named discipline","Take-home rubrics now allocate explicit weight to it — one published rubric gives it 25%"]]},
+  {t:"MCP, at spec depth", items:[
+   ["<b>The primitive control model</b>","Tools are <i>model</i>-controlled · resources are <i>application</i>-controlled · prompts are <i>user</i>-controlled. Sampling flows server→host; roots flow host→server. This is the first thing a knowledgeable interviewer probes","deep"],
+   ["Transports: stdio vs Streamable HTTP","SSE is deprecated. <em>Reject any tutorial that predates Streamable HTTP and elicitation</em> — the ecosystem is full of them","trap"],
+   ["Tool schema design, and the <code>isError</code> convention"],
+   ["Resources vs tools — exposing a catalog instead of forcing exploratory calls"],
+   ["Server configuration and scope: <code>.mcp.json</code> project scope vs user scope, and env-var expansion"],
+   ["<b>MCP-specific attack classes</b>","Tool poisoning · rug pull · tool shadowing · confused deputy · indirect prompt injection through resource content · cross-tenant leakage","trap"],
+   ["Build one: a 3-tool MCP server with one resource and one prompt, wired into a real client","Then draw the client↔server lifecycle from memory. This single exercise covers a large share of CCAR-F Domain 2","deep"],
+   ["Debugging: why anything written to stdout corrupts a stdio server, and where logs must go instead"]]},
+  {t:"Safety and injection", items:[
+   ["Prompt injection — direct, and indirect via retrieved content or tool output","<b>The correct answer is architectural, not a better prompt.</b> Separate instructions from data, treat all tool output as untrusted, constrain what tools can do, and require confirmation for irreversible actions. Most candidates answer with prompt wording and lose the round there","trap"],
+   ["Sandboxing tool execution; least privilege; capability bloat"],
+   ["Human-in-the-loop gates for irreversible operations"]]},
+  {t:"Read these, in date order", items:[
+   ["Anthropic engineering — the five-post arc","Contextual Retrieval (Sep 2024) → Building Effective Agents (Dec 2024) → Effective Context Engineering (Sep 2025) → Code Execution with MCP (Nov 2025) → Demystifying Evals for AI Agents (Jan 2026). <em>Citing only the Dec 2024 post dates you</em>","trap"],
+   ["<a href='https://modelcontextprotocol.io' target='_blank' rel='noopener'>modelcontextprotocol.io</a> — the spec itself","First-party, and cross-vendor adoption is the strongest possible evidence of standard status"],
+   ["<a href='https://github.com/NirDiamant/GenAI_Agents' target='_blank' rel='noopener'>NirDiamant/GenAI_Agents</a>","50+ runnable agent implementations — vocabulary and pattern fluency"],
+   ["Lilian Weng — LLM Powered Autonomous Agents","Still the reference decomposition (planning, memory, tool use) that agent questions are implicitly built on"],
+   ["The ReAct paper — reasoning and acting interleaved"],
+   ["Know LangGraph and CrewAI by name even if you'd hand-roll it","Interviewers ask “which framework and why.” Being able to justify hand-rolling is fine; not knowing the names is not"]]}
+ ]},
+
+/* ================= 07 ================= */
+{id:"t07", num:"07", title:"Evaluation",
+ note:"The scarcest skill in the field and the most reliable differentiator. Across interviewer-side write-ups the same three failures recur: <b>candidates describe how to build systems but not how to evaluate or monitor them</b>, they know what a thing is but not when to use it, and they ignore cost, latency and failure modes. This track is the fix for the first one. It is also CCAR-P Domain 4.",
+ groups:[
+  {t:"The method, in order", items:[
+   ["Capture real traces before doing anything else","You cannot evaluate what you have not looked at. A hundred real traces beats any prefab metric suite","deep"],
+   ["<b>Open-code the traces by hand</b>","Read them, write freeform notes on what went wrong. This is the step everyone skips and the step that shows in an interview","deep"],
+   ["Axial-code those notes into a 5–8 mode failure taxonomy, and stop at saturation","Saturation = roughly 20 further traces yielding no new category"],
+   ["<b>Separate retrieval metrics from generation metrics</b>","recall@k, MRR, nDCG for the retriever; groundedness and citation-correctness for the generator. Knowing these are two different evaluation problems is itself a differentiator","deep"],
+   ["Build one binary LLM judge for the top failure mode, and validate it against your own labels","Report <b>TPR and TNR on a held-out split</b>. An unvalidated judge is a vibe with a number attached","deep"],
+   ["Turn 20–50 cases into a regression suite that runs in CI and fails the build","This is what converts “we evaluate” from a claim into an artifact"],
+   ["Write the before/after delta on one page"]]},
+  {t:"Judges, and how they fail", items:[
+   ["LLM-as-judge: how it works and its failure modes","Position bias, verbosity bias, self-preference bias. The order-swap check is the standard mitigation","deep"],
+   ["Binary judgements beat Likert scales","Graded scales produce inconsistent boundaries between raters and between runs"],
+   ["Building a golden dataset from a vague spec"],
+   ["<b>pass@k vs pass^k</b>, and why the difference matters for agents","pass@k rewards any success across k attempts; pass^k requires success every time. Multi-step agents are judged by the second and it is brutally unforgiving"],
+   ["Agent-specific metrics: tool-selection quality, action advancement, end-state vs trajectory scoring, cost per successful task"],
+   ["Measuring hallucination rate in production, not just offline"],
+   ["Aggregate accuracy hides per-segment failure","97% overall can be 60% on one document type. Stratify before you trust a headline number","num"]]},
+  {t:"Two phrasings that change the outcome", items:[
+   ["❌ Don't name a prefab eval framework as your answer","The widely-propagated critique: all you get from prefab evals is not knowing what they actually do. Say instead: <em>“We started with off-the-shelf metrics, found they didn't correlate with our reviewers' judgements, so we built a domain-specific binary judge and validated it against 100 hand-labelled traces.”</em> That sentence out-depths most interviewers","no"],
+   ["Lead any project discussion with the eval layer and the cost number, not the framework name","The documented signal difference: strong candidates say “cut p95 latency 40%”; weak ones say “used LangChain and Pinecone”","deep"]]},
+  {t:"Read these", items:[
+   ["⭐ <a href='https://hamel.dev/blog/posts/evals-faq/' target='_blank' rel='noopener'>hamel.dev — LLM Evals FAQ</a>","Free, and roughly all of the interview-relevant value of the paid course by the same author. If you read one thing in this track, read this","deep"],
+   ["<a href='https://eugeneyan.com/writing/llm-patterns/' target='_blank' rel='noopener'>Eugene Yan — Patterns for Building LLM-based Systems</a>","Seven patterns: evals, RAG, fine-tuning, caching, guardrails, defensive UX, collect feedback. Maps almost 1:1 onto a system-design deep dive"],
+   ["<a href='https://eugeneyan.com/writing/how-to-interview/' target='_blank' rel='noopener'>Eugene Yan — How to Interview and Hire ML/AI Engineers</a>","Read the interviewer's side to know what is being scored"],
+   ["Anthropic — Demystifying Evals for AI Agents"],
+   ["<a href='https://github.com/benchflow-ai/awesome-evals' target='_blank' rel='noopener'>benchflow-ai/awesome-evals</a>","Small but genuinely curated"]]}
+ ]},
+
+/* ================= 08 ================= */
+{id:"t08", num:"08", title:"Inference, cost & serving",
+ note:"Where “I've used the API” separates from “I've run this in production.” Every cost and latency question reduces to the same move: <b>name the mechanism, then name what it cost you</b>. Also CCAR-F 4.5 and CCAR-P Domain 4.",
+ groups:[
+  {t:"Making it faster", items:[
+   ["<b>Time to first token vs total latency</b>, and why streaming changes perceived speed","TTFT is the number users feel. Optimising total tokens/sec while TTFT stays bad is the classic wrong answer"],
+   ["KV cache and PagedAttention — why memory fragmentation was the bottleneck","Read §1 and §4 of the PagedAttention paper alongside the vLLM optimization docs","deep"],
+   ["Continuous batching, and why it beats static batching under mixed request lengths"],
+   ["Speculative decoding — a draft model proposes, the target verifies"],
+   ["GQA and MQA — sharing key/value heads to shrink the cache"],
+   ["Quantization for serving: the size, speed and accuracy triangle"],
+   ["Prefill vs decode: why they have completely different bottlenecks","Prefill is compute-bound, decode is memory-bandwidth-bound. Saying that unprompted is a strong signal","deep"]]},
+  {t:"Making it cheaper", items:[
+   ["<b>“1M queries a day — cut the cost”</b> <span class='freq'>[near-guaranteed]</span>","The ordered answer: measure where tokens actually go → cut prompt size and context → prompt caching → semantic caching → model tiering and routing → batch what isn't interactive → only then consider fine-tuning a smaller model","deep"],
+   ["Prompt caching vs semantic caching — different mechanisms, different failure modes"],
+   ["Model tiering: route easy queries to a small model, escalate on a confidence or validation signal"],
+   ["Batch APIs: roughly half price for a 24-hour window, no latency SLA","Right for overnight and bulk work, wrong for anything blocking a user or a merge","num"],
+   ["Cost arithmetic out loud","Tokens per request × requests per day × price per million. Do it in the room; almost nobody does and it lands every time","num"],
+   ["Provider failover, circuit breakers, and graceful degradation"]]},
+  {t:"Knowing it works", items:[
+   ["Benchmark every hop in a multi-step pipeline to find the real bottleneck","Otherwise you optimise the model when the retrieval call was 80% of the latency","trap"],
+   ["p50 vs p95 vs p99 — and why an average latency claim invites a follow-up"],
+   ["Load-testing an LLM endpoint: concurrency, queueing and tail behaviour"],
+   ["<a href='https://github.com/ray-project/llm-numbers' target='_blank' rel='noopener'>ray-project/llm-numbers</a>","Stale on specifics, but the <i>habit</i> of quoting numbers is what wins cost questions"]]}
+ ]},
+
+/* ================= 09 ================= */
+{id:"t09", num:"09", title:"Classical ML foundations",
+ note:"<em>GenAI-only preparation is a repeatedly documented way to lose a loop.</em> Two first-hand rejections trace directly to this bucket — one candidate was asked to derive entropy and Gini by hand, another was rejected in a late round on traditional-ML case studies. It arrives as an ambush precisely because candidates skip it.",
+ groups:[
+  {t:"The ambush topics", items:[
+   ["Bias–variance, and the intervention ladder for each"],
+   ["Regularisation: L1 vs L2, and <i>why</i> L1 produces sparsity","The geometric answer — the constraint region has corners on the axes","deep"],
+   ["Precision, recall, F1 — and <b>PR-AUC over ROC-AUC at low prevalence</b>","ROC-AUC looks flattering on imbalanced data. Knowing which to use is a standard filter","trap"],
+   ["Choosing a threshold from a cost matrix rather than defaulting to 0.5"],
+   ["Class imbalance — and why SMOTE is the wrong first answer","Try class weights, threshold tuning and better features first; SMOTE interpolates in feature space and often fabricates implausible points"],
+   ["<b>Data leakage taxonomy</b>, including grouped splitting","Target leakage, train-test contamination, temporal leakage, and grouping — if several rows share an entity, a random split leaks it across the boundary","trap"],
+   ["Always establish the majority-class or simple baseline first","An accuracy number with no baseline next to it is not a result. This is the single most common way a metric claim collapses under questioning","num"],
+   ["Bagging vs boosting, and when each is the right call"],
+   ["Cross-validation schemes, and when k-fold is wrong (time series, grouped data)"],
+   ["Entropy and Gini — be able to compute both by hand"],
+   ["Choosing k in clustering; the elbow and silhouette methods"],
+   ["Gradient descent variants and what each optimizer actually fixes"]]},
+  {t:"Implement from scratch in NumPy", items:[
+   ["Cosine similarity, batched"],
+   ["k-means"],
+   ["Logistic regression with SGD, L2 and early stopping"],
+   ["Softmax, numerically stable"],
+   ["Linear regression via the normal equation, and via gradient descent"]]},
+  {t:"Ops", items:[
+   ["Concept drift vs data drift, and how each is detected"],
+   ["Monitoring a model in production: what you log and what alerts"],
+   ["Data-centric AI — why improving labels usually beats improving the model"],
+   ["Andrew Ng — “Advice for applying machine learning”","<b>Course 2 of the specialization</b> (<i>Advanced Learning Algorithms</i>), <b>Week 3</b> → <a href='https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3' target='_blank' rel='noopener'>coursera.org/learn/advanced-learning-algorithms — module 3</a>. ⚠️ <em>Not</em> <code>coursera.org/learn/machine-learning</code> — that slug is Course 1 and its module 3 is Classification. Baseline and Bayes error, error analysis, the bias-variance intervention ladder","deep"]]}
+ ]},
+
+/* ================= 10 ================= */
+{id:"t10", num:"10", title:"GenAI system design",
+ note:"Now a named round at multiple companies. Format: ~45–60 min — 5 clarify, 10–15 high-level, 15–20 deep dive, 5–10 tradeoffs and bottlenecks. <b>Per rep use 45/20/40/30</b>: 45 min recorded with a hard timer and no lookups → 20 min watching it back at 1.5× and self-scoring → 40 min re-doing it with the reference open → 30 min reading only what your two worst sub-scores demand. <em>Whiteboard cold first, read second. Never the other way round.</em>",
+ groups:[
+  {t:"Do these reps, in this order", items:[
+   ["URL shortener","Deliberately trivial — you are rehearsing the framework, not the problem"],
+   ["Distributed rate limiter"],
+   ["⭐ RAG over 10k enterprise documents with per-tenant isolation","The archetype. Isolation belongs in the query filter, never in the prompt","deep"],
+   ["Real-time chat","Prerequisite for reasoning about streaming LLM UIs"],
+   ["⭐ LLM customer-support agent with tool calling and human escalation","Reported as the single most common opener in this round","deep"],
+   ["⭐ Evaluation and observability platform for LLM applications"],
+   ["⭐ LLM inference serving at scale","Queueing, GPU worker scheduling, TTFT, streaming, fairness across tiers, context management","deep"],
+   ["⭐ Real-time voice agent under an 800ms budget","STT→LLM→TTS pipelining, streaming partials, barge-in, per-hop latency budget"],
+   ["⭐ Agentic coding assistant","Repo indexing, tools, sandboxed execution, PR and CI hooks"],
+   ["⭐ Document Q&A with citations and multi-hop questions"],
+   ["Design a search engine with LLM synthesis over results"],
+   ["Cross-conversation memory for a chat product"],
+   ["Then re-do the first two, cold and recorded, and diff against the originals","If the delta isn't obvious on camera, do another week of reps before moving on","deep"]]},
+  {t:"How it is scored", items:[
+   ["The four patterns every prompt maps to","Grounding and retrieval · feedback and reinforcement loops · hallucination mitigation · scalability and cost. Recognising which one you're in tells you where the deep dive should go"],
+   ["Senior signal: reasoning under uncertainty, tradeoff fluency, communication clarity","The actual skill under test is keeping a system predictable when the component at its centre is not"],
+   ["Cost and latency arithmetic out loud, in every rep","num"],
+   ["❌ The documented mistakes","Jumping to a solution before clarifying · treating the model as a source of truth instead of grounding it · designing only the happy path · <b>naming tools instead of explaining mechanisms</b> · ignoring token budgets · ignoring prompt injection and unsafe tool execution · <b>putting control flow in prompts instead of the orchestrator</b> · choosing agents because they're interesting","no"]]},
+  {t:"Read these — your interviewer has", items:[
+   ["<a href='https://huyenchip.com/2024/07/25/genai-platform.html' target='_blank' rel='noopener'>Chip Huyen — Building a Generative AI Platform</a>","The canonical architecture and the mental model most interviewers grade against. Read it first","deep"],
+   ["<a href='https://www.anthropic.com/engineering/multi-agent-research-system' target='_blank' rel='noopener'>Anthropic — Building a multi-agent research system</a>","The honest cost discussion is the best material available for “when not to use agents”"],
+   ["<a href='https://www.evidentlyai.com/ml-system-design' target='_blank' rel='noopener'>evidentlyai.com/ml-system-design</a> — 800 case studies from 150+ companies","<em>“Company X does A, we'd do B because our constraint is C”</em> is the highest-value sentence available in this round","deep"],
+   ["<a href='https://www.uber.com/blog/genai-gateway/' target='_blank' rel='noopener'>Uber GenAI Gateway</a> · <a href='https://slack.engineering/how-we-built-slack-ai-to-be-secure-and-private/' target='_blank' rel='noopener'>Slack AI</a> · <a href='https://careersatdoordash.com/blog/doordash-simulation-evaluation-flywheel-to-develop-llm-chatbots-at-scale/' target='_blank' rel='noopener'>DoorDash eval flywheel</a>","Real production write-ups beat any interview book"],
+   ["<a href='https://www.hellointerview.com/learn/system-design/in-a-hurry' target='_blank' rel='noopener'>Hello Interview — System Design in a Hurry</a> (free tier)","The only free resource publishing an explicit minute-by-minute framework <i>and</i> the rubric axes interviewers score on"],
+   ["<a href='https://excalidraw.com' target='_blank' rel='noopener'>Excalidraw</a> — build one template in 15 minutes","Building a beautiful component library is procrastination with the aesthetics of preparation","trap"]]}
+ ]},
+
+/* ================= 11 ================= */
+{id:"t11", num:"11", title:"DSA — the narrow band that matters",
+ note:"Calibrate honestly. Around 70% of senior AI-engineer loops now exclude LeetCode-style problems, and several first-hand accounts at AI-first companies report none at all — but a survey of 67 interviewers (52 at FAANG) found <b>zero</b> FAANG respondents had moved away from algorithmic questions, and Indian product companies still run pure DSA panels. <em>Do this band and stop; expanding it is not where the marginal hour pays.</em><br><br><b>The 25-minute protocol:</b> 2 min restate the problem and the brute force out loud → 23 min attempt, no AI, no autocomplete, timer visible → on failure read the editorial and the pattern → <em>close everything, blank file, re-implement until it passes</em> ← this is the entire learning event → then a 60-second card: pattern name / the trigger phrase in the problem statement / the one line that is the trick. Re-solve at +3 days and +14 days, cold, in ≤25 min.",
+ groups:dsaGroups()},
+
+/* ================= 12 ================= */
+{id:"t12", num:"12", title:"Interview rounds & formats",
+ note:"What the loop actually looks like: <b>3–5 rounds over 2–4 weeks, and the decisive round is almost never DSA.</b> It is a practical build, a project interrogated to production depth, or a customer conversation. Knowing the format is worth as much as knowing the material.",
+ groups:[
+  {t:"The practical LLM-API coding round — the modal round", items:[
+   ["What it is: build a small working thing against a real LLM API, in 60 minutes to 3 days","It has largely replaced LeetCode at AI-first companies"],
+   ["Graded on clean, extensible structure — <b>not</b> on algorithms","One company states this explicitly in its own process write-up"],
+   ["Bounded concurrency, retry with backoff, timeouts, and which status codes to retry","deep"],
+   ["Streaming: SSE, partial-JSON accumulation, time to first token"],
+   ["Say the cost implications out loud while you code"],
+   ["Real tasks that have been given: parse a flaky API with fallbacks · build a voice-activity detector from scratch in 2.5h · parse complex JSON then summarise via an LLM in 30 min · optimise a FastAPI endpoint with an unfamiliar driver"]]},
+  {t:"The progressive OOP round — the lab replacement for LeetCode", items:[
+   ["Format: a toy system built level by level over 60 minutes","In-memory KV store, an in-memory SQL-like DB, a credits system with expiry rules, LRU cache, rate limiter, circuit breaker"],
+   ["<b>Solve level 1 fast and clean — level 4 is where they actually judge you</b>","trap"],
+   ["Practise the extension, not just the first implementation","Most people drill LRU once and never practise being asked to add TTL, then transactions, then nesting"]]},
+  {t:"The debugging / code-review round", items:[
+   ["Formats seen: find and fix planted bugs in a small unfamiliar codebase · review a colleague's draft PR · a dedicated code-review interview"],
+   ["<b>Say the diagnostic before the fix.</b> Candidates fail this round by guessing fixes","trap"],
+   ["Practise it: clone an unfamiliar repo, plant three bugs a week earlier, fix them cold in 45 minutes","Nothing off-the-shelf rehearses this format"]]},
+  {t:"The take-home", items:[
+   ["<b>Start with the eval harness.</b> Not starting with evals is documented red flag #1","deep"],
+   ["README stating tradeoffs <i>and the alternatives you rejected</i>"],
+   ["A cost and latency table"],
+   ["Real error handling, retries, and a test that validates the model output"],
+   ["A short recorded walkthrough — repeatedly cited as a differentiator"],
+   ["Build a reusable skeleton before you start applying","Retrieval + reranking + citations + eval harness + Docker + README. Then each take-home is a few hours of customisation rather than a fortnight","deep"],
+   ["Scope discipline: advertised 2–4 hours routinely means 2× that. Refuse anything over ~4h offered before a human conversation","trap"]]},
+  {t:"The project deep dive — the most-failed round", items:[
+   ["Be able to reproduce your architecture on a whiteboard in three minutes"],
+   ["Three decisions you can defend <b>with the alternative you rejected</b>","“I chose X” is junior. “I chose X over Y because our constraint was Z, and here's what it cost us” is senior","deep"],
+   ["Two real failures and what they cost"],
+   ["The “what breaks at 100×” answer"],
+   ["<b>Say “I” not “we”, and be specific about what you personally built</b>","Vague team-level narration is the single most cited reason this round fails","trap"],
+   ["Honesty beats bluffing, with evidence","Multiple hired candidates report saying plainly that they didn't know something, or hadn't used a tool before, and being selected anyway on clarity of thought"]]},
+  {t:"AI-assisted coding — new, growing, and bimodal", items:[
+   ["<b>Ask the recruiter which regime applies, per round</b>","Some companies now supply models in the editor and grade how you verify their output; others prohibit AI outright and call it grounds for disqualification; at least one allows it in round 1 and bans it in round 2. There is no default","trap"],
+   ["What is graded: decompose → delegate → <b>verify</b> → integrate. Not typing speed","deep"],
+   ["The problems are tuned so the model can't solve them alone","Blind prompting hits a dead end and you must defend every line"],
+   ["Practise narrating out loud, including the catches","“The model generated raw SQL here — I'm parameterising it”"],
+   ["❌ Never use an AI interview copilot","Roughly a third of surveyed FAANG interviewers have caught suspected AI cheating and some run detection software. It is a permanent-blacklist event","no"]]},
+  {t:"The rest of the loop", items:[
+   ["Recruiter screen: one comp number rather than a range; raise location and visa constraints in round 1, before investing four weeks","trap"],
+   ["Behavioural: a bank of stories, each with a 60-second and a 4-minute version","The two most commonly missing: a failure with a named cost, and a disagreement you lost and then committed to"],
+   ["Customer / discovery round (common for forward-deployed and applied roles)","<b>Rule: no solution until you have asked five questions.</b> The documented failure mode is pitching instead of investigating","trap"],
+   ["Read the company's own engineering blog and its interview reviews the week before the loop","Free, specific, and almost nobody does it"]]},
+  {t:"The best free question banks", items:[
+   ["⭐ <a href='https://github.com/alexeygrigorev/ai-engineering-field-guide' target='_blank' rel='noopener'>alexeygrigorev/ai-engineering-field-guide</a>","The best artifact in this space. 1,765 job descriptions analysed, 100+ real candidate take-home repos, hundreds of sourced threads — and <b>every question carries a footnote to where it was actually asked</b>. Its six question files are about 1,000 lines total; read them end to end","deep"],
+   ["<a href='https://github.com/ombharatiya/ai-system-design-guide' target='_blank' rel='noopener'>ombharatiya/ai-system-design-guide</a>","Living document on production AI system design and evals"],
+   ["<a href='https://github.com/alirezadir/AIMLInterviews' target='_blank' rel='noopener'>alirezadir/AIMLInterviews</a>","Renamed from Machine-Learning-Interviews, which is why older links 404. Actively maintained and now covers GenAI"],
+   ["<a href='https://github.com/anthropics/original_performance_takehome' target='_blank' rel='noopener'>anthropics/original_performance_takehome</a>","A company's actual take-home, published by the company because the model beat it"],
+   ["❌ Repos to skip","A popular LLM-questions repo (~1.9k★) is a lead-gen funnel with paywalled answers and zero attribution. A once-excellent ML-interview repo (~12.7k★) has not been touched since 2023 and is entirely pre-GenAI. Several “N interview questions” networks are formulaic SEO. <b>Star count is not currency</b>","no"]]}
+ ]},
+
+/* ================= 13 ================= */
+{id:"t13", num:"13", title:"Resource library",
+ note:"Books, courses and free canon, with the reason each earned its place. <b>The ❌ lists matter as much as the ✅ lists</b> — they are where preparation hours die, and most of them are famous, highly-rated, and wrong for this goal.",
+ groups:[
+  {t:"Books worth buying", items:[
+   ["<b>AI Engineering</b> — Chip Huyen, O'Reilly 2025","The definitive text for this exact role. Ch 3–4 evaluation, Ch 6 RAG and agents, Ch 9 inference optimization. The most-read book on the O'Reilly platform since release","deep"],
+   ["<b>Build a Large Language Model (From Scratch)</b> — Sebastian Raschka","Appendix A, Ch 2 and Ch 3, typed. The <a href='https://github.com/rasbt/LLMs-from-scratch' target='_blank' rel='noopener'>free repo</a> has bonus modules the print book lacks and runs on a laptop"],
+   ["<b>Hands-On Large Language Models</b> — Alammar & Grootendorst","Bought for one purpose: the diagrams you redraw from memory. <i>Alammar teaches you to explain it; Raschka teaches you to build it</i>"],
+   ["<b>Generative AI System Design Interview</b> — Aminian, Sheng, Xu","Chapters 1–4 and 6 only. The only book-form GenAI system-design framework that exists"],
+   ["<b>Grokking Algorithms, 2nd ed.</b> — Bhargava","Only if algorithms are genuinely from zero. Ch 1–8, skim, no exercises. Skipping this on-ramp is the most common mistake at that starting point — it makes everything afterwards roughly twice as fast"],
+   ["<b>Designing Data-Intensive Applications, 2nd ed.</b> — later, not now","60–80 hours with no meaningful skip-to, and it will not appear in a GenAI engineer loop. Excellent book, wrong month","trap"]]},
+  {t:"❌ Books not to buy", items:[
+   ["❌ Cracking the Coding Interview 6e (2015)","Eleven years old, Java-centric, predates the pattern-vocabulary era, and superseded by its own official sequel by its own author","no"],
+   ["❌ Elements of Programming Interviews","Abandoned since 2018, and its problems assume you already recognise the pattern","no"],
+   ["❌ Goodfellow, <i>Deep Learning</i> (2016)","The prestige purchase. No transformers, no LLMs, 800 pages at the wrong abstraction level. Use Prince, <i>Understanding Deep Learning</i> — free at udlbook.github.io","no"],
+   ["❌ Géron <i>Hands-On ML</i> 3rd ed. (Keras/TF)","Superseded — nobody hires for Keras in 2026. If you want it, get the 2025 PyTorch edition","no"],
+   ["❌ <i>NLP with Transformers</i> (2022)","Its own repo concedes the TF sections are untested and a chapter is unmaintained; it needs pydantic 1.x","no"],
+   ["❌ <i>LLM Engineer's Handbook</i>","Teaches a stack almost nobody uses, and the repo's README concedes it has drifted from the book","no"]]},
+  {t:"Courses — the few worth the hours", items:[
+   ["<b>Generative AI with LLMs</b> (DeepLearning.AI + AWS) — weeks 2 and 3 only","Instruction tuning, PEFT/LoRA, soft prompts, RLHF, reward modelling, scaling laws. About 6 hours, and it is table stakes vocabulary"],
+   ["<b>“Advice for applying machine learning”</b> — Andrew Ng, <a href='https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3' target='_blank' rel='noopener'>Advanced Learning Algorithms, Week 3</a>","The highest-value hour in the entire catalogue for this goal: baselines, error analysis, the bias-variance intervention ladder. ⚠️ It is in <b>Course 2</b> of the ML Specialization. The slug <code>coursera.org/learn/machine-learning</code> is <b>Course 1</b> (<i>Supervised ML: Regression and Classification</i>, 3 modules — Intro / Multiple regression / Classification) and does not contain this module. The confusion is old-link rot: that slug used to serve Ng's original 2011 Stanford course, where this was Week 6, until it was retired in 2022","deep"],
+   ["<b>Machine Learning in Production (MLOps C1) Week 1</b> (Andrew Ng)","Concept drift, data-centric AI, deployment monitoring"],
+   ["<b>Karpathy — Deep Dive into LLMs like ChatGPT</b> (3h31, free)","The most-cited whole-lifecycle explainer in the field, and better than any paid course on the same material","deep"],
+   ["<b>Karpathy — Neural Networks: Zero to Hero</b>, L1 and L7 (free)"],
+   ["<b>3Blue1Brown</b> — Essence of Linear Algebra and Neural Networks (~5h, free)"]]},
+  {t:"❌ Courses that look right and aren't", items:[
+   ["❌ Deep Learning Specialization","127 hours. The core content is 2017 and it teaches attention as a bolt-on to RNNs — a 2018 framing. It will eat a month and hand you TensorFlow muscle memory. Karpathy's 12 free hours cover more of what gets asked","no"],
+   ["❌ NLP Specialization","111 hours, built substantially on a dead framework, last substantively updated in 2021","no"],
+   ["❌ Mathematics for ML and Data Science","94 hours for something no AI-engineer interview tests directly. 3Blue1Brown in five","no"],
+   ["❌ Princeton Algorithms / UC San Diego DSA Specialization","Magnificent courses, catastrophic fit — Java, 50–182 hours, and neither teaches the pattern vocabulary interviews are built on","no"],
+   ["❌ Beginner GenAI certificates from large vendors","143–198 hours of beginner material. Next to real production experience a beginner certificate reads as insecurity about your own background","no"],
+   ["❌ Agent courses that are mostly prompt-engineering courses","Check the syllabus: several of the highest-rated “AI agent” programs are half ChatGPT-power-user content wearing an agent title","no"],
+   ["❌ The Coursera LLM-evaluation shelf","There is nothing credible there — which stings, because evals are the highest-leverage topic. Use Hamel Husain's free FAQ instead","no"]]},
+  {t:"Free canon — bookmark today", items:[
+   ["<a href='https://hamel.dev/blog/posts/evals-faq/' target='_blank' rel='noopener'>Hamel Husain — LLM Evals FAQ</a>","Evaluation. The single highest-value free document in the field","deep"],
+   ["<a href='https://eugeneyan.com/writing/' target='_blank' rel='noopener'>Eugene Yan</a>","Production LLM patterns, and the hiring side"],
+   ["<a href='https://huyenchip.com/' target='_blank' rel='noopener'>Chip Huyen</a>","The architecture vocabulary interviewers use"],
+   ["<a href='https://simonwillison.net/' target='_blank' rel='noopener'>Simon Willison</a>","Staying current, and the correct — architectural — answer to prompt injection"],
+   ["<a href='https://magazine.sebastianraschka.com/' target='_blank' rel='noopener'>Sebastian Raschka — Ahead of AI</a>","The fastest route from “I use LLMs” to discussing architecture credibly"],
+   ["<a href='https://lilianweng.github.io/' target='_blank' rel='noopener'>Lilian Weng</a>","Depth on agents and reasoning. Read a few deeply rather than following"],
+   ["<a href='https://www.anthropic.com/engineering' target='_blank' rel='noopener'>Anthropic Engineering</a>","Agent design and evals from a frontier lab — and what your interviewer read last week"],
+   ["<a href='https://applied-llms.org/' target='_blank' rel='noopener'>What We Learned from a Year of Building with LLMs</a>","Six practitioners; still the best single distillation of hard-won lessons"],
+   ["<a href='https://neetcode.io/practice' target='_blank' rel='noopener'>neetcode.io/practice</a>","Topologically ordered, one video per problem, free — which is exactly what Blind 75 lacks"],
+   ["<a href='https://www.tryexponent.com/practice' target='_blank' rel='noopener'>Exponent Practice</a>","Free peer mocks, global pool"],
+   ["⚠️ <code>system-design-primer</code> (360k★)","Star count is not currency — the content is the 2017–2019 canon with no serverless, no modern streaming, no ML serving and no vector stores. One 90-minute checklist skim, then close the tab","trap"]]},
+  {t:"Papers — method and figures only, ~45 min each", items:[
+   ["Attention Is All You Need — <b>plus the seven deltas to a modern block</b>"],
+   ["RAG (Lewis et al., 2020)"],
+   ["ReAct"],
+   ["<b>Lost in the Middle</b>","Punches far above its fame — it is what justifies reranking and trimming"],
+   ["InstructGPT"],
+   ["LoRA"],
+   ["DPO"],
+   ["Chain-of-Thought and Self-Consistency"],
+   ["PagedAttention — §1 and §4 only, alongside the vLLM docs"],
+   ["Contextual Retrieval (Anthropic)"]]}
+ ]}
+];
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+/* ============================================================
+   STORAGE
+
+   mt.v3   syllabus grades  { v:3, items:{ id: 1|2 } }
+             absent/0 = not started · 1 = read it · 2 = can explain cold
+             Sparse: 0 is never stored.
+   mt.days.v2  the daily routine, per date, still plain binary — t00 is a
+             routine, not knowledge, so it keeps its checkboxes.
+
+   mt.v2 (the old binary store) is NEVER written to and NEVER deleted. That is
+   the rollback: drop the previous master-tracker.html back on this origin and
+   every tick is still there. It costs ~15 KB.
+   ============================================================ */
+const KEY="mt.v3", LEGACY="mt.v2", DAYKEY="mt.days.v2", UIKEY="mt.ui.show", BKKEY="mt.backup.at";
+let state={}, days={}, migratedCount=0;
+
+/* Legacy 1 -> 2 (cold). There is no information in mt.v2 distinguishing "skimmed
+   it" from "can explain it" — the old control had one affordance and the UI called
+   it done. So pick the mapping whose failure mode is recoverable: promoting is
+   optimistic but Re-grade fixes a whole track in one tap, whereas demoting looks
+   like data loss across 442 items and costs 442 taps to undo. */
+function upgradeV2(map){
+  const items={};
+  for(const k in map) if(map[k]) items[k]=2;
+  return items;
+}
+function loadState(){
+  let box=null;
+  try{ box=JSON.parse(localStorage.getItem(KEY)||"null") }catch(e){}
+  if(box && box.v===3 && box.items) return box.items;
+  let old={};
+  try{ old=JSON.parse(localStorage.getItem(LEGACY)||"{}")||{} }catch(e){}
+  const items=upgradeV2(old);
+  migratedCount=Object.keys(items).length;
+  try{
+    localStorage.setItem(KEY, JSON.stringify({v:3, items:items, migratedFrom:LEGACY,
+      migratedAt:new Date().toISOString(), migratedCount:migratedCount}));
+  }catch(e){}
+  return items;
+}
+state=loadState();
+try{ days=JSON.parse(localStorage.getItem(DAYKEY)||"{}") }catch(e){ days={} }
+/* Sync hooks. Every mutation path in this file funnels through save()/saveDays() —
+   taps, reset, re-grade, reset-today and Restore — so hooking these two is the single
+   integration point for server sync, and it cannot be bypassed by a new code path.
+   They stay no-ops until the sync module installs itself further down. */
+let onSaved=()=>{}, onSavedDays=()=>{};
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:3, items:state})) }catch(e){} onSaved() }
+function saveDays(){ try{ localStorage.setItem(DAYKEY, JSON.stringify(days)) }catch(e){} onSavedDays() }
+
+const LABELS=["Not started. Tap to mark as read.",
+              "Read it. Tap to mark as can-explain-cold.",
+              "Can explain cold. Tap to reset."];
+const READ_W=0.5;   /* "read" is real partial progress toward "cold" */
+
+function hash(s){ let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return (h>>>0).toString(36) }
+/* scoped to its group, so identical text in two groups stays two independent boxes */
+function idFor(track, group, text){ return track+"."+hash(group+" "+text) }
+
+function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0") }
+const TODAY=ymd(new Date());
+if(!days[TODAY]) days[TODAY]={};
+/* Item handlers close over the store object they were rendered with, so this
+   identity must survive restores and resets — never reassign days[TODAY]. */
+const todayStore=days[TODAY];
+function replaceAll(target, src){
+  for(const k in target) delete target[k];
+  if(src) Object.assign(target, src);
+  return target;
+}
+/* keep the history bounded */
+(function prune(){
+  const keys=Object.keys(days).sort();
+  if(keys.length>120){ keys.slice(0,keys.length-120).forEach(k=>delete days[k]); saveDays() }
+})();
+
+const main=document.getElementById("main"), navEl=document.getElementById("nav");
+
+/* Cached once at render time. recount() used to run 14 querySelectorAll over 457
+   <li>s on EVERY tap, which is a visible hitch on a phone. */
+const TRACK_IDS={}, T00_IDS=[], ALL_LI=[];
+
+function addNavLink(id, num, title, counted, cls){
+  const a=document.createElement("a");
+  a.href="#"+id; a.dataset.nav=id; if(cls) a.className=cls;
+  a.innerHTML='<span class="n">'+num+'</span><span class="l">'+title+'</span>'+
+    (counted?'<span class="c" data-navc="'+id+'"></span><i class="mini"><b data-navf="'+id+'"></b>'+
+             '<b class="r" data-navfr="'+id+'"></b></i>':'');
+  navEl.appendChild(a);
+}
+function addNavSep(label){
+  const d=document.createElement("div"); d.className="navsep"; d.textContent=label; navEl.appendChild(d);
+}
+
+function mkItem(id, text, meta, tag, extraClass, timeChip, store, onToggle, mode){
+  const li=document.createElement("li");
+  li.className="item"+(extraClass?" "+extraClass:""); li.dataset.id=id;
+  li.dataset.search=(text+" "+(meta||"")).replace(/<[^>]+>/g,"").toLowerCase();
+  if(mode==="tri"){
+    /* three-state: unseen -> read -> cold, strictly forward */
+    li.dataset.s=String(store[id]|0);
+    const b=document.createElement("button");
+    b.className="tri"; b.type="button";
+    b.innerHTML='<span class="glyph"></span>';
+    b.setAttribute("aria-label", LABELS[li.dataset.s]);
+    b.addEventListener("click",()=>{
+      const s=((+li.dataset.s||0)+1)%3;
+      li.dataset.s=String(s);
+      if(s) store[id]=s; else delete store[id];
+      b.setAttribute("aria-label", LABELS[s]);
+      if(navigator.vibrate) navigator.vibrate(s===2?[8,40,8]:8);
+      onToggle();
+    });
+    li.appendChild(b);
+  }else{
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!store[id];
+    if(cb.checked) li.classList.add("done");
+    cb.addEventListener("change",()=>{
+      if(cb.checked){ store[id]=1; li.classList.add("done") } else { delete store[id]; li.classList.remove("done") }
+      onToggle();
+    });
+    li.appendChild(cb);
+  }
+  if(timeChip){ const t=document.createElement("span"); t.className="time"; t.textContent=timeChip; li.appendChild(t) }
+  const body=document.createElement("div"); body.className="body";
+  body.innerHTML='<div class="txt">'+text+(tag?'<span class="tag '+tag+'">'+
+    (tag==="deep"?"DEEP-DIVE":tag==="trap"?"TRAP":tag==="num"?"METRIC":"AVOID")+'</span>':'')+'</div>'+
+    (meta?'<div class="meta">'+meta+'</div>':'');
+  li.appendChild(body);
+  return li;
+}
+
+/* ---------- 00 · TODAY ---------- */
+addNavSep("Every day");
+addNavLink("t00","00","Today",true,"today");
+(function buildToday(){
+  const sec=document.createElement("section"); sec.id="t00";
+  sec.innerHTML='<div class="sec-head"><span class="sec-num">00</span><h2>Today</h2>'+
+    '<span class="sec-meta"><span class="pct" data-pct="t00">0 / 0</span>'+
+    '<span class="pbar"><i data-fill="t00"></i></span></span></div>'+
+    '<p class="sec-note">The same day, every day. <b>Tick it as you go; it clears itself at midnight.</b> '+
+    'The blocks are fixed — what changes is which item from tracks 01–13 you carry into block A and block C. '+
+    '<em>The two retrieval blocks are not optional padding</em>: testing yourself on the morning\'s material in the evening is what moves it into memory, and it is the single highest-leverage habit here.</p>';
+
+  const card=document.createElement("div"); card.className="today-card";
+  const dt=new Date();
+  const nice=dt.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  card.innerHTML='<div class="today-top"><span class="today-date">'+nice+'</span>'+
+    '<span class="today-cnt" id="todayCnt"></span>'+
+    '<button class="btn" id="todayReset">reset today</button></div>'+
+    '<div class="hist" id="hist"></div><div class="hist-lbl">last 21 days</div>';
+  sec.appendChild(card);
+
+  const store=days[TODAY];
+  const onToggle=()=>{ saveDays(); recount(); drawHist(); applyFilter() };
+
+  const g1=document.createElement("div"); g1.className="grp";
+  g1.innerHTML='<div class="grp-head"><h3>The day</h3></div>';
+  const ul=document.createElement("ul"); ul.className="items";
+  DAY.forEach(([time,what,detail,kind])=>{
+    const id=idFor("t00","day",time+what); T00_IDS.push(id);
+    const li=mkItem(id, what, detail, null, "slot"+(kind==="brk"?" brk":""), time, store, onToggle, "binary");
+    ALL_LI.push(li); ul.appendChild(li);
+  });
+  g1.appendChild(ul); sec.appendChild(g1);
+
+  const g2=document.createElement("div"); g2.className="grp";
+  g2.innerHTML='<div class="grp-head"><h3>Non-negotiables</h3></div>';
+  const ul2=document.createElement("ul"); ul2.className="items";
+  DAY_RULES.forEach(([what,detail])=>{
+    const id=idFor("t00","rules",what); T00_IDS.push(id);
+    const li=mkItem(id, what, detail, null, null, null, store, onToggle, "binary");
+    ALL_LI.push(li); ul2.appendChild(li);
+  });
+  g2.appendChild(ul2); sec.appendChild(g2);
+  main.appendChild(sec);
+})();
+
+function drawHist(){
+  const el=document.getElementById("hist"); if(!el) return;
+  const total=DAY.length+DAY_RULES.length;
+  el.innerHTML="";
+  for(let i=20;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=ymd(d), n=days[k]?Object.keys(days[k]).length:0;
+    const p=total?Math.min(4,Math.ceil(n/total*4)):0;
+    const i2=document.createElement("i");
+    i2.dataset.p=p; if(k===TODAY) i2.className="today";
+    i2.title=k+" — "+n+"/"+total;
+    el.appendChild(i2);
+  }
+}
+
+/* ---------- syllabus tracks ---------- */
+const NAV_SEPS={t01:"Certification", t03:"Syllabus", t12:"Interviewing & resources"};
+TRACKS.forEach(tr=>{
+  if(NAV_SEPS[tr.id]) addNavSep(NAV_SEPS[tr.id]);
+  addNavLink(tr.id, tr.num, tr.title, true);
+
+  const sec=document.createElement("section"); sec.id=tr.id;
+  if(tr.locked) sec.className="locked";
+  const head=document.createElement("div"); head.className="sec-head";
+  head.innerHTML='<span class="sec-num">'+tr.num+'</span><h2>'+tr.title+'</h2>'+
+    '<span class="sec-meta"><span class="pct" data-pct="'+tr.id+'">0 / 0</span>'+
+    '<span class="pbar"><i data-fill="'+tr.id+'"></i><i class="r" data-fillr="'+tr.id+'"></i></span>'+
+    '<button class="btn" data-regrade="'+tr.id+'" title="knock every &quot;cold&quot; back to &quot;read&quot;">re-grade</button>'+
+    '<button class="btn" data-reset="'+tr.id+'">reset</button></span>';
+  sec.appendChild(head);
+  if(tr.note){ const n=document.createElement("p"); n.className="sec-note"; n.innerHTML=tr.note; sec.appendChild(n) }
+  if(tr.lock){ const l=document.createElement("div"); l.className="lockbar"; l.innerHTML="🔒 "+tr.lock; sec.appendChild(l) }
+
+  tr.groups.forEach(g=>{
+    const gd=document.createElement("div"); gd.className="grp";
+    gd.innerHTML='<div class="grp-head"><h3>'+g.t+'</h3>'+(g.wt?'<span class="wt">'+g.wt+'</span>':'')+'</div>';
+    const ul=document.createElement("ul"); ul.className="items";
+    g.items.forEach(([text,meta,tag])=>{
+      const id=idFor(tr.id,g.t,text);
+      (TRACK_IDS[tr.id]||(TRACK_IDS[tr.id]=[])).push(id);
+      const li=mkItem(id, text, meta, tag, null, null, state,
+                      ()=>{ save(); recount(); applyFilter() }, "tri");
+      li.dataset.track=tr.id; ALL_LI.push(li); ul.appendChild(li);
+    });
+    gd.appendChild(ul); sec.appendChild(gd);
+  });
+  main.appendChild(sec);
+});
+/* Half credit for "read". There are four progress surfaces and one of them is a
+   2px nav mini-bar — there is physically no room for two independent numbers. So:
+   one percentage everywhere, and the distinction stays visible by splitting each
+   bar into a solid teal (cold) segment and a mid-teal (read) segment. */
+function score(ids){
+  let c=0, r=0;
+  for(const id of ids){ const v=state[id]|0; if(v===2) c++; else if(v===1) r++ }
+  const n=ids.length;
+  return {c:c, r:r, n:n, pct:n?Math.round((c+READ_W*r)/n*100):0};
+}
+const $=q=>document.querySelector(q);
+function paint(id, cold, read, n, pct){
+  const el=$('[data-pct="'+id+'"]');
+  if(el) el.textContent = read ? (cold+" cold · "+read+" read / "+n+"  "+pct+"%")
+                               : (cold+" / "+n+"  "+pct+"%");
+  const f=$('[data-fill="'+id+'"]'); if(f) f.style.width=(n?cold/n*100:0)+"%";
+  const fr=$('[data-fillr="'+id+'"]'); if(fr) fr.style.width=(n?read/n*100:0)+"%";
+  const nc=$('[data-navc="'+id+'"]');
+  if(nc){
+    nc.textContent=cold+"/"+n;
+    const nf=$('[data-navf="'+id+'"]'); if(nf) nf.style.width=(n?cold/n*100:0)+"%";
+    const nr=$('[data-navfr="'+id+'"]'); if(nr) nr.style.width=(n?read/n*100:0)+"%";
+  }
+}
+/* External links into the rendered library. They set neither data-nav nor a
+   <section>, so spy() (which builds links{} from data-nav and secs from <section>)
+   is structurally unaffected. */
+function addNavExt(href, label){
+  const a=document.createElement("a");
+  a.href=href; a.className="ext";
+  a.innerHTML='<span class="n">→</span><span class="l">'+label+'</span>';
+  navEl.appendChild(a);
+}
+addNavSep("Library");
+addNavExt("/library.html","All documents");
+addNavExt("/questions.html","Resume question bank");
+addNavExt("/answers/metric-defence.html","Metric defence");
+addNavExt("/daily-checklist.html","28-day sprint plan");
+addNavExt("/diagrams/index.html","Architecture diagrams");
+
+function recount(){
+  let dd=0; for(const id of T00_IDS) if(days[TODAY][id]) dd++;
+  const dn=T00_IDS.length, dp=dn?Math.round(dd/dn*100):0;
+  paint("t00", dd, 0, dn, dp);
+  const tc=document.getElementById("todayCnt"); if(tc) tc.textContent=dd+" of "+dn+" done";
+
+  let gc=0, gr=0, gn=0, locked=0;
+  TRACKS.forEach(tr=>{
+    const ids=TRACK_IDS[tr.id]||[];
+    const sc=score(ids);
+    /* Locked tracks (the optional second exam) sit out of the headline number.
+       Keeping 35 items you have deliberately deferred in the denominator just
+       drags the figure down and tells you nothing. */
+    if(tr.locked) locked+=sc.n; else { gc+=sc.c; gr+=sc.r; gn+=sc.n }
+    paint(tr.id, sc.c, sc.r, sc.n, sc.pct);
+  });
+  const gp=gn?Math.round((gc+READ_W*gr)/gn*100):0;
+  document.getElementById("gstat").innerHTML=
+    "<b>"+gc+"</b> cold · "+gr+" read / "+gn+" · "+gp+"%"+(locked?" · "+locked+" locked":"");
+  document.getElementById("gfill").style.width=(gn?gc/gn*100:0)+"%";
+  document.getElementById("gfillR").style.width=(gn?gr/gn*100:0)+"%";
+  document.getElementById("sideStat").textContent="Today "+dd+"/"+dn+" · syllabus "+gp+"%";
+  document.getElementById("sideFill").style.width=(gn?gc/gn*100:0)+"%";
+  document.getElementById("sideFillR").style.width=(gn?gr/gn*100:0)+"%";
+}
+
+/* 0 = show everything · 1 = hide "cold" (the old Hide done) · 2 = only untouched */
+const SHOW_LABEL=["Show: all","Show: not cold","Show: to-do"];
+let showMode=+(localStorage.getItem(UIKEY)||0)||0;
+const qEl=document.getElementById("q"), tglEl=document.getElementById("tgl");
+function applyFilter(){
+  const q=qEl.value.trim().toLowerCase();
+  for(const li of ALL_LI){
+    const isDay=!li.dataset.track;
+    /* t00's binary "done" maps to 2 so Today behaves sanely under every mode */
+    const v=isDay ? (days[TODAY][li.dataset.id]?2:0) : (+li.dataset.s||0);
+    const okQ=!q || li.dataset.search.indexOf(q)>-1;
+    const okS=showMode===0 || (showMode===1 ? v<2 : v===0);
+    li.classList.toggle("hidden", !(okQ && okS));
+  }
+}
+qEl.addEventListener("input", applyFilter);
+tglEl.addEventListener("click", ()=>{
+  showMode=(showMode+1)%3;
+  try{ localStorage.setItem(UIKEY, String(showMode)) }catch(e){}
+  tglEl.classList.toggle("on", showMode>0);
+  tglEl.textContent=SHOW_LABEL[showMode];
+  applyFilter();
+});
+tglEl.classList.toggle("on", showMode>0);
+tglEl.textContent=SHOW_LABEL[showMode];
+
+/* the filter row is collapsed on phones; 🔍 reveals it */
+const findEl=document.getElementById("find"), row2=document.getElementById("row2");
+findEl.addEventListener("click",()=>{
+  const on=row2.classList.toggle("on");
+  findEl.classList.toggle("on",on);
+  findEl.setAttribute("aria-expanded", on?"true":"false");
+  if(on) qEl.focus();
+});
+function setTrack(trackId, fn){
+  document.querySelectorAll('li.item[data-track="'+trackId+'"]').forEach(li=>{
+    const v=fn(+li.dataset.s||0);
+    li.dataset.s=String(v);
+    if(v) state[li.dataset.id]=v; else delete state[li.dataset.id];
+    const b=li.querySelector(".tri"); if(b) b.setAttribute("aria-label", LABELS[v]);
+  });
+  save(); recount(); applyFilter();
+}
+document.addEventListener("click", e=>{
+  const d=e.target.dataset||{};
+  if(d.reset){
+    const tr=TRACKS.find(x=>x.id===d.reset);
+    if(!confirm("Reset every item in “"+tr.title+"” to not-started?")) return;
+    setTrack(d.reset, ()=>0);
+  }else if(d.regrade){
+    const tr=TRACKS.find(x=>x.id===d.regrade);
+    if(!confirm("Knock every “can explain cold” in “"+tr.title+
+                "” back to “read it”?\n\nUse this if the carried-over grades were generous.")) return;
+    setTrack(d.regrade, v=>v===2?1:v);
+  }
+});
+document.getElementById("todayReset").addEventListener("click",()=>{
+  if(!confirm("Clear today's checklist?")) return;
+  replaceAll(todayStore, null);
+  document.querySelectorAll("#t00 li.item").forEach(li=>{
+    li.classList.remove("done"); li.querySelector("input").checked=false;
+  });
+  saveDays(); recount(); drawHist(); applyFilter();
+});
+
+/* ---------- backup / restore ----------
+   The previous Export never appended its <a> to the document and revoked the object
+   URL synchronously right after .click(); the previous Import clicked a detached
+   <input type=file>. Both are unreliable on iOS Safari and effectively broken in a
+   standalone home-screen app — which is exactly where this now runs. */
+function payload(){
+  return {v:3, saved:new Date().toISOString(), app:"prep", state:state, days:days};
+}
+function noteBackup(){
+  try{ localStorage.setItem(BKKEY, String(Date.now())) }catch(e){}
+  drawBackupNote();
+}
+function drawBackupNote(){
+  const el=document.getElementById("bkNote"); if(!el) return;
+  const at=+localStorage.getItem(BKKEY)||0;
+  if(!at){ el.textContent="No backup yet."; return }
+  const d=Math.floor((Date.now()-at)/864e5);
+  el.textContent="Last backup "+(d===0?"today":d===1?"yesterday":d+" days ago")+".";
+}
+
+document.getElementById("exp").addEventListener("click", async ()=>{
+  const name="prep-backup-"+ymd(new Date())+".json";
+  const json=JSON.stringify(payload(),null,2);
+  /* 1 — iOS: the native share sheet, i.e. Save to Files / iCloud Drive */
+  try{
+    const file=new File([json],name,{type:"application/json"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:name});
+      return noteBackup();
+    }
+  }catch(e){ if(e && e.name==="AbortError") return; }
+  /* 2 — desktop / Android: a properly attached anchor and a delayed revoke */
+  const url=URL.createObjectURL(new Blob([json],{type:"application/json"}));
+  const a=document.createElement("a");
+  a.href=url; a.download=name; a.style.display="none";
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove() }, 4000);
+  noteBackup();
+});
+
+/* 3 — the path that always works, standalone included */
+document.getElementById("cpy").addEventListener("click", async ()=>{
+  const btn=document.getElementById("cpy");
+  try{
+    await navigator.clipboard.writeText(JSON.stringify(payload()));
+    btn.textContent="⧉  Copied — paste it somewhere safe"; noteBackup();
+  }catch(e){ btn.textContent="⧉  Copy failed — use Back up" }
+  setTimeout(()=>{ btn.textContent="⧉  Copy backup" }, 3500);
+});
+
+/* Version-sniff, then run the SAME upgrade the migration uses. This is not a legacy
+   nicety: mt.v2 on the old file:// origin is the only copy of any pre-deploy
+   progress, so this is how it reaches the deployed site at all. */
+function ingest(d){
+  if(!d || typeof d.state!=="object" || d.state===null) throw new Error("no state object");
+  const vals=Object.values(d.state);
+  /* mutate in place: rebinding would orphan every rendered item's handler */
+  replaceAll(state, (d.v>=3 || vals.some(v=>v===2)) ? d.state : upgradeV2(d.state));
+  save();
+  if(d.days && typeof d.days==="object"){
+    const incoming=d.days[TODAY];
+    replaceAll(days, d.days);
+    days[TODAY]=replaceAll(todayStore, incoming);
+    saveDays();
+  }
+  repaintAll();
+  return Object.keys(state).length;
+}
+
+/* Re-read every control from the stores. Used after a Restore and after a sync merge. */
+function repaintAll(){
+  for(const li of ALL_LI){
+    const isDay=!li.dataset.track;
+    if(isDay){
+      const on=!!todayStore[li.dataset.id];
+      const cb=li.querySelector("input"); if(cb) cb.checked=on;
+      li.classList.toggle("done",on);
+    }else{
+      const v=state[li.dataset.id]|0;
+      li.dataset.s=String(v);
+      const b=li.querySelector(".tri"); if(b) b.setAttribute("aria-label", LABELS[v]);
+    }
+  }
+  recount(); drawHist(); applyFilter();
+}
+
+/* A REAL in-markup input. iOS refuses to open the picker for a detached one, and
+   display:none breaks programmatic click in some engines — hence .vh/clip-path.
+   accept includes text/plain because some iOS builds grey out .json files under a
+   strict application/json filter. */
+const restoreFile=document.getElementById("restoreFile");
+document.getElementById("imp").addEventListener("click",()=>restoreFile.click());
+restoreFile.addEventListener("change",()=>{
+  const file=restoreFile.files && restoreFile.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{ alert("Restored "+ingest(JSON.parse(r.result))+" graded items.") }
+    catch(err){ alert("Could not read that file: "+err.message) }
+    restoreFile.value="";
+  };
+  r.readAsText(file);
+});
+
+/* ---------- sidebar behaviour ---------- */
+const side=document.getElementById("side"), scrim=document.getElementById("scrim"),
+      menu=document.getElementById("menu");
+function drawer(open){
+  side.classList.toggle("open",open);
+  scrim.classList.toggle("on",open);
+  menu.setAttribute("aria-expanded",open?"true":"false");
+}
+menu.addEventListener("click",()=>drawer(!side.classList.contains("open")));
+scrim.addEventListener("click",()=>drawer(false));
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") drawer(false) });
+navEl.addEventListener("click",e=>{
+  if(e.target.closest("a") && window.matchMedia("(max-width:1000px)").matches) drawer(false);
+});
+
+const links={}; navEl.querySelectorAll("a").forEach(a=>links[a.dataset.nav]=a);
+const secs=[...document.querySelectorAll("section")];
+let active=null;
+function spy(){
+  let cur=secs[0];
+  for(const s of secs){ if(s.getBoundingClientRect().top<=140) cur=s; else break }
+  if(cur && cur.id!==active){
+    if(active && links[active]) links[active].classList.remove("active");
+    active=cur.id;
+    if(links[active]){
+      links[active].classList.add("active");
+      const r=links[active].getBoundingClientRect();
+      if(r.top<70 || r.bottom>side.clientHeight-10) links[active].scrollIntoView({block:"center"});
+    }
+  }
+}
+let ticking=false;
+window.addEventListener("scroll",()=>{
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(()=>{ spy(); ticking=false });
+},{passive:true});
+
+/* if the tab is left open past midnight, roll the day over */
+setInterval(()=>{
+  if(ymd(new Date())!==TODAY) location.reload();
+}, 60000);
+
+/* ---------- banners ---------- */
+function banner(cls, html){
+  const box=document.getElementById("banners");
+  const d=document.createElement("div");
+  d.className="banner "+cls;
+  d.innerHTML='<div>'+html+'</div><button class="x" aria-label="Dismiss">×</button>';
+  d.querySelector(".x").addEventListener("click",()=>d.remove());
+  box.appendChild(d);
+}
+if(migratedCount){
+  banner("info","<b>"+migratedCount+" items carried over</b> from the old checkbox as "+
+    "“can explain cold”. There was no way to tell “skimmed it” from “can explain it”, so they "+
+    "got the benefit of the doubt. If that is generous, hit <b>re-grade</b> on any track to "+
+    "knock them back to “read it”.");
+}
+/* iOS clears script-writable storage after 7 idle days for sites that are not on the
+   home screen — so this nag is a real durability warning, not a nudge. */
+(function backupNag(){
+  const at=+localStorage.getItem(BKKEY)||0;
+  const graded=Object.keys(state).length;
+  if(!graded) return;
+  const days_=at?Math.floor((Date.now()-at)/864e5):null;
+  if(at && days_<7) return;
+  banner("warn", (at? "No backup in <b>"+days_+" days</b>. " : "<b>You have never backed this up.</b> ")+
+    "Safari can clear site data after 7 idle days unless the site is on your home screen. "+
+    "Open the ☰ drawer → <b>Data → Back up</b>.");
+})();
+drawBackupNote();
+
+recount(); drawHist(); spy();
+
+/* Hand the sync layer explicit references rather than letting it reach into this
+   script's scope. Classic scripts do share a global lexical environment, so the
+   implicit version would work — but in a file that has already shipped one
+   closure-identity bug, invisible coupling is the wrong kind of clever.
+
+   If sync.js is absent (opening this file straight from disk, or a deploy without
+   the API) nothing here runs and the tracker behaves exactly as before. */
+if(window.PrepSync){
+  document.getElementById("syncPanel").hidden=false;
+  PrepSync.start({
+    state:state, days:days, TODAY:TODAY, todayStore:todayStore,
+    save:save, saveDays:saveDays, repaintAll:repaintAll,
+    onSaved:function(fn){ onSaved=fn }, onSavedDays:function(fn){ onSavedDays=fn }
+  });
+}
+</script>
+<!--BUILD:JS-->
+</body>
+</html>

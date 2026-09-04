@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Accenture — Claim Defence Card · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Accenture — Claim Defence Card</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html" class="here">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Company-specific</div>
+    <h1>Claim Defence Card — read this last, ~15 minutes before</h1>
+    <div class="doc-meta">617 words · ~3 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 5 sections</summary><ol><li><a href="#the-numbers-and-what-to-say">The numbers, and what to say</a></li><li><a href="#the-three-narrative-landmines">The three narrative landmines</a></li><li><a href="#measurement-classes--declare-honestly">Measurement classes — declare honestly</a></li><li><a href="#the-anti-rehearsal-rule">The anti-rehearsal rule</a></li><li><a href="#logistics--15001600-ist-today">Logistics — 15:00–16:00 IST today</a></li></ol></details>
+  <div class="prose">
+
+<p>Every number on your resume is a question waiting to be asked. <a class="xref" href="/answers/metric-defence.html"><code>answers/metric-defence.md</code></a> has the full drill; this is the compressed version for today.</p>
+<p><strong>The 30-second test:</strong> metric definition + baseline + n + who measured + biggest confounder. If you can’t do that for a number, <strong>don’t lead with the number</strong> — give the qualitative claim and offer the method. A dropped number costs nothing. A collapsed one is a trust finding, and trust findings don’t recover in a debrief.</p>
+<hr />
+<h2 id="the-numbers-and-what-to-say">The numbers, and what to say</h2>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Say this</th>
+<th>If pressed hard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>~35% answer relevance ↑</strong> (10k-doc RAG)</td>
+<td>Measured on a held-out eval set — class B. Name who labelled it.</td>
+<td>Drop to “materially better on our eval set” + describe the harness</td>
+</tr>
+<tr>
+<td><strong>~40% latency ↓</strong></td>
+<td>Split the mechanism: prompt/context reduction vs caching. Say which dominated.</td>
+<td>Name it as measured on p50 from tracing over N weeks, or declare it directional</td>
+</tr>
+<tr>
+<td><strong>~30% cost ↓</strong></td>
+<td>Same mechanism split; cost per request, not total spend</td>
+<td>“Did quality regress?” is the killer follow-up — have the answer</td>
+</tr>
+<tr>
+<td><strong>~45% review turnaround ↓</strong> (coding assistant)</td>
+<td>Turnaround = PR opened → first review complete. Give the baseline.</td>
+<td>Attribution: your contribution vs the team’s</td>
+</tr>
+<tr>
+<td><strong>~20% agent task success ↑</strong></td>
+<td>Post-benchmark, against the rubric you wrote</td>
+<td>Judge validation — how did you know the eval was right</td>
+</tr>
+<tr>
+<td><strong>~60% tagging effort ↓</strong></td>
+<td>Manual hours before/after</td>
+<td>Directional if you didn’t time-track it — say so</td>
+</tr>
+<tr>
+<td><strong>~85% accuracy</strong> (student ML, 50k records)</td>
+<td>Accuracy on what split, what baseline, class balance</td>
+<td>⚠️ Your own dossier flags this as the longest follow-up chain. Know precision/recall, not just accuracy</td>
+</tr>
+<tr>
+<td><strong>10k docs / 1M events per day / 50k records</strong></td>
+<td>Scale claims — just be sure the units are right</td>
+<td>These are usually safe; don’t inflate them under pressure</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="the-three-narrative-landmines">The three narrative landmines</h2>
+<p><strong>“8+ years, but B.Tech 2014.”</strong> One number, tied to 2016 (freelance start), one line, no apology. Say it the same way every time it comes up.</p>
+<p><strong>Turing (Jan 2024–Jan 2025) overlapping KNS (Aug 2023–present).</strong> Volunteer it in ~25 seconds before they find it: part-time contract engagement alongside the full-time role, disclosed, no conflict. Waiting to be caught is what makes it look like something.</p>
+<p><strong>MCP timeline.</strong> Announced 25 Nov 2024; Turing engagement ended Jan 2025. Say “adopted it in the last stretch of that engagement.” Never imply it spanned the whole thing.</p>
+<hr />
+<h2 id="measurement-classes--declare-honestly">Measurement classes — declare honestly</h2>
+<ul>
+<li><strong>A — Instrumented:</strong> continuously measured in production, dashboard exists</li>
+<li><strong>B — Sampled/evaluated:</strong> measured on an eval set or sample</li>
+<li><strong>C — Directional:</strong> reasoned from partial data</li>
+</ul>
+<p>Proactively saying “that one’s directional, and here’s what I’d instrument to make it real” reads as <em>more</em> senior, not less. Being caught presenting a C as an A is fatal.</p>
+<hr />
+<h2 id="the-anti-rehearsal-rule">The anti-rehearsal rule</h2>
+<p>A technical claim is only worth making if you can attach one concrete, slightly boring detail — a bug, a column name, an argument you had, a number that came out wrong. Recited depth with no texture reads as <em>studied</em>, and an interviewer who suspects that will probe one level lower until you break. <strong>No texture → one sentence, then move on.</strong></p>
+<hr />
+<h2 id="logistics--15001600-ist-today">Logistics — 15:00–16:00 IST today</h2>
+<ul>
+<li>Join link is in the “Your Interview has been successfully Scheduled” email from <a href="mailto:Interview.Schedule@accenture.com">Interview.Schedule@accenture.com</a></li>
+<li><strong>Log in at 14:50.</strong> They say 10 minutes early, and setup delays are on you</li>
+<li>Camera and mic on throughout; stay clearly in frame</li>
+<li>Recorded and audited. No second screen, no external assistance — Accenture’s terms are explicit that this disqualifies you from this role and future ones</li>
+<li>Have water, a pen, and your own two questions for them</li>
+</ul>
+<p><strong>Last thing before you join:</strong> close the prep files. Everything you’re going to use is already in your head by then, and having them open only invites the eye-drift that interviewers read as reading.</p>
+<p>Good luck.</p>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/accenture/answer-frameworks.html"><div class="k">Previous</div><div class="l">Accenture — Answer Frameworks</div></a><a class="nx" href="/diagrams/index.html"><div class="k">Next</div><div class="l">Architecture Diagrams</div></a></nav>
+  <footer class="site">
+    Source: <code>accenture/claim-defence-card.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

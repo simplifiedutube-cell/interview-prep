@@ -1,0 +1,87 @@
+<!DOCTYPE html><meta charset=utf-8><title>func</title>
+<style>html,body{margin:0}iframe{border:0;width:390px;height:844px}</style><pre id=out>…</pre>
+<script>
+const L=[]; const log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
+function frame(){return new Promise(r=>{
+  const f=document.createElement("iframe"); f.src="/index.html";
+  f.onload=()=>setTimeout(()=>r(f),500); document.body.appendChild(f);});}
+const kill=f=>f.remove();
+(async()=>{
+try{
+  // ---------- 1. MIGRATION from the legacy binary store ----------
+  localStorage.clear();
+  let f = await frame();
+  let ids=[...f.contentDocument.querySelectorAll('li.item[data-track]')].slice(0,20).map(l=>l.dataset.id);
+  kill(f);
+  localStorage.clear();
+  localStorage.setItem("mt.v2", JSON.stringify(Object.fromEntries(ids.map(i=>[i,1]))));
+  const v2before = localStorage.getItem("mt.v2");
+
+  f = await frame();
+  let d=f.contentDocument;
+  let cold=[...d.querySelectorAll('li.item[data-track][data-s="2"]')].length;
+  let read=[...d.querySelectorAll('li.item[data-track][data-s="1"]')].length;
+  log(cold===20 && read===0, `migration: 20 legacy ticks -> ${cold} cold / ${read} read (want 20/0)`);
+  log(!!d.querySelector(".banner.info"), "migration banner shown once");
+  log(localStorage.getItem("mt.v2")===v2before, "mt.v2 left byte-identical (rollback preserved)");
+  const box=JSON.parse(localStorage.getItem("mt.v3"));
+  log(box.v===3 && box.migratedCount===20, `mt.v3 written: v=${box.v} migratedCount=${box.migratedCount}`);
+  const at1=box.migratedAt; kill(f);
+
+  // ---------- 2. IDEMPOTENT ----------
+  f = await frame(); d=f.contentDocument;
+  const box2=JSON.parse(localStorage.getItem("mt.v3"));
+  log(!d.querySelector(".banner.info"), "second load: banner does NOT reappear");
+  log([...d.querySelectorAll('li.item[data-track][data-s="2"]')].length===20, "second load: still 20 cold");
+
+  // ---------- 3. TRI-STATE CYCLE ----------
+  const li=[...d.querySelectorAll('li.item[data-track]')].find(l=>l.dataset.s==="0");
+  const btn=li.querySelector(".tri"); const seq=[];
+  for(let i=0;i<4;i++){ btn.click(); seq.push(li.dataset.s); }
+  log(seq.join("")==="1201", `tap x4 cycles 0->1->2->0->1 (got ${seq.join("->")})`);
+
+  // ---------- 4. PROGRESS SURFACES UPDATE ----------
+  const trackId=li.dataset.track;
+  const pct=d.querySelector(`[data-pct="${trackId}"]`).textContent;
+  const navc=d.querySelector(`[data-navc="${trackId}"]`).textContent;
+  const gstat=d.getElementById("gstat").textContent;
+  log(/read/.test(pct), `section header shows read count: "${pct.trim()}"`);
+  log(/\d+\/\d+/.test(navc), `nav count updates: "${navc}"`);
+  log(/cold/.test(gstat)&&/locked/.test(gstat), `global: "${gstat.trim()}"`);
+  const fillr=d.querySelector(`[data-fillr="${trackId}"]`).style.width;
+  log(fillr!=="" && fillr!=="0%", `read bar segment has width: ${fillr}`);
+
+  // ---------- 5. FILTER MODES ----------
+  const tgl=d.getElementById("tgl"); const vis=()=>[...d.querySelectorAll('li.item[data-track]:not(.hidden)')].length;
+  const all=vis();
+  tgl.click(); const notCold=vis();     // mode 1: hide cold
+  tgl.click(); const todo=vis();        // mode 2: only untouched
+  tgl.click();                          // back to all
+  log(all>notCold && notCold>todo, `filter: all=${all} > not-cold=${notCold} > to-do=${todo}`);
+  log(vis()===all, "filter cycles back to all");
+
+  // ---------- 6. RE-GRADE ----------
+  const before=[...d.querySelectorAll(`li.item[data-track="${trackId}"][data-s="2"]`)].length;
+  f.contentWindow.confirm=()=>true;
+  d.querySelector(`[data-regrade="${trackId}"]`).click();
+  const after=[...d.querySelectorAll(`li.item[data-track="${trackId}"][data-s="2"]`)].length;
+  const nowRead=[...d.querySelectorAll(`li.item[data-track="${trackId}"][data-s="1"]`)].length;
+  log(after===0 && nowRead>=before, `re-grade: ${before} cold -> 0 cold, ${nowRead} read`);
+
+  // ---------- 7. BACKUP PAYLOAD ----------
+  const pl=f.contentWindow.payload();
+  const vals=Object.values(pl.state);
+  log(pl.v===3 && vals.every(v=>v===1||v===2), `backup payload v=${pl.v}, values in {1,2}: ${vals.length} items`);
+  log(!!pl.days && typeof pl.days==="object", "backup includes days");
+
+  // ---------- 8. t00 STAYS BINARY ----------
+  const t0=d.querySelector('#t00 li.item input[type=checkbox]');
+  log(!!t0, "Today items are still real checkboxes");
+  log(!d.querySelector('#t00 li.item .tri'), "Today has no tri-state controls");
+  const hist=d.querySelectorAll("#hist i").length;
+  log(hist===21, `heatmap still 21 cells (got ${hist})`);
+  kill(f);
+}catch(e){ L.push("ERROR "+e.message+"\n"+e.stack); }
+  document.getElementById("out").textContent=L.join("\n"); document.title="DONE";
+})();
+</script>

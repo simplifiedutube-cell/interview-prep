@@ -2,24 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Interview Question Bank — Kadiam Rao</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<!--BUILD:HEAD-->
 <style>
   :root{
     --bg:#F5F6F2; --panel:#FFFFFF; --ink:#18222E; --muted:#5A6673;
     --line:#DFE3DA; --teal:#0E6B5C; --teal-soft:#E3F0EC;
     --amber:#B4700F; --amber-soft:#FBF1DF;
     --red:#9E3B2E; --red-soft:#F8E9E5;
-    --mono:'JetBrains Mono',monospace; --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+    --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
+    --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+    --disp:ui-rounded,-apple-system,'SF Pro Display',system-ui,'Segoe UI',sans-serif;
+    --body:-apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,var(--emoji);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth;color-scheme:light}
   body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6}
   a{color:var(--teal)}
-  .wrap{max-width:880px;margin:0 auto;padding:0 20px 120px}
+  .wrap{max-width:880px;margin:0 auto;
+        padding-left:max(16px,env(safe-area-inset-left));
+        padding-right:max(16px,env(safe-area-inset-right));
+        padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 
   header{padding:56px 0 28px;border-bottom:2px solid var(--ink)}
   .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
@@ -30,9 +34,16 @@
   .chip b{font-weight:600}
   .chip.deep b{color:var(--teal)} .chip.trap b{color:var(--amber)} .chip.num b{color:var(--red)}
 
-  nav{position:sticky;top:0;background:rgba(245,246,242,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:50;overflow-x:auto;white-space:nowrap;padding:10px 0;margin-bottom:8px}
-  nav a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;margin-right:18px}
+  nav{position:sticky;top:0;background:rgba(245,246,242,.94);backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--line);z-index:50;overflow-x:auto;white-space:nowrap;
+      padding:4px 0;margin-bottom:8px;position:relative;
+      scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  nav a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;
+        margin-right:18px;display:inline-block;padding:11px 0;scroll-snap-align:start}
   nav a:hover{color:var(--teal)}
+  nav::after{content:"";position:sticky;right:0;top:0;float:right;width:26px;height:100%;
+      margin-left:-26px;background:linear-gradient(90deg,rgba(245,246,242,0),rgba(245,246,242,.94));
+      pointer-events:none}
 
   section{margin-top:52px}
   .sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
@@ -52,18 +63,41 @@
   .tag.deep{background:var(--teal-soft);color:var(--teal)}
   .tag.trap{background:var(--amber-soft);color:var(--amber)}
   .tag.num{background:var(--red-soft);color:var(--red)}
-  .a{padding:2px 18px 18px 64px;color:#2A3542;font-size:14.5px;border-top:1px dashed var(--line)}
+  .a{padding:2px 16px 18px 20px;color:#2A3542;font-size:14.5px;border-top:1px dashed var(--line)}
   .a p{margin-top:10px}
   .a ul{margin:10px 0 0 18px}
   .a li{margin-bottom:6px}
   .a .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:block;margin-top:14px}
   .a code{font-family:var(--mono);font-size:13px;background:#F0F2ED;padding:1px 5px;border-radius:4px}
-  @media(max-width:640px){.a{padding-left:18px}}
+  @media(min-width:760px){.a{padding:2px 18px 18px 64px}}
+  @media(max-width:640px){
+    header{padding:24px 0 20px}
+    summary{flex-wrap:wrap;padding:14px 16px;gap:8px}
+    summary .q-ix{min-width:0;flex:0 0 auto}
+    /* flex-basis:0 keeps the question on line 1 with its index instead of
+       wrapping to a line of its own; only the tag is pushed down */
+    summary>span:nth-of-type(2){flex:1 1 0;min-width:0}
+    /* content-sized, sitting after the question rather than as a full-width band */
+    summary .tag{flex:0 0 auto;margin-left:0;align-self:flex-start;margin-top:3px;order:1}
+    summary .arrow{order:2}
+    .flow{padding:14px}
+  }
 
   .flow{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0 24px}
   .flow h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
   .flow p.cap{color:var(--muted);font-size:13px;margin-bottom:10px}
-  .mermaid{display:flex;justify-content:center;overflow-x:auto}
+  .mermaid{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+      border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px}
+  .mermaid svg,.mermaid img{display:block;height:auto}
+  .mermaid.fit svg,.mermaid.fit img{width:100%}
+  .dg-bar{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .dg-bar .btn{font-family:var(--mono);font-size:11.5px;min-height:36px;padding:0 12px;border-radius:6px;
+      border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;
+      display:inline-flex;align-items:center;touch-action:manipulation}
+  .dg-bar .btn.on{background:var(--teal);border-color:var(--teal);color:#fff}
+  .dg-hint{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:auto}
+  .mmd-src{font-family:var(--mono);font-size:11.5px;line-height:1.5;white-space:pre;
+      color:var(--muted);padding:4px}
 
   .callout{background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 18px;margin:20px 0;font-size:14.5px}
   .callout.warn{background:var(--amber-soft);border-color:var(--amber)}
@@ -143,21 +177,7 @@
   <div class="flow">
     <h3>Flow — the pipeline you must be able to draw in 3 minutes</h3>
     <p class="cap">Practice narrating this left to right, naming a failure mode at every arrow.</p>
-    <pre class="mermaid">
-flowchart LR
-  subgraph Ingest["Ingestion (offline)"]
-    A[Docs 10k+] --> B[Parse & clean] --> C[Chunk] --> D[Embed] --> E[(Pinecone index)]
-  end
-  subgraph Query["Query path (online)"]
-    Q[Student query] --> QE[Embed query] --> R[Retrieve top-k] --> RR[Rerank] --> P[Grounded prompt + citations] --> G[LLM generate]
-  end
-  E --> R
-  G --> V{Guardrails: grounded? cites context?}
-  V -- pass --> U[Answer to student]
-  V -- fail --> F[Refuse / fallback answer]
-  U --> M[Eval dashboard: relevance, faithfulness, latency, cost]
-  M -. golden set regressions .-> P
-    </pre>
+    <!--BUILD:MERMAID:1-->
   </div>
 
   <details><summary><span class="q-ix">2.1</span><span>Walk me through the architecture end to end.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
@@ -316,22 +336,7 @@ flowchart LR
   <div class="flow">
     <h3>Flow — the agent loop with your guard mechanisms</h3>
     <p class="cap">Interviewers want the loop AND the brakes. Narrate stop conditions and verification, not just the happy path.</p>
-    <pre class="mermaid">
-flowchart TD
-  W[Webhook: PR opened / CI event] --> PL[Agent: plan change]
-  PL --> T{Select tool via MCP}
-  T --> RD[read files] & ED[edit code] & RN[run tests / CI]
-  RD --> OB[Observe result]
-  ED --> OB
-  RN --> OB
-  OB --> CK{Done? budget left? loop detected?}
-  CK -- continue --> PL
-  CK -- budget/loop limit --> HITL[Escalate to human]
-  CK -- done --> VF[Validate: tests pass + diff review]
-  VF -- pass --> PR[Comment / propose commit on PR]
-  VF -- fail --> HITL
-  PR --> HR[Human reviewer approves]
-    </pre>
+    <!--BUILD:MERMAID:2-->
   </div>
 
   <details><summary><span class="q-ix">7.1</span><span>Walk me through one full run: webhook fires → agent finishes. What tools does it have and what can it NOT do?</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
@@ -459,14 +464,7 @@ flowchart TD
   <div class="flow">
     <h3>Flow — the latency budget you must recite</h3>
     <p class="cap">Know your measured per-stage numbers. "Sub-800ms round trip" invites "break that down for me."</p>
-    <pre class="mermaid">
-flowchart LR
-  U[User speaks] --> W[WebRTC transport] --> VAD[VAD: end of speech] --> STT[Sarvam STT<br/>Telugu + English] --> L[Gemini<br/>first token fast] --> TTS[Sarvam TTS<br/>streamed] --> O[Audio out]
-  O -.->|target < 800ms total| U
-  STT -. per-stage timers .-> M[(Latency instrumentation)]
-  L -. per-stage timers .-> M
-  TTS -. per-stage timers .-> M
-    </pre>
+    <!--BUILD:MERMAID:3-->
   </div>
 
   <details><summary><span class="q-ix">11.1</span><span>Break the 800ms budget down by stage. Which stage is the bottleneck and what did you do about it?</span><span class="tag num">METRIC</span><span class="arrow">›</span></summary>
@@ -503,17 +501,7 @@ flowchart LR
   <div class="flow">
     <h3>Flow — hybrid retrieval with hard tenant isolation</h3>
     <p class="cap">The isolation predicate is the differentiator. Make sure it's visually and verbally the center of your explanation.</p>
-    <pre class="mermaid">
-flowchart TD
-  Q[Query + tenant_id from auth] --> D[Dense embedding search] & S[BM25 / FTS5 keyword search]
-  D --> FD[WHERE tenant_id = :t<br/>OR corpus = 'public law']
-  S --> FS[WHERE tenant_id = :t<br/>OR corpus = 'public law']
-  FD --> RRF[Reciprocal Rank Fusion]
-  FS --> RRF
-  RRF --> CE[Cross-encoder rerank] --> P[Grounded prompt<br/>AUSTRAC guidance + firm procedures] --> G[LLM answer with citations]
-  style FD fill:#E3F0EC,stroke:#0E6B5C
-  style FS fill:#E3F0EC,stroke:#0E6B5C
-    </pre>
+    <!--BUILD:MERMAID:4-->
   </div>
 
   <details><summary><span class="q-ix">12.1</span><span>Why is "tenant isolation as a SQL predicate rather than a prompt instruction" the right design? Steelman the prompt approach first.</span><span class="tag deep">DEEP-DIVE</span><span class="arrow">›</span></summary>
@@ -678,17 +666,6 @@ flowchart TD
 <footer>Generated from Kadiam_Rao_Resume.docx · Aug 2026 · ~130 questions across 17 sections</footer>
 </div>
 
-<script>
-mermaid.initialize({
-  startOnLoad:true, theme:'base', securityLevel:'loose',
-  themeVariables:{
-    fontFamily:'Inter, sans-serif', fontSize:'13px',
-    primaryColor:'#FFFFFF', primaryTextColor:'#18222E', primaryBorderColor:'#5A6673',
-    lineColor:'#5A6673', clusterBkg:'#F0F2ED', clusterBorder:'#DFE3DA',
-    edgeLabelBackground:'#F5F6F2'
-  },
-  flowchart:{curve:'basis', htmlLabels:true, useMaxWidth:true}
-});
-</script>
+<!--BUILD:JS-->
 </body>
 </html>

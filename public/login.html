@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Sign in · Prep</title>
+<style>
+  body{display:grid;place-items:center;min-height:100dvh;
+       padding:max(20px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-left))
+               calc(20px + env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-right))}
+  .card{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);
+        border-radius:14px;padding:26px 22px}
+  .mark{width:44px;height:44px;border-radius:11px;background:var(--teal);
+        display:grid;align-content:center;gap:4px;padding:11px;margin-bottom:18px}
+  .mark i{display:block;height:4px;border-radius:2px;background:#fff}
+  .mark i:nth-child(1){width:62%} .mark i:nth-child(2){width:44%} .mark i:nth-child(3){width:78%}
+  h1{font-family:var(--disp);font-size:21px;font-weight:700;line-height:1.2}
+  p.sub{color:var(--muted);font-size:13.5px;margin-top:7px}
+  label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+        text-transform:uppercase;color:var(--muted);margin:20px 0 7px}
+  input{width:100%;font-family:var(--body);font-size:16px;padding:12px 13px;border-radius:9px;
+        border:1px solid var(--line);background:#fff;color:var(--ink);min-height:48px}
+  input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+  button{width:100%;margin-top:14px;min-height:48px;border:0;border-radius:9px;
+         background:var(--teal);color:#fff;font-family:var(--mono);font-size:13px;
+         cursor:pointer;touch-action:manipulation}
+  button:disabled{opacity:.6;cursor:default}
+  button:active{transform:scale(.99)}
+  .err{margin-top:13px;font-size:13px;color:var(--red);background:var(--red-soft);
+       border-radius:8px;padding:10px 12px;display:none}
+  .err.on{display:block}
+  .foot{margin-top:18px;font-family:var(--mono);font-size:10.5px;color:var(--muted);line-height:1.7}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="mark" aria-hidden="true"><i></i><i></i><i></i></div>
+  <h1>Interview prep</h1>
+  <p class="sub">Your tracker, the library, and your progress. Enter the passphrase to continue.</p>
+  <form id="f" autocomplete="on">
+    <label for="p">Passphrase</label>
+    <input id="p" name="password" type="password" autocomplete="current-password"
+           autocapitalize="none" autocorrect="off" spellcheck="false" required>
+    <button type="submit" id="go">Sign in</button>
+  </form>
+  <div class="err" id="e" role="alert"></div>
+  <div class="foot">
+    Signs you in on this device for 90 days.<br>
+    The database stores item ids and a number each — never the text of what you are studying.
+  </div>
+</main>
+<script>
+(function () {
+  var f = document.getElementById("f"), p = document.getElementById("p"),
+      e = document.getElementById("e"), go = document.getElementById("go");
+  function fail(msg) { e.textContent = msg; e.classList.add("on"); go.disabled = false; go.textContent = "Sign in"; }
+  f.addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    e.classList.remove("on");
+    go.disabled = true; go.textContent = "Signing in…";
+    try {
+      var r = await fetch("/api/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ passphrase: p.value }),
+      });
+      if (r.ok) {
+        var nx = new URLSearchParams(location.search).get("next");
+        /* only ever same-origin, and never back to the login page itself */
+        location.replace(nx && /^\/(?!\/)/.test(nx) && nx.indexOf("/login.html") !== 0 ? nx : "/index.html");
+        return;
+      }
+      var body = await r.json().catch(function () { return {}; });
+      fail(r.status === 401 ? "That passphrase is not right." : (body.error || "Sign-in failed."));
+    } catch (err) {
+      fail("Could not reach the server. Check your connection.");
+    }
+  });
+  p.focus();
+})();
+</script>
+</body>
+</html>

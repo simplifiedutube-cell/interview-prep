@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Accenture — Question Bank · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Accenture — Question Bank</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html" class="here">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Company-specific</div>
+    <h1>Accenture — Custom Software Engineer, Skills Interview</h1>
+    <div class="doc-meta">1,033 words · ~5 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 7 sections</summary><ol><li><a href="#question-bank--5-aug-2026-15001600-ist">Question Bank · 5 Aug 2026, 15:00–16:00 IST</a></li><li><a href="#tier-1--prepare-cold-highest-probability">Tier 1 — Prepare cold. Highest probability.</a></li><li><a href="#tier-2--likely-have-the-shape-ready">Tier 2 — Likely. Have the shape ready.</a></li><li><a href="#tier-3--design--scenario-one-of-these-is-likely">Tier 3 — Design &amp; scenario. One of these is likely.</a></li><li><a href="#tier-4--behavioural--hr-short-answers-then-stop-talking">Tier 4 — Behavioural / HR. Short answers, then stop talking.</a></li><li><a href="#the-three-questions-most-likely-to-hurt-you">The three questions most likely to hurt you</a></li><li><a href="#ask-them-at-the-end-have-two-ready">Ask them at the end (have two ready)</a></li></ol></details>
+  <div class="prose">
+
+<h2 id="question-bank--5-aug-2026-15001600-ist">Question Bank · 5 Aug 2026, 15:00–16:00 IST</h2>
+<p><strong>Scope note.</strong> Your existing <a class="xref" href="/ai-engineer-interviews/real-questions.html"><code>ai-engineer-interviews/real-questions.md</code></a> is calibrated for frontier-lab and AI-native product loops (Anthropic, Sierra, Harvey, Glean). This round is different and generally easier: an India ATCI lateral “Skills Interview” for <strong>Custom Software Engineer</strong>, one hour, one or two interviewers, submitted via BSL Placement. Expect breadth over depth — Python and backend fundamentals first, GenAI second, one light design question, and resume probing throughout. Do not walk in optimised for a research-lab bar; walk in able to explain ordinary engineering cleanly.</p>
+<p>The Accenture-attested verbatim questions below are marked <strong>[ACN-verbatim]</strong> and come from your own corpus (Accenture, Dec 2025 first-person accounts). Those are the highest-value items on this page.</p>
+<hr />
+<h2 id="tier-1--prepare-cold-highest-probability">Tier 1 — Prepare cold. Highest probability.</h2>
+<h3 id="python--backend">Python &amp; backend</h3>
+<ol type="1">
+<li>Difference between a list and a tuple; when would you use each. <em>(Near-universal opener in Indian service-company technical rounds.)</em></li>
+<li>Mutable vs immutable types — and the classic trap: what happens when you use a mutable default argument.</li>
+<li>Decorators — what they are, and one you’ve actually written.</li>
+<li>Generators vs lists; when memory matters. <em>(Ties to your 1M-events/day pipeline.)</em></li>
+<li><code>*args</code> / <code>**kwargs</code>.</li>
+<li>What is the GIL, and what does it mean for concurrency in Python.</li>
+<li><code>asyncio</code> vs threading vs multiprocessing — and which you’d pick for an I/O-bound API. <em>(FastAPI makes this near-certain.)</em></li>
+<li>Shallow vs deep copy.</li>
+<li>Exception handling: <code>try/except/else/finally</code>, and custom exceptions.</li>
+<li>List comprehension vs <code>map</code>/<code>filter</code>.</li>
+</ol>
+<h3 id="fastapi--api-design">FastAPI / API design</h3>
+<ol start="11" type="1">
+<li>Why FastAPI over Flask or Django — you claim 4 years on it, so have a real answer, not “it’s fast.”</li>
+<li>How Pydantic validation works, and what you gain from it.</li>
+<li>Dependency injection in FastAPI — what you use it for.</li>
+<li><code>async def</code> vs <code>def</code> endpoints — what actually happens differently.</li>
+<li>REST design: status codes, versioning, pagination, idempotency.</li>
+<li>Authentication — JWT/OAuth2 flow at a high level.</li>
+<li>How would you handle a long-running request (background tasks, queues).</li>
+</ol>
+<h3 id="sql--data">SQL &amp; data</h3>
+<ol start="18" type="1">
+<li><code>JOIN</code> types; write a query with a <code>GROUP BY</code> and a <code>HAVING</code>.</li>
+<li>Indexes — what they cost, when they don’t get used.</li>
+<li>N+1 query problem and how you fix it in SQLAlchemy.</li>
+<li>Transactions and ACID; what isolation level problems look like in practice.</li>
+</ol>
+<h3 id="genai--rag--your-differentiator">GenAI / RAG — your differentiator</h3>
+<ol start="22" type="1">
+<li><strong>“Explain how RAG works, end to end.”</strong> <strong>[ACN-verbatim]</strong> — the single most-asked question in your entire corpus. Must be crisp.</li>
+<li><strong>“What are you storing in the vector database?”</strong> <strong>[ACN-verbatim]</strong> — they want: embeddings + the chunk text + metadata for filtering. Say all three.</li>
+<li><strong>“What are embeddings?”</strong> / <strong>“How does chunking happen?”</strong> <strong>[ACN-verbatim]</strong></li>
+<li><strong>“What is the key difference between a Generative AI system and an Agentic AI system?”</strong> <strong>[ACN-verbatim]</strong></li>
+<li><strong>“Have you heard about MCP?”</strong> <strong>[ACN-verbatim]</strong> — know the control model: tools are model-controlled, resources app-controlled, prompts user-controlled.</li>
+<li><strong>“Which framework did you use — LangChain or CrewAI — and why?”</strong> <strong>[ACN-verbatim]</strong> — answer honestly from what you actually used; do not claim CrewAI depth you don’t have.</li>
+<li>When do you fine-tune vs RAG vs prompt engineering.</li>
+<li>Your RAG returns the right chunks but the answer still hallucinates — fix it.</li>
+<li>How do you evaluate a RAG pipeline. <em>(Faithfulness, answer relevance, context precision/recall.)</em></li>
+</ol>
+<hr />
+<h2 id="tier-2--likely-have-the-shape-ready">Tier 2 — Likely. Have the shape ready.</h2>
+<ol start="31" type="1">
+<li>Temperature, top-k, top-p.</li>
+<li>What is a context window; what happens when you exceed it.</li>
+<li>Why do hallucinations happen.</li>
+<li>Hybrid search — BM25 + dense, and what RRF does. <em>(Your AML/CTF project is the answer here.)</em></li>
+<li>Reranking — why, and what it costs you in latency.</li>
+<li>How do you refresh embeddings when source documents change.</li>
+<li>Which vector DB and why; what were the alternatives. <em>(You have real Pinecone production experience — lead with that, not the hobby projects.)</em></li>
+<li>How does an agent decide which tool to call; what happens when a tool fails.</li>
+<li>How do you stop an agent looping forever.</li>
+<li>Prompt injection — through retrieved content or tool output.</li>
+<li>Docker: image vs container, what goes in a Dockerfile, why you’d use compose. <em>(Your air-gapped build work is unusually strong here.)</em></li>
+<li>CI/CD — what your pipeline actually ran.</li>
+<li>Git: merge vs rebase, resolving a conflict, what you’d do about a bad commit on main.</li>
+<li>Unit vs integration tests; what you test in an LLM system specifically.</li>
+</ol>
+<hr />
+<h2 id="tier-3--design--scenario-one-of-these-is-likely">Tier 3 — Design &amp; scenario. One of these is likely.</h2>
+<ol start="45" type="1">
+<li>Design a document Q&amp;A system for an enterprise with 10,000+ documents and per-user permissions. <em>(This is your day job plus your tenant-isolation work — the strongest possible draw.)</em></li>
+<li>Design a REST API for a booking/ticketing system.</li>
+<li>Scale a RAG system from 10k to 10M documents — what breaks first. <em>(Use the 6-move template in <a class="xref" href="/story-bank.html"><code>story-bank.md</code></a>. The answer is never “the LLM.”)</em></li>
+<li>How would you debug an API that got slow in production but is fine in staging.</li>
+<li>How would you add caching to reduce LLM cost. <em>(You have the −30% cost claim; this is an invitation to use it.)</em></li>
+</ol>
+<hr />
+<h2 id="tier-4--behavioural--hr-short-answers-then-stop-talking">Tier 4 — Behavioural / HR. Short answers, then stop talking.</h2>
+<ol start="50" type="1">
+<li>Walk me through your resume. <em>(90 seconds. Not five minutes.)</em></li>
+<li>Why are you looking to change.</li>
+<li>Why Accenture / why a services company after product work. <em>(Have a real answer. This one catches people who obviously only want a raise.)</em></li>
+<li>Tell me about a difficult bug and how you found it.</li>
+<li>A time you disagreed with a technical decision.</li>
+<li>Biggest project you’ve owned end to end.</li>
+<li>Where do you see yourself in three years.</li>
+<li>Are you comfortable with client-facing work, shifts, relocation, return-to-office. <em>(Accenture asks. Know your answer before it’s asked.)</em></li>
+<li>Notice period and expected CTC. <em>(One number, not a range — see <a class="xref" href="/story-bank.html"><code>story-bank.md</code></a>.)</em></li>
+</ol>
+<hr />
+<h2 id="the-three-questions-most-likely-to-hurt-you">The three questions most likely to hurt you</h2>
+<p><strong>“You say 8+ years but your B.Tech is 2014.”</strong> One consistent number tied to 2016, one line, no defensiveness. Script it before you log in.</p>
+<p><strong>“You were at Turing and KNS at the same time.”</strong> 25 seconds, volunteered before they find it. Your <a class="xref" href="/answers/metric-defence.html"><code>answers/metric-defence.md</code></a> has the script — read it once today.</p>
+<p><strong>“How exactly did you measure that 40% latency reduction?”</strong> Every number on your resume is a live grenade if you can’t state metric definition, baseline, n, and confounder in 30 seconds. See the claim-defence sheet.</p>
+<hr />
+<h2 id="ask-them-at-the-end-have-two-ready">Ask them at the end (have two ready)</h2>
+<ul>
+<li>What does the delivery team look like, and what would the first project be?</li>
+<li>Is this role building GenAI systems for clients, or maintaining existing applications? <em>(A real question, and it signals you’re evaluating them too.)</em></li>
+</ul>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/ai-engineer-interviews/resources.html"><div class="k">Previous</div><div class="l">Resources by interview round</div></a><a class="nx" href="/accenture/answer-frameworks.html"><div class="k">Next</div><div class="l">Accenture — Answer Frameworks</div></a></nav>
+  <footer class="site">
+    Source: <code>accenture/question-bank.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>AI Engineer Interview Checklist · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">AI Engineer Interview Checklist</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html" class="here">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Daily plans</div>
+    <h1>AI Engineer Interview Checklist — built from real interview experiences</h1>
+    <div class="doc-meta">3,276 words · ~15 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 15 sections</summary><ol><li><a href="#the-headline-finding">The headline finding</a></li><li><a href="#round-1--recruiter--hr-screen--100-of-loops">Round 1 — Recruiter / HR screen · ~100% of loops</a></li><li><a href="#round-2--the-practical-coding-round--the-modal-ai-engineer-round">Round 2 — The practical coding round · the modal AI-engineer round</a></li><li><a href="#round-3--the-oop--design-a-small-system-in-code-round--the-lab-replacement-for-leetcode">Round 3 — The OOP / “design a small system in code” round · the lab replacement for LeetCode</a></li><li><a href="#round-4--debugging--code-review-round--blindsides-candidates-who-only-prep-greenfield">Round 4 — Debugging / code-review round · blindsides candidates who only prep greenfield</a></li><li><a href="#round-5--the-take-home--33-of-loops-and-you-should-win-it">Round 5 — The take-home · ~33% of loops, and you should win it</a></li><li><a href="#round-6--your-project-interrogated--the-most-failed-round-at-labs">Round 6 — Your project, interrogated · the most-failed round at labs</a></li><li><a href="#round-7--llm--ml-theory--50-of-loops-and-the-classical-ml-ambush-is-real">Round 7 — LLM / ML theory · ~50% of loops, and the classical-ML ambush is real</a></li><li><a href="#round-8--dsa--survives-at-one-round-lc-easy-medium-at-unicorns-and-gccs-only">Round 8 — DSA · survives at ~one round, LC easy-medium, at unicorns and GCCs only</a></li><li><a href="#round-9--ai-assisted-coding--rapidly-growing-and-structurally-your-advantage">Round 9 — AI-assisted coding · rapidly growing, and structurally your advantage</a></li><li><a href="#round-10--customer--discovery-conversation--60-of-fde-and-applied-ai-loops">Round 10 — Customer / discovery conversation · ~60% of FDE and Applied-AI loops</a></li><li><a href="#round-11--system-design--genai-flavoured-not-classic-distributed-systems">Round 11 — System design · GenAI-flavoured, not classic distributed systems</a></li><li><a href="#round-12--behavioral--hm--90-of-loops">Round 12 — Behavioral / HM · ~90% of loops</a></li><li><a href="#the-14-day-drill-rotation">The 14-day drill rotation</a></li><li><a href="#what-the-accounts-say-kills-candidates">What the accounts say kills candidates</a></li></ol></details>
+  <div class="prose">
+
+<p><strong>What this is.</strong> The other checklist (<a class="xref" href="/daily-checklist.html"><code>../DAILY-CHECKLIST.md</code></a>) is organised by <em>day</em> and leans heavily on system-design reps. This one is organised by <strong>round type</strong>, and every round below comes from first-person accounts — Glassdoor, AmbitionBox, LeetCode Discuss, Blind, Reddit, GeeksforGeeks interview experiences, candidate Medium/Substack writeups, and company-published process posts.</p>
+<p><strong>Roles covered:</strong> AI Engineer · GenAI Engineer · Applied AI Engineer · LLM Engineer · Agent Engineer · ML Engineer (applied) · Forward-Deployed / AI Solutions Engineer. These share one loop shape with different weightings — the per-round notes flag where they diverge.</p>
+<p><strong>Evidence tags:</strong> <code>[company, date, source-type]</code>. <code>first-person</code> = a candidate describing their own loop. <code>company-published</code> = the employer describing their own process. <code>aggregate</code> = review-site or field-guide compilation of many candidate reports. Anything I could only find on a prep-marketing site is excluded or explicitly marked.</p>
+<hr />
+<h2 id="the-headline-finding">The headline finding</h2>
+<p>Across every account I found, the loop is <strong>3–5 rounds over 2–4 weeks</strong>, and the decisive round is almost never DSA. It’s one of these three:</p>
+<ol type="1">
+<li><strong>A practical build</strong> — you build something working, in 60 min to 3 days, using real LLM APIs.</li>
+<li><strong>Your own project, interrogated to production depth</strong> — chunking, refresh, eval, troubleshooting, “why this and not that.”</li>
+<li><strong>A customer/discovery conversation</strong> — for FDE and Applied-AI roles specifically.</li>
+</ol>
+<p>And the most-asked single question in the entire corpus, across companies and countries:</p>
+<blockquote>
+<p><strong>“Explain how RAG works, end to end.”</strong> <em>[5+ independent accounts; Sierra uses it as its SWE screen opener — company-published; also Accenture, ZS, Tiger Analytics, Fractal — first-person]</em></p>
+</blockquote>
+<p>You do this for a living. That question should be the easiest 90 seconds of your loop, and right now it’s unrehearsed. Fix that first.</p>
+<hr />
+<h2 id="round-1--recruiter--hr-screen--100-of-loops">Round 1 — Recruiter / HR screen · ~100% of loops</h2>
+<p><strong>What actually happens:</strong> comp expectation, notice period, location/visa, why-this-company. Short. High rejection rate.</p>
+<p><strong>Real failure modes from accounts:</strong></p>
+<ul>
+<li>OpenAI FDE: recruiter arrived 5 min late, cut the call 17 min short, rejected for “lacking signals.” <em>[OpenAI, ~2025, Glassdoor first-person]</em></li>
+<li>ElevenLabs FDE: verbal approval <strong>withdrawn at final stage over visa/location risk</strong>. <em>[ElevenLabs, ~2025, first-person]</em></li>
+</ul>
+<p><strong>Checklist</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>One comp number, not a range. India senior AI eng ≈ ₹42–66L Hyderabad / ₹48–72L Bangalore</label></li>
+<li><label><span class="tick" aria-hidden="true"></span><strong>Force the location/visa question in round 1</strong> for any US/EU company — before you invest 4 weeks</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Immediate availability stated as an advantage (you have no notice period; most India candidates have 60–90 days)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>The Turing/KNS overlap volunteered in 25 seconds (script in <a class="xref" href="/answers/metric-defence.html"><code>../answers/metric-defence.md</code></a>)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>3 prepared questions about <em>their</em> product</label></li>
+</ul>
+<hr />
+<h2 id="round-2--the-practical-coding-round--the-modal-ai-engineer-round">Round 2 — The practical coding round · the modal AI-engineer round</h2>
+<p>This has largely <strong>replaced</strong> LeetCode at AI-first companies. It is project-style: build a small working thing against a real LLM API.</p>
+<p><strong>What was actually given:</strong></p>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Company</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call a flaky API that fails intermittently but eventually succeeds; parse product list with fallback IDs. Graded on <strong>flexible, extensible code — not algorithms</strong></td>
+<td>Sierra</td>
+<td>first-person</td>
+</tr>
+<tr>
+<td><strong>Build a Voice Activity Detector from scratch, 2.5 hr proctored, ~50 audio files.</strong> Any tool except external APIs. Judged on accuracy, code quality, proposed improvements. <em>“No DSA was asked.”</em> Offer: ₹84 LPA</td>
+<td>Sarvam AI, Dec 2024</td>
+<td>first-person (Blind)</td>
+</tr>
+<tr>
+<td>File-system permission inheritance with nested-folder conflicts + timestamp resolution — <strong>written in a Google Doc</strong></td>
+<td>ElevenLabs FDE</td>
+<td>first-person</td>
+</tr>
+<tr>
+<td>Sound-classification task in the coding round</td>
+<td>Observe.AI, Nov 2025</td>
+<td>Glassdoor</td>
+</tr>
+<tr>
+<td>5-part real-world machine-coding problem</td>
+<td>Perplexity</td>
+<td>first-person (Blind)</td>
+</tr>
+<tr>
+<td>Parse complex JSON by pattern → feed to LLM → generate summary, 30 min, <strong>ChatGPT allowed</strong></td>
+<td>unnamed GenAI startup, Oct 2024</td>
+<td>first-person (hired)</td>
+</tr>
+<tr>
+<td>FastAPI API optimisation with an obscure DB driver, <strong>AI explicitly allowed</strong></td>
+<td>LangChain, Mar 2026</td>
+<td>Glassdoor</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The sub-skills these actually test</strong> — drill these, not LeetCode:</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Async client with <strong>bounded concurrency</strong> (<code>Semaphore</code>), retry with exponential backoff, timeouts. <em>“100 sequential LLM calls → ≤20 in flight, handle partial failure”</em> is the archetype</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Which HTTP codes to retry (429, 5xx) and which not to (4xx). Rate-limit handling</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Streaming: SSE handling, partial-JSON accumulation, time-to-first-token</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Cost awareness stated out loud while coding</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Clean, extensible structure over clever algorithms — Sierra grades exactly this</label></li>
+</ul>
+<p><strong>Drills (do 6, timed, camera on, talking aloud):</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Async batch client: 100 prompts, ≤20 concurrent, retry/backoff, collect partial results</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>SSE streaming handler that accumulates partial JSON into a validated Pydantic model</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Token-bucket rate limiter for <em>tokens</em>, not requests</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Tool-dispatch loop with retries and a step budget</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Cosine similarity + top-k in NumPy, batched</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>BM25 and RRF (<code>Σ 1/(60+rank)</code>) from scratch — <strong>you use RRF in your own project and must be able to write it</strong></label></li>
+</ul>
+<hr />
+<h2 id="round-3--the-oop--design-a-small-system-in-code-round--the-lab-replacement-for-leetcode">Round 3 — The OOP / “design a small system in code” round · the lab replacement for LeetCode</h2>
+<p>Progressive-difficulty, multi-level, 60 min. Common at OpenAI, Anthropic, Databricks.</p>
+<p><strong>Real examples:</strong> in-memory KV store with SET/GET/DELETE, extended level by level <em>[Anthropic]</em> · in-memory SQL-like DB / LC-2408 “Design SQL” <em>[OpenAI L5]</em> · GPU-credits management system <em>[OpenAI]</em> · LRU cache in O(1) <em>[xAI]</em> · rate limiter, circuit breaker, thread pool. <em>[all: first-person compilations]</em></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>LRU cache, O(1), from blank file — twice</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>In-memory KV store with TTL, then extend: transactions, then nested transactions</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Rate limiter (token bucket + sliding window)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Practice the <em>progressive</em> format: solve level 1 fast and cleanly, because level 4 is where they actually judge you</label></li>
+</ul>
+<hr />
+<h2 id="round-4--debugging--code-review-round--blindsides-candidates-who-only-prep-greenfield">Round 4 — Debugging / code-review round · blindsides candidates who only prep greenfield</h2>
+<p><strong>Real formats:</strong></p>
+<ul>
+<li>Sierra: <strong>4–5 file agent codebase + intended-behaviour diagram; find and fix ~3 planted bugs</strong>, optimise if time remains <em>[first-person]</em></li>
+<li>Sierra (2026 pilot): pull down a colleague’s <strong>draft PR</strong>, review and improve it, “iterating with coding agents” <em>[company-published]</em></li>
+<li>DeepMind: a dedicated <strong>code-review interview</strong> <em>[Blind]</em></li>
+<li>Multi-file phases: find bugs → analyse complexity → implement feature → optimise, ~60 min <em>[OpenAI, Meta]</em></li>
+</ul>
+<p><strong>The canonical AI-specific debugging scenario, seen in 4+ accounts:</strong></p>
+<blockquote>
+<p><em>“Your RAG gives confident wrong answers. The right document IS in the index. Debug it.”</em></p>
+</blockquote>
+<p>The expected answer is <strong>not</strong> “switch to a better model” or “re-index.” It’s: isolate the variable — log exactly what landed in the context window, and split <strong>retrieval failure</strong> (right doc never retrieved / retrieved but ranked below the cutoff) from <strong>generation failure</strong> (right doc in context, model ignored it).</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Rehearse that answer out loud until it’s 60 seconds and structured</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Memorise your 5-layer agent-failure taxonomy: context → retrieval → tool → orchestration → prompt</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Practice on a repo you don’t know: clone something, plant 3 bugs yourself a week earlier, fix them cold</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Say the diagnostic <em>before</em> the fix. Candidates fail this round by guessing fixes</label></li>
+</ul>
+<hr />
+<h2 id="round-5--the-take-home--33-of-loops-and-you-should-win-it">Round 5 — The take-home · ~33% of loops, and you should win it</h2>
+<p><strong>Real specs, with real time budgets:</strong></p>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Company</th>
+<th>Budget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build on OpenAI APIs + <strong>recorded video walkthrough</strong></td>
+<td>OpenAI FDE</td>
+<td>~5 hr</td>
+</tr>
+<tr>
+<td>Build an agentic AI application (1 of 2 briefs)</td>
+<td>Eightfold, Nov 2025</td>
+<td>~1 week</td>
+</tr>
+<tr>
+<td>Agent build against a provided API key, then a <strong>60-min “why” defense</strong></td>
+<td>Sierra</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Timed assessment</td>
+<td>Harvey</td>
+<td>1 hr</td>
+</tr>
+<tr>
+<td>RAG over PDFs with citations; must say “I don’t have that information” when unsupported</td>
+<td>5+ companies — <strong>&gt;40% of all AI take-homes</strong></td>
+<td>2–4 hr</td>
+</tr>
+<tr>
+<td>Refactor a deliberately messy RAG app; preserve API behaviour, kill global mutable state, make it testable</td>
+<td>BitHealth</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Sales-insights agent that <strong>detects and refuses PII requests</strong>, passes only aggregates to the LLM</td>
+<td>Cohere-adjacent</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Graph workflow engine, max 50 steps, <strong>infinite-cycle protection required, unit tests mandatory</strong></td>
+<td>Tredence</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Turnaround <strong>within 24 hours</strong></td>
+<td>Fireworks</td>
+<td>24 hr</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What graders actually reward</strong> <em>[practitioner reports + one leaked rubric: 30% functionality, 30% challenge completion, 25% context engineering, 15% code quality]</em>:</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span><strong>Start with the eval harness.</strong> “Doesn’t start with evals” is documented red flag #1 at YC-startup graders</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>README stating trade-offs and <em>rejected alternatives</em></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Cost + latency table</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Error handling, retries, and a test that the AI output is actually validated</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>A Loom/video demo (repeatedly cited as a differentiator)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Configurability (one candidate’s config-file-driven CLI “got two competing offers within 72 hours”)</label></li>
+</ul>
+<p><strong>The time trap:</strong> advertised 2–4 hr, real spend routinely 2×+. One Anthropic candidate: <strong>“listed as 5 hours, took 15.”</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span><strong>Build the reusable skeleton before you apply</strong> — FastAPI + hybrid retrieval + RRF + rerank + citations + eval harness + Docker + README. Then each take-home is 4 h of customisation, not 14</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Refuse anything &gt;4 h scope offered before a human conversation</label></li>
+</ul>
+<hr />
+<h2 id="round-6--your-project-interrogated--the-most-failed-round-at-labs">Round 6 — Your project, interrogated · the most-failed round at labs</h2>
+<p><strong>This is the highest-frequency deep round in the India corpus</strong> — at Accenture, ZS, Tiger Analytics, Fractal, McKinsey QB the loop is <em>substantially</em> this round.</p>
+<p><strong>Real questions, verbatim:</strong></p>
+<ul>
+<li>“What are you storing in the Vector Database?” · “Explain step by step how RAG works behind the scenes” · “What is the key difference between a Generative AI system and an Agentic AI system?” · “Have you heard about MCP?” · “Which framework did you use (LangChain or CrewAI) and why?” · “Can agents work asynchronously in CrewAI?” <em>[Accenture LLM Ops, Dec 2025, first-person — selected]</em></li>
+<li>Scenario grilling on the candidate’s own pipeline: chunking strategy, vector-DB choice <strong>and alternatives</strong>, how you refresh embeddings when source data updates, retrieval flow, evaluation, production troubleshooting <em>[Tiger Analytics, Nov 2025, Glassdoor first-person]</em></li>
+<li>“Why did you fine-tune LLaMA?” · vector-DB alternatives <em>[Fractal, Dec 2024, first-person]</em></li>
+<li>“Tell me about the biggest project you’re proud of — <strong>be specific about what <em>you</em> built yourself</strong>” <em>[ElevenLabs, first-person]</em></li>
+<li>Deep dive on the most complex thing you’ve shipped — <strong>repeatedly called the hardest round in the loop</strong> <em>[OpenAI Applied, first-person Blind]</em></li>
+</ul>
+<p><strong>Checklist</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Lead with the <strong>AML/CTF compliance RAG</strong> — sole ownership, no client-attribution risk, and it’s a complete senior retrieval architecture</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Architecture reproducible on a whiteboard in 3 min → <strong>use <code>../diagrams/01-aml-ctf-compliance-rag.excalidraw</code></strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>3 decisions you can defend <em>with the alternative you rejected</em> — RRF vs score-fusion; cross-encoder rerank vs bigger top-k; <strong>tenant isolation as a SQL predicate vs a prompt instruction</strong> (know exactly why prompt-level isolation fails)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>2 real failures and what they cost</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>The “what breaks at 100×” answer — 6-move template in <a class="xref" href="/story-bank.html"><code>../story-bank.md</code></a></label></li>
+<li><label><span class="tick" aria-hidden="true"></span><strong>“How do you refresh embeddings when the source changes?”</strong> — asked verbatim; have the incremental-reindex answer ready</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Every metric defended per <a class="xref" href="/answers/metric-defence.html"><code>../answers/metric-defence.md</code></a></label></li>
+</ul>
+<blockquote>
+<p><strong>Honesty beats bluffing here, with evidence:</strong> the Accenture candidate couldn’t write live code for one prompt, <em>“simply told him honestly,”</em> and <strong>was still selected</strong>. The GenAI-intern candidate had never used CrewAI before the take-home and got hired anyway. Both cited clarity of thought over buzzwords.</p>
+</blockquote>
+<hr />
+<h2 id="round-7--llm--ml-theory--50-of-loops-and-the-classical-ml-ambush-is-real">Round 7 — LLM / ML theory · ~50% of loops, and the classical-ML ambush is real</h2>
+<h3 id="the-recurring-questions-frequency-ranked-from-independent-accounts">The recurring questions (frequency-ranked from independent accounts)</h3>
+<p><strong>LLM fundamentals</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Explain self-attention / how transformers work <strong>[5+ accounts]</strong> — labs may ask you to <em>code</em> it</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Temperature / top-p / top-k and their effect <strong>[3–4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Context window: what happens when you exceed it; how to extend <strong>[3–4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>KV cache: what it is, why it speeds inference, <strong>calculate its size</strong> <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Tokenization: BPE vs WordPiece <strong>[3]</strong> — and <strong>Indic token inflation (3–8× per char)</strong>, which is <em>your</em> differentiated answer</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Encoder-only vs decoder-only vs encoder-decoder, and when <strong>[2]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Why hallucinations happen and what forms they take <strong>[3–4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>MoE — what and why <strong>[2]</strong></label></li>
+</ul>
+<p><strong>RAG (the densest bucket)</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Explain RAG end to end <strong>[5+ — the single most-asked question in the corpus]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Fine-tune vs RAG vs prompt engineering — the decision framework <strong>[4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>What drives chunk size? How do you chunk tables and PDFs? <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Scale RAG to 10M+ documents / retrieval is too slow, fix it <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Hybrid search, BM25 + vector, RRF <strong>[2–3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>HNSW / vector-DB internals; vector DB vs traditional DB <strong>[2]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>How to choose and benchmark an embedding model <strong>[2]</strong></label></li>
+</ul>
+<p><strong>Agents</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Production agent architecture — <strong>what logic lives in the orchestrator vs the LLM</strong> <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>How does the agent choose a tool? What happens when a tool fails — retries, idempotency <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Detecting and stopping infinite planning loops; termination conditions <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>When is an agent the <em>wrong</em> solution? <strong>[2]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Sandboxing, prompt injection via tool output <strong>[2–3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>MCP — rising but still rare in verbatim reports; asked directly at Accenture. Know the control model (tools = model-controlled, resources = app-controlled, prompts = user-controlled)</label></li>
+</ul>
+<p><strong>Evals</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>How do you evaluate a RAG pipeline / chatbot? (faithfulness, answer relevancy, context precision/recall) <strong>[5+]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>LLM-as-judge: how it works and its failure modes <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Building a golden dataset from a vague spec <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Measuring hallucination rate in production <strong>[3–4]</strong></label></li>
+</ul>
+<p><strong>Fine-tuning</strong> <em>(decision-level, not PyTorch mechanics, for product AI-eng roles)</em></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>LoRA / QLoRA / PEFT — what and when over full FT <strong>[4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>RLHF vs DPO; reward hacking <strong>[3]</strong> — <strong>DPO vs PPO asked directly at Flipkart</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Why quantization barely hurts accuracy <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Catastrophic forgetting <strong>[2]</strong></label></li>
+</ul>
+<p><strong>Inference / cost</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>“1M queries/day — reduce token cost” <strong>[4]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Design an inference batching system (single GPU, ≤100/batch) — <strong>Anthropic reuses this across SWE, ML, hardware and EM loops</strong> <strong>[2–3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>TTFT and why streaming matters <strong>[3]</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Model tiering/routing, exact + semantic caching, provider failover <strong>[3]</strong></label></li>
+</ul>
+<h3 id="warning-the-classical-ml-ambush--the-most-reported-surprise">⚠️ The classical-ML ambush — the most-reported surprise</h3>
+<blockquote>
+<p>An Amazon Applied Scientist candidate was <em>“surprised by the depth of classical ML questioning despite focusing on modern deep learning”</em> — and was asked to <strong>derive entropy and Gini by hand</strong>. <em>[Nov 2025, first-person]</em></p>
+<p>A McKinsey QuantumBlack candidate was <strong>rejected in round 5 on traditional-ML case studies</strong>: <em>“wasn’t aware of how I can solve those and couldn’t find material to study.”</em> <em>[Nov 2025, first-person Blind]</em></p>
+</blockquote>
+<p><strong>GenAI-only prep is a repeatedly-documented losing strategy.</strong> And this is precisely your <code>~85% accuracy / 50k records / Bayesian networks</code> resume line’s home turf.</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Bias–variance, regularization (L1 → sparsity, and <em>why</em>), overfitting interventions</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Precision/recall/F1, ROC-AUC <strong>vs PR-AUC at low prevalence</strong>, threshold from a cost matrix</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Class imbalance; why SMOTE is the wrong first answer</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Data leakage taxonomy — including <strong>grouped splitting</strong> (your 50,000 records ≈ 4,150 students)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Bagging vs boosting and when; how to pick k in clustering; optimizers</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Implement k-means / logistic regression / cosine similarity <strong>in NumPy from scratch</strong> — asked at Mistral (logreg with SGD + L2 + early stopping) and Amazon (cosine similarity)</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Full model-family sweep: linear → trees → NN → RNN/LSTM → LLMs, <strong>plus offline validation for each</strong></label></li>
+</ul>
+<hr />
+<h2 id="round-8--dsa--survives-at-one-round-lc-easy-medium-at-unicorns-and-gccs-only">Round 8 — DSA · survives at ~one round, LC easy-medium, at unicorns and GCCs only</h2>
+<p><strong>Evidence for how much it actually matters:</strong></p>
+<p><em>Absent at:</em> Sarvam (<em>“No DSA was asked”</em>) · Accenture LLM Ops (zero) · Tiger Analytics (3 rounds, all project-scenario) · Observe.AI (domain task instead) · Anthropic/OpenAI/Scale in one documented Fall-2024 loop (<strong>zero classic LeetCode</strong> — OOP rounds instead).</p>
+<p><em>Present at:</em> Groww (full LC round first) · Amazon AS (OA + dedicated DSA round) · Eightfold (graph DSA even after an agentic take-home) · Salesforce LMTS (2× LC medium in 75 min) · Adobe (“basic LeetCode-type”) · Fractal (one medium sliding-window) · ZS (two easy-mediums <em>inside</em> the LLM round) · Glean (LC medium/hard — the AI-native outlier) · Perplexity OA (<em>“wildly difficult”</em>) · Google, Meta, DeepMind.</p>
+<p><strong>Actual problems named in accounts:</strong> Single Element in a Sorted Array · Container With Most Water · Minimum Window Substring · distance between two nodes of a binary tree · islands grid + BFS · minimum coins (1-D DP) · longest repeated substring · detect cycle in linked list · 2-Sum · max-stack · graph BFS with directions · prime check · anagram check.</p>
+<p><strong>Your read, given near-zero baseline:</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Target the segment where DSA is absent — AI-first startups, services-to-AI (Accenture/ZS/Tiger/Fractal class), FDE roles. <strong>That’s most of your realistic pipeline anyway</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Keep 90 min/day on NeetCode 150 per <a class="xref" href="/daily-checklist.html"><code>../DAILY-CHECKLIST.md</code></a> — the named problems above cluster hard in arrays/hashing, sliding window, trees, graphs/BFS, 1-D DP. <strong>No hard DP</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Don’t burn a Google/Meta/Databricks application until the week-12 gate</label></li>
+</ul>
+<hr />
+<h2 id="round-9--ai-assisted-coding--rapidly-growing-and-structurally-your-advantage">Round 9 — AI-assisted coding · rapidly growing, and structurally your advantage</h2>
+<p><strong>Real formats:</strong></p>
+<ul>
+<li><strong>Meta</strong> (piloted Oct 2025): 60 min, 3-panel CoderPad — file explorer / editor / AI assistant — iterating on a <strong>multi-file project</strong>. Replaces one of two onsite coding rounds. The other round stays AI-free. <em>[company + first-person]</em></li>
+<li><strong>Microsoft</strong>: solve with ChatGPT, then <strong>the interviewer mutates the problem and watches you re-prompt</strong> <em>[first-person]</em></li>
+<li><strong>Sierra</strong>: 2-hour solo Build phase with “the AI tooling and frameworks of their choice” <em>[company-published]</em></li>
+<li><strong>Cursor</strong>: AI banned except autofill in early checks, then a <strong>paid 2-day work trial</strong> <em>[CEO, June 2025]</em></li>
+</ul>
+<p><strong>The trap, reported consistently:</strong> the problem is tuned so the model <em>can’t</em> solve it alone. Blind prompting hits dead ends, and you must defend every line.</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>5 recorded sessions narrating: decompose → delegate a subtask → <strong>verify the output</strong> → integrate</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Loud catches: <em>“the model generated raw SQL here — I’m parameterising it”</em></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Know when to stop the agent and write it yourself</label></li>
+<li><label><span class="tick" aria-hidden="true"></span><strong>Ask the recruiter per round</strong> whether AI is allowed — several companies split it round-by-round</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>One prepared story where you deliberately did <strong>not</strong> use AI</label></li>
+</ul>
+<blockquote>
+<p><strong>Never use an AI interview copilot.</strong> ~1/3 of surveyed FAANG interviewers have caught suspected AI cheating; 11% run detection software; Meta mandates full-screen share. It’s a permanent-blacklist event.</p>
+</blockquote>
+<hr />
+<h2 id="round-10--customer--discovery-conversation--60-of-fde-and-applied-ai-loops">Round 10 — Customer / discovery conversation · ~60% of FDE and Applied-AI loops</h2>
+<p><strong>Real scenarios:</strong></p>
+<ul>
+<li>Airline CTO wants rescheduling automation — graded on <strong>discovery questioning and pain-point identification, explicitly not on jumping to an AI solution</strong> <em>[ElevenLabs FDE, first-person]</em></li>
+<li>Discovery-call roleplay with the hiring manager <em>[Fireworks, Glassdoor first-person]</em></li>
+<li>Open-ended customer solution design: <em>“Who uses this? What decisions do they make? What does success look like?”</em> <em>[OpenAI FDE, first-person]</em></li>
+</ul>
+<p><strong>The documented failure mode: candidates pitch a solution instead of investigating.</strong></p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span><strong>Rule: no solution until you’ve asked five questions</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>3 recorded reps with a peer playing “VP Eng at a 5,000-person fintech”</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Your 6+ client engagements at Turing are the story bank here — you’ve done this work, you’ve just never rehearsed it as an interview format</label></li>
+</ul>
+<hr />
+<h2 id="round-11--system-design--genai-flavoured-not-classic-distributed-systems">Round 11 — System design · GenAI-flavoured, not classic distributed systems</h2>
+<p>Real prompts: <em>“Design a RAG system for a customer support chatbot”</em> (<strong>reported as the single most common opener</strong>) · inference-serving for large models <em>[Mistral]</em> · retrieval/search architecture <em>[Glean]</em> · ML infra: feature stores, distributed training, serving <em>[Databricks]</em> · job-scheduler LLD+HLD <em>[Salesforce]</em> · product decomposition: messy manual workflow → UI + API + backend <em>[ElevenLabs]</em>.</p>
+<p>Your existing 28-day plan already over-serves this round. Keep those reps, and just add:</p>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>The customer-support-chatbot RAG design, cold, timed — it’s the most likely single prompt you’ll get</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Cost and latency arithmetic out loud, every rep</label></li>
+<li><label><span class="tick" aria-hidden="true"></span><code>evidentlyai.com/ml-system-design</code> — 800 real case studies from 150+ companies. <em>“DoorDash does X, we’d do Y because our constraint is Z”</em> is the highest-value sentence in this round</label></li>
+</ul>
+<hr />
+<h2 id="round-12--behavioral--hm--90-of-loops">Round 12 — Behavioral / HM · ~90% of loops</h2>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>10-story bank per <a class="xref" href="/story-bank.html"><code>../story-bank.md</code></a>, <strong>“I” not “we”</strong> — your Turing client stories are the exposure</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>The two missing stories: a failure with a named cost; a disagreement you lost and then committed to</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Company-specific motivation — checked everywhere, and India loops ask <em>why-this-company</em> directly</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Expect India-specific oddities: <strong>family-background questions</strong> were asked at both ZS and Fractal <em>[first-person, 2024]</em></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Amazon: 45-question Leadership Principles battery <strong>inside the OA</strong> <em>[Nov 2025, first-person]</em></label></li>
+</ul>
+<hr />
+<h2 id="the-14-day-drill-rotation">The 14-day drill rotation</h2>
+<p>Run this <strong>alongside</strong> the existing 28-day plan. It replaces the design-rep blocks (block C on Sat, and roughly half of block A), and leaves DSA/blocks B untouched.</p>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Drill</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>“Explain RAG end to end” + “fine-tune vs RAG vs prompt”</td>
+<td>2 recordings, 90 s each</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Async batch client: 100 prompts, ≤20 concurrent, retry/backoff</td>
+<td>Working code + tests</td>
+</tr>
+<tr>
+<td>3</td>
+<td>The RAG-debugging scenario, out loud; 5-layer failure taxonomy</td>
+<td>1 recording</td>
+</tr>
+<tr>
+<td>4</td>
+<td>BM25 + RRF from scratch; cosine top-k in NumPy</td>
+<td>Working code</td>
+</tr>
+<tr>
+<td>5</td>
+<td>AML/CTF project deep dive, 20 min, using the Excalidraw diagram</td>
+<td>1 recording</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Classical-ML ambush drill: baseline, PR-AUC, grouped splitting, leakage</td>
+<td>Written answers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Rest</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>LRU cache + KV store with TTL, progressive levels</td>
+<td>Working code</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Take-home skeleton: FastAPI + hybrid retrieval + eval harness</td>
+<td>Repo scaffold</td>
+</tr>
+<tr>
+<td>10</td>
+<td>SSE streaming + partial-JSON accumulation; token-bucket limiter</td>
+<td>Working code</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Customer-discovery roleplay ×3 (peer or recorded solo)</td>
+<td>3 recordings</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Debug an unfamiliar repo with 3 planted bugs, 45 min</td>
+<td>Fix log</td>
+</tr>
+<tr>
+<td>13</td>
+<td>“Design a RAG system for a customer support chatbot”, cold, 45 min</td>
+<td>1 recording</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Full mock: practical coding + project deep dive</td>
+<td>Debrief page</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Exit test:</strong> a 60-minute self-run mock containing one practical build, one RAG-debug scenario, and a 20-minute project interrogation — all answered without notes.</p>
+<hr />
+<h2 id="what-the-accounts-say-kills-candidates">What the accounts say kills candidates</h2>
+<ol type="1">
+<li><strong>Vague, team-level project narration.</strong> <em>“Be specific about what YOU built”</em> — the most-failed round at labs.</li>
+<li><strong>GenAI-only prep</strong> — the classical-ML ambush ends loops at Amazon, McKinsey, Flipkart.</li>
+<li><strong>No evals in the take-home</strong> — documented red flag #1.</li>
+<li><strong>Pitching instead of investigating</strong> in discovery rounds.</li>
+<li><strong>Blind AI dependence</strong> in AI-assisted rounds — the problems are tuned to defeat it.</li>
+<li><strong>Assuming AI-native means no LeetCode</strong> — Glean, Perplexity, Windsurf, DeepMind all still gate on it.</li>
+<li><strong>Not forcing the location/visa question early</strong> — ElevenLabs withdrew a verbal approval over it.</li>
+<li><strong>Take-home time inflation</strong> — 5 listed, 15 actual. Build the skeleton first.</li>
+</ol>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/ai-engineering/daily-checklist.html"><div class="k">Previous</div><div class="l">28-Day AI Engineering Sprint</div></a><a class="nx" href="/answers/metric-defence.html"><div class="k">Next</div><div class="l">Metric Defence Dossier</div></a></nav>
+  <footer class="site">
+    Source: <code>ai-engineer-interviews/CHECKLIST.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>

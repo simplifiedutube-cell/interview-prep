@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F2">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prep">
+<link rel="stylesheet" href="/assets/site.75823c14.css">
+<title>Metric Defence Dossier · Prep</title>
+</head>
+<body>
+<header class="topbar"><button class="tb-btn" id="s-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="s-side">☰</button><button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button><span class="tb-title">Metric Defence Dossier</span><a class="tb-btn tb-home" href="/index.html">Tracker</a></header><aside id="s-side"><div class="s-head"><div class="s">Interview prep</div><div class="t">Library</div></div><nav><div class="navsep">App</div><a href="/index.html">Tracker</a><a href="/questions.html">Resume Question Bank</a><a href="/library.html">All documents</a><div class="navsep">Daily plans</div><a href="/daily-checklist.html">28-Day Interview Sprint</a><a href="/ai-engineering/daily-checklist.html">28-Day AI Engineering Sprint</a><a href="/ai-engineer-interviews/checklist.html">AI Engineer Interview Checklist</a><div class="navsep">Metric defence</div><a href="/answers/metric-defence.html" class="here">Metric Defence Dossier</a><a href="/answers/01-latency-and-cost.html">Claims 1 &amp; 2 — Latency &amp; Cost</a><a href="/answers/02-relevance-and-agent-success.html">Claims 3 &amp; 5 — Relevance &amp; Agent Success</a><a href="/answers/03-turnaround-and-effort.html">Claims 4 &amp; 6 — Turnaround &amp; Tagging Effort</a><a href="/answers/04-sklearn-accuracy.html">Claim 7 — scikit-learn accuracy</a><a href="/answers/05-scale-and-narrative.html">Scale claims &amp; the narrative</a><div class="navsep">Story &amp; narrative</div><a href="/story-bank.html">Story Bank</a><a href="/pipeline.html">Pipeline</a><div class="navsep">Question banks</div><a href="/ai-engineer-interviews/real-questions.html">Real Questions Asked</a><div class="navsep">Resources</div><a href="/resources.html">Resources — buy list, canon, traps</a><a href="/ai-engineering/resources.html">AI Engineering — Builder&#x27;s Canon</a><a href="/ai-engineer-interviews/resources.html">Resources by interview round</a><div class="navsep">Company-specific</div><a href="/accenture/question-bank.html">Accenture — Question Bank</a><a href="/accenture/answer-frameworks.html">Accenture — Answer Frameworks</a><a href="/accenture/claim-defence-card.html">Accenture — Claim Defence Card</a><div class="navsep">Diagrams</div><a href="/diagrams/index.html">Architecture Diagrams</a></nav></aside><div id="s-scrim"></div>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="doc-kicker">Metric defence</div>
+    <h1>Metric Defence Dossier</h1>
+    <div class="doc-meta">1,909 words · ~9 min read</div>
+  </header>
+  
+  <details class="toc"><summary>On this page — 14 sections</summary><ol><li><a href="#file_folder-model-answers--answers">📁 Model answers — answers/</a></li><li><a href="#the-rule">The rule</a></li><li><a href="#the-9-question-drill-what-they-actually-ask">The 9-question drill (what they actually ask)</a></li><li><a href="#measurement-class--declare-it-honestly">Measurement class — declare it honestly</a></li><li><a href="#claim-1--cut-average-llm-latency-by-about-40">Claim 1 — “Cut average LLM latency by about 40%”</a></li><li><a href="#claim-2--cut-inference-cost-by-about-30">Claim 2 — “Cut inference cost by about 30%”</a></li><li><a href="#claim-3--answer-relevance-improved-by-around-35">Claim 3 — “Answer relevance improved by around 35%”</a></li><li><a href="#claim-4--manual-review-turnaround-dropped-by-about-45">Claim 4 — “Manual review turnaround dropped by about 45%”</a></li><li><a href="#claim-5--agent-task-success-rates-rose-by-around-20">Claim 5 — “Agent task success rates rose by around 20%”</a></li><li><a href="#claim-6--automated-content-tagging-reduced-manual-effort-by-roughly-60">Claim 6 — “Automated content tagging reduced manual effort by roughly 60%”</a></li><li><a href="#claim-7--85-accuracy-on-50000-assessment-records-scikit-learn--bayesian-networks">Claim 7 — “~85% accuracy on ~50,000 assessment records” (scikit-learn + Bayesian networks)</a></li><li><a href="#scale-claims--reframe-dont-defend">Scale claims — reframe, don’t defend</a></li><li><a href="#resume-edits-checklist-days-12">Resume edits checklist (Days 1–2)</a></li><li><a href="#the-overlap-script-25-seconds-volunteered-before-they-find-it">The overlap script (25 seconds, volunteered before they find it)</a></li></ol></details>
+  <div class="prose">
+
+<p><strong>Do this Days 1–2, before anything else.</strong> 49% of hiring managers report that candidates cannot defend resume claims under probing. One collapsed number retroactively discredits every other number on the page.</p>
+<hr />
+<h2 id="file_folder-model-answers--answers">📁 Model answers — <code>answers/</code></h2>
+<p>Worked model answers for every question in this file, with the follow-up chains interviewers actually run:</p>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/answers/01-latency-and-cost.html"><code>answers/01-latency-and-cost.md</code></a></td>
+<td>Claims 1 &amp; 2 — −40% latency, −30% cost. Prefill vs decode, the mechanism split, the “did quality regress?” killer</td>
+</tr>
+<tr>
+<td><a href="/answers/02-relevance-and-agent-success.html"><code>answers/02-relevance-and-agent-success.md</code></a></td>
+<td>Claims 3 &amp; 5 — +35% relevance, +20% agent success. Judge validation, pass^k, the Turing attribution problem</td>
+</tr>
+<tr>
+<td><a href="/answers/03-turnaround-and-effort.html"><code>answers/03-turnaround-and-effort.md</code></a></td>
+<td>Claims 4 &amp; 6 — −45% turnaround, −60% tagging effort. Includes the <strong>MCP timeline trap</strong> (see below)</td>
+</tr>
+<tr>
+<td><a href="/answers/04-sklearn-accuracy.html"><code>answers/04-sklearn-accuracy.md</code></a></td>
+<td>Claim 7 — the ~85% accuracy claim. The longest follow-up chain of any claim; treat it as the one most likely to go badly</td>
+</tr>
+<tr>
+<td><a href="/answers/05-scale-and-narrative.html"><code>answers/05-scale-and-narrative.md</code></a></td>
+<td>Scale claims (10k docs / 1M events / 50k records), “8+ years” vs a 2014 B.Tech, the Turing overlap, being between jobs, and the <strong>universal closing moves</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Three rules for using them:</strong></p>
+<ol type="1">
+<li><strong>They are scripts for things you actually did.</strong> Every fact only you know is a <code>[BRACKETED SLOT]</code>. <strong>Never speak an unfilled bracket</strong> — it sounds exactly like a lie. Fill this dossier in first; the answers show the <em>shape</em>, not the data.</li>
+<li><strong>Each answer has honest branches.</strong> Where a claim may not survive, there’s a version that keeps your credibility and drops the number. Use it. A rehearsed false claim about methodology is worse than losing the number, because it’s a <strong>trust finding</strong>, not a skills gap — and trust findings are close to unrecoverable in a debrief.</li>
+<li><strong>The anti-rehearsal rule.</strong> A technical line is only worth saying if you can attach one concrete, slightly boring detail from the real project — a column name, a bug, a number that came out wrong, an argument you had. <strong>Recited depth with no texture reads as <em>studied</em></strong>, and an interviewer who suspects that probes one level lower until you break. No texture → say it in one sentence and move on.</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>One thing the adversarial pass caught that you should fix on the resume today:</strong> MCP was announced <strong>25 Nov 2024</strong>, and your Turing engagement ended <strong>Jan 2025</strong>. The resume line reads as though you did MCP work across that whole engagement. Split the claim — tool-calling and PR/CI-CD orchestration across the engagement, MCP specifically in the last stretch — before someone does that subtraction in front of you.</p>
+</blockquote>
+<hr />
+<h2 id="the-rule">The rule</h2>
+<p>For each claim, answer the <strong>9-question drill</strong> cold. Then apply the <strong>30-second test</strong>:</p>
+<blockquote>
+<p>Can you state <strong>metric definition + baseline + n + who labelled + biggest confounder</strong> in 30 seconds? <strong>No → DELETE the number from the resume and keep the qualitative claim.</strong></p>
+</blockquote>
+<p>A deleted number costs you nothing. A collapsed one costs you the loop. There is no third option where you keep a number you can’t defend and hope nobody asks — they always ask, and <em>“how exactly did you measure that?”</em> is the standard opener.</p>
+<h2 id="the-9-question-drill-what-they-actually-ask">The 9-question drill (what they actually ask)</h2>
+<ol type="1">
+<li>How did you measure it?</li>
+<li>What was the baseline, and how was it established?</li>
+<li>What was n / over what time window?</li>
+<li>Was it statistically significant? <em>(If the honest answer is “we didn’t test,” say so and say what you’d run now — that reads as more senior than a number nobody challenged)</em></li>
+<li>What else changed at the same time?</li>
+<li>What was <strong>your</strong> contribution vs the team’s?</li>
+<li>What did you try that <strong>failed</strong>?</li>
+<li>What would you do differently?</li>
+<li>What is that number today?</li>
+</ol>
+<h2 id="measurement-class--declare-it-honestly">Measurement class — declare it honestly</h2>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Meaning</th>
+<th>How to say it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A — Instrumented</strong></td>
+<td>Continuously measured in production with a dashboard</td>
+<td><em>“Instrumented — p50/p95 from our tracing, measured over N weeks”</em></td>
+</tr>
+<tr>
+<td><strong>B — Sampled / evaluated</strong></td>
+<td>Measured on a sample or an eval set, not continuously</td>
+<td><em>“Measured on a held-out set of N examples labelled by X”</em></td>
+</tr>
+<tr>
+<td><strong>C — Directional estimate</strong></td>
+<td>Reasoned from partial data</td>
+<td><em>“That’s a directional estimate — here’s what it’s based on and here’s what I’d instrument to make it real”</em></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Declaring class C proactively is a strength signal.</strong> Getting caught presenting a C as an A is fatal.</p>
+<hr />
+<h2 id="claim-1--cut-average-llm-latency-by-about-40">Claim 1 — “Cut average LLM latency by about 40%”</h2>
+<ul>
+<li><strong>Claim as written on the resume:</strong></li>
+<li><strong>What exactly was measured</strong> (p50? p95? end-to-end? TTFT? which endpoint?):</li>
+<li><strong>Instrument</strong> (tracing tool / logs / manual timing):</li>
+<li><strong>Baseline value + date established:</strong></li>
+<li><strong>After value + date:</strong></li>
+<li><strong>n / time window:</strong></li>
+<li><strong>Measurement class (A / B / C):</strong></li>
+<li><strong>The mechanism split — how much came from each?</strong> <em>(prompt shortening · context trimming · prompt-prefix caching · semantic caching · model swap/routing · streaming/TTFT vs total · batching · retrieval funnel reduction)</em></li>
+<li><strong>Biggest confounder</strong> <em>(traffic mix changed? provider-side model update? cache warm-up? different question distribution?)</em>:</li>
+<li><strong>What you tried that failed:</strong></li>
+<li><strong>What you’d do differently:</strong></li>
+<li><strong>What it is today:</strong></li>
+<li><strong>The 25-second spoken answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<blockquote>
+<p>⚠️ This one and Claim 2 will be attacked in <strong>every single loop</strong>. Do the Week-2 work (Huyen Ch 9 + vLLM docs + PagedAttention) so the answer is a mechanism list with tradeoffs, not a percentage.</p>
+</blockquote>
+<hr />
+<h2 id="claim-2--cut-inference-cost-by-about-30">Claim 2 — “Cut inference cost by about 30%”</h2>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>Cost of what</strong> (per query? per conversation? monthly bill? per resolved task?):</li>
+<li><strong>Instrument:</strong></li>
+<li><strong>Baseline + date:</strong></li>
+<li><strong>After + date:</strong></li>
+<li><strong>n / window:</strong></li>
+<li><strong>Measurement class:</strong></li>
+<li><strong>The mechanism split:</strong> <em>(prompt-prefix caching ≈10% of input price — and note ~30% total saving usually comes from prompt</em> shape*, not the discount alone · semantic cache hit rate · model routing/cascade · output-token reduction — remember output is 2–4× input price · context trimming)*</li>
+<li><strong>Biggest confounder</strong> <em>(provider price change? volume discount? traffic drop?)</em>:</li>
+<li><strong>Did quality regress? How do you know?</strong> ← <em><strong>this is the killer follow-up, and your Week-3 eval harness is the answer</strong></em></li>
+<li><strong>What failed:</strong></li>
+<li><strong>What you’d do differently:</strong></li>
+<li><strong>Today:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<hr />
+<h2 id="claim-3--answer-relevance-improved-by-around-35">Claim 3 — “Answer relevance improved by around 35%”</h2>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>Metric definition</strong> — relevance measured how? <em>(human rating? LLM judge? thumbs up/down? task completion?)</em>:</li>
+<li><strong>Who labelled it, and how many labellers?</strong></li>
+<li><strong>Was inter-rater agreement measured?</strong> <em>(If no: say so. If you can reconstruct it, Cohen’s κ)</em></li>
+<li><strong>Baseline + date:</strong></li>
+<li><strong>n:</strong></li>
+<li><strong>Measurement class:</strong></li>
+<li><strong>Was the eval set generated from the indexed chunks?</strong> ← <em><strong>the RAG-era data-leakage trap; if yes, say so unprompted — it’s a maturity signal</strong></em></li>
+<li><strong>Biggest confounder:</strong></li>
+<li><strong>What failed:</strong></li>
+<li><strong>Today:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<blockquote>
+<p>⚠️ Flagged as one of the two most exposed claims on your resume. If the methodology can’t be reconstructed, <strong>delete the 35% and keep “improved answer relevance, measured against a hand-labelled eval set”</strong> — then let the Week-3 eval harness be the proof of how you’d do it properly.</p>
+</blockquote>
+<hr />
+<h2 id="claim-4--manual-review-turnaround-dropped-by-about-45">Claim 4 — “Manual review turnaround dropped by about 45%”</h2>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>Turnaround of what, measured from when to when:</strong></li>
+<li><strong>Instrument:</strong></li>
+<li><strong>Baseline + date:</strong></li>
+<li><strong>n / window:</strong></li>
+<li><strong>Measurement class:</strong></li>
+<li><strong>⚠️ Attribution: this is a Turing client engagement. Do you own or have access to the data?</strong> If not, say so upfront: <em>“That’s the client’s measurement, reported back to us — here’s how it was defined and here’s what I’d want to verify.”</em></li>
+<li><strong>Your contribution vs the team’s</strong> — you led or co-led several engagements; be specific:</li>
+<li><strong>Biggest confounder:</strong></li>
+<li><strong>What failed:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<hr />
+<h2 id="claim-5--agent-task-success-rates-rose-by-around-20">Claim 5 — “Agent task success rates rose by around 20%”</h2>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>Success defined how</strong> — end-state verification? trajectory? tool-call accuracy? <strong>pass@k or pass^k?</strong></li>
+<li><strong>Which benchmark / task set, and how many tasks:</strong></li>
+<li><strong>Baseline + date:</strong></li>
+<li><strong>How many runs per task</strong> <em>(single-run numbers on agent benchmarks are inflated 5–15 points — if it was single-run, say so)</em>:</li>
+<li><strong>Measurement class:</strong></li>
+<li><strong>⚠️ Turing client attribution — same question as Claim 4:</strong></li>
+<li><strong>Biggest confounder</strong> <em>(task set changed? model version changed underneath you?)</em>:</li>
+<li><strong>What failed:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<blockquote>
+<p>⚠️ The second most exposed claim. But it’s also your best one if it survives — <em>“deterministic UI state verification”</em> on your resume <strong>is a verifiable reward function</strong>, and that framing is worth a lot in 2026. Learn to say it that way.</p>
+</blockquote>
+<hr />
+<h2 id="claim-6--automated-content-tagging-reduced-manual-effort-by-roughly-60">Claim 6 — “Automated content tagging reduced manual effort by roughly 60%”</h2>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>Effort measured how</strong> — hours? items/person/day? headcount?</li>
+<li><strong>Baseline + date:</strong></li>
+<li><strong>n / window:</strong></li>
+<li><strong>Measurement class:</strong></li>
+<li><strong>Tagging accuracy</strong> — what precision/recall did the automation hit, and what was the human review rate after?</li>
+<li><strong>Biggest confounder:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ DELETE</li>
+</ul>
+<hr />
+<h2 id="claim-7--85-accuracy-on-50000-assessment-records-scikit-learn--bayesian-networks">Claim 7 — “~85% accuracy on ~50,000 assessment records” (scikit-learn + Bayesian networks)</h2>
+<p><strong>This one invites a 20-minute classical-ML mauling. Prepare it as if for an ML interviewer, not an LLM one.</strong></p>
+<ul>
+<li><strong>Claim as written:</strong></li>
+<li><strong>What was the class balance?</strong> ← <em>first question, every time</em></li>
+<li><strong>What was the majority-class baseline?</strong> ← <em><strong>if 85% vs a 71% baseline, say the baseline; if the baseline was 82%, the number is nearly meaningless and should be deleted</strong></em></li>
+<li><strong>Why accuracy and not PR-AUC / F1?</strong> <em>(At low prevalence, accuracy is the wrong metric and they know it)</em></li>
+<li><strong>Train/test split</strong> — random, temporal, or grouped by student? <strong>Was there leakage across the group boundary?</strong></li>
+<li><strong>Cross-validation?</strong> Nested?</li>
+<li><strong>What did the Bayesian network actually do</strong> vs the sklearn classifiers?</li>
+<li><strong>n = 50,000 records, but how many <em>students</em>?</strong> <em>(records ≠ independent samples — this is the leakage question in disguise)</em></li>
+<li><strong>Calibration</strong> — were the probabilities calibrated, or just the argmax used?</li>
+<li><strong>Did it ship? What happened in production? Drift?</strong></li>
+<li><strong>What failed:</strong></li>
+<li><strong>25-second answer:</strong></li>
+<li><strong>VERDICT:</strong> ☐ DEFEND ☐ REPHRASE as precision/recall ☐ DELETE</li>
+</ul>
+<blockquote>
+<p><strong>Prep support:</strong> Coursera <strong>ML Specialization C2 Week 3 “Advice for Applying ML”</strong> (Day 18) is the single best hour available for this claim — baseline/Bayes error, error analysis, the bias-variance intervention ladder.</p>
+</blockquote>
+<hr />
+<h2 id="scale-claims--reframe-dont-defend">Scale claims — reframe, don’t defend</h2>
+<div class="tw" tabindex="0" role="region" aria-label="Table, scrolls horizontally"><table>
+<thead>
+<tr>
+<th>On the resume</th>
+<th>The problem</th>
+<th>Say this instead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>“knowledge base of 10,000+ documents”</strong></td>
+<td>Laptop-scale. Leading with it invites <em>“what breaks at 10M?”</em> — a question you’d currently lose</td>
+<td>Lead with <strong>the eval layer and the guardrails</strong>. <em>“A 10k-document corpus with hallucination guardrails and an automated eval harness — the interesting part was measurement, not volume”</em></td>
+</tr>
+<tr>
+<td><strong>“around 1M events a day”</strong></td>
+<td>≈ 12 events/sec. Not a scale story</td>
+<td>Sell <strong>pipeline discipline and the analytics/training dual consumption</strong>, not size</td>
+</tr>
+<tr>
+<td><strong>“around 50,000 assessment records”</strong></td>
+<td>Small; and records ≠ independent samples</td>
+<td>Lead with the <strong>grouping/leakage handling</strong> — that’s the senior signal</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="resume-edits-checklist-days-12">Resume edits checklist (Days 1–2)</h2>
+<ul class="task-list">
+<li><label><span class="tick" aria-hidden="true"></span>Retitle to <strong>Senior AI Engineer (Agentic Systems &amp; Evaluation)</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Add a <strong>“Selected AI/Agent Work”</strong> block <strong>above</strong> the chronology, leading with the Turing eval/environments work</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Relabel Turing: <strong><code>AI Consultant (part-time contract engagement), ~N hrs/week</code></strong> — this pre-empts the KNS overlap being read as undisclosed moonlighting</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Move the three personal projects <strong>above</strong> the older chronology, each with architecture + eval results</label></li>
+<li><label><span class="tick" aria-hidden="true"></span>One consistent experience number, tied to 2016 <em>(recruiters subtract 2014 from today in four seconds — have a one-line, non-defensive account of 2014–16)</em></label></li>
+<li><label><span class="tick" aria-hidden="true"></span><strong>Delete every metric that failed the 30-second test</strong></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Reposition the summary around: <em>“I build LLM systems that survive contact with production — retrieval, agents, and the eval harnesses that tell you when they break”</em></label></li>
+<li><label><span class="tick" aria-hidden="true"></span>Resume budget is <strong>4 hours total for all 4 weeks.</strong> Then stop. interviewing.io’s own founder: resume optimisation is low-ROI for candidates without brand names — <strong>direct outreach wins</strong></label></li>
+</ul>
+<h2 id="the-overlap-script-25-seconds-volunteered-before-they-find-it">The overlap script (25 seconds, volunteered <em>before</em> they find it)</h2>
+<p>Draft it here, rehearse it 10 times, and say it unprompted in the recruiter screen:</p>
+<blockquote>
+<p><em>“One thing I’ll flag upfront — the Turing engagement overlapped my full-time role. It was part-time contract work, roughly N hours a week outside my employment hours. [Your honest account of whether it was disclosed.]”</em></p>
+</blockquote>
+<p><strong>Do not claim you disclosed it in writing unless you did</strong> — background checks do direct employer verification. If you didn’t, the honest version is: <em>“In hindsight I’d have put it in writing, and I would with you.”</em> That’s a recoverable answer. A false one isn’t.</p>
+<p><strong>Note:</strong> contract work carries no PF, so EPFO/UAN cross-checks won’t surface it. The only place it appears is your own resume — which is exactly why you control the framing by volunteering it.</p>
+
+  </div>
+  <nav class="pn"><a class="pv" href="/ai-engineer-interviews/checklist.html"><div class="k">Previous</div><div class="l">AI Engineer Interview Checklist</div></a><a class="nx" href="/answers/01-latency-and-cost.html"><div class="k">Next</div><div class="l">Claims 1 &amp; 2 — Latency &amp; Cost</div></a></nav>
+  <footer class="site">
+    Source: <code>answers/metric-defence.md</code><br>
+    Reference copy — ticking happens in the <a href="/index.html">tracker</a>.
+  </footer>
+</div>
+<button id="s-top" aria-label="Back to top">↑</button>
+<script src="/assets/site.d62a8d99.js"></script>
+</body>
+</html>
