@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{HEAD}}
+<title>Interview Prep</title>
+<style>
+{{ISOCSS}}
+  body{background:var(--bg)}
+  .lp{max-width:1080px;margin:0 auto;
+      padding-left:max(20px,env(safe-area-inset-left));
+      padding-right:max(20px,env(safe-area-inset-right));
+      padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+  .lp-top{display:flex;align-items:center;gap:12px;padding:20px 0 0}
+  .lp-mark{width:30px;height:30px;border-radius:8px;background:var(--teal);
+           display:grid;align-content:center;gap:3px;padding:7px;flex:0 0 auto}
+  .lp-mark i{display:block;height:3px;border-radius:2px;background:#fff}
+  .lp-mark i:nth-child(1){width:62%} .lp-mark i:nth-child(2){width:44%} .lp-mark i:nth-child(3){width:78%}
+  .lp-name{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
+  .lp-top nav{margin-left:auto;display:flex;gap:6px;align-items:center}
+  .lp-top nav a{font-size:13.5px;text-decoration:none;color:var(--muted);padding:9px 11px;border-radius:9px}
+  .lp-top nav a:hover{background:var(--hover);color:var(--ink)}
+
+  .hero{display:grid;grid-template-columns:1fr;gap:4px;padding:40px 0 10px}
+  .hero-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+               text-transform:uppercase;color:var(--muted)}
+  .hero h1{font-family:var(--disp);font-weight:400;letter-spacing:-.048em;line-height:.99;
+           font-size:clamp(38px,8.4vw,86px);margin-top:16px;max-width:15ch}
+  .hero h1 em{font-style:normal;font-family:var(--mono);letter-spacing:-.02em;font-size:.82em}
+  .hero p{color:var(--muted);font-size:16px;margin-top:20px;max-width:46ch}
+  .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
+  .btn-dark{display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 20px;
+            border-radius:99px;background:var(--ink);color:#fff;text-decoration:none;
+            font-size:14.5px;border:0;transition:transform .15s}
+  .btn-dark:hover{transform:translateY(-1px);color:#fff}
+  .btn-plain{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;
+             border-radius:99px;background:var(--panel);border:1px solid var(--line);
+             color:var(--ink);text-decoration:none;font-size:14.5px}
+  .btn-plain:hover{border-color:var(--ink-faint);color:var(--ink)}
+
+  .hero-fig{margin:26px 0 0;border:1px solid var(--line);border-radius:var(--r-card);
+            background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
+  .hero-fig .iso{--anatomy-page:#FFFFFF;--anatomy-card:#FFFFFF;display:block}
+  .hero-fig .iso-svg{display:block;width:100%;height:auto}
+  .fig-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+           padding:12px 17px;border-top:1px solid var(--divider);background:#FCFCFD}
+  .fig-bar .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+              text-transform:uppercase;color:var(--muted)}
+  .fig-bar .r{font-family:var(--mono);font-size:12px;color:var(--ink);margin-left:auto}
+
+  .stat{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .stat div{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);
+            border-radius:var(--r-card);padding:16px 18px;box-shadow:var(--shadow)}
+  .stat b{display:block;font-family:var(--disp);font-weight:400;letter-spacing:-.04em;
+          font-size:34px;line-height:1.05}
+  .stat span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+             text-transform:uppercase;color:var(--muted);display:block;margin-top:7px}
+
+  .goals{margin-top:46px}
+  .goals > .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+              text-transform:uppercase;color:var(--muted)}
+  .goals h2{font-family:var(--disp);font-weight:400;letter-spacing:-.035em;
+            font-size:clamp(26px,4.6vw,38px);margin-top:10px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}
+  .goal{display:block;text-decoration:none;color:var(--ink);border-radius:var(--r-card);
+        border:1px solid var(--line);padding:20px;background:var(--panel);
+        box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+  .goal:hover{transform:translateY(-2px);border-color:var(--ink-faint)}
+  .goal .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+           text-transform:uppercase;color:var(--muted)}
+  .goal h3{font-family:var(--disp);font-size:21px;font-weight:600;letter-spacing:-.018em;margin-top:11px}
+  .goal ul{list-style:none;margin-top:13px}
+  .goal li{font-size:14px;color:var(--ink-soft);padding-left:17px;position:relative;margin:7px 0}
+  .goal li::before{content:"+";position:absolute;left:0;color:var(--muted);font-family:var(--mono)}
+  .goal .pill{display:inline-block;margin-top:15px;font-family:var(--mono);font-size:10.5px;
+              letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+              border:1px solid var(--line);border-radius:99px;padding:5px 11px;background:var(--chip)}
+  .lp footer{margin-top:54px;border-top:1px solid var(--line);padding-top:16px;
+             color:var(--muted);font-size:12px;font-family:var(--mono);line-height:1.9}
+  @media(min-width:860px){
+    .hero{grid-template-columns:1fr;}
+    .grid{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="lp">
+  <div class="lp-top">
+    <span class="lp-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="lp-name">Interview prep</span>
+    <nav>
+      <a href="/library.html">Library</a>
+      <a href="/questions.html">Questions</a>
+      <a class="btn-plain" href="/tracker.html">Open tracker</a>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="hero-kicker">Certification · Interviews · Skills</div>
+    <h1>Everything you can explain <em>cold.</em></h1>
+    <p>One checklist, graded three ways. Not “read it” — <b>can you say it at a whiteboard
+       with nothing in front of you.</b> That is the only state that counts, and it is the
+       only one this tracks.</p>
+    <div class="cta">
+      <a class="btn-dark" href="/tracker.html">Open the tracker <span aria-hidden="true">→</span></a>
+      <a class="btn-plain" href="/library.html">Browse the library</a>
+    </div>
+  </section>
+
+  <figure class="hero-fig">
+    <div class="iso" data-theme="light">{{FIGURE}}</div>
+    <figcaption class="fig-bar">
+      <span class="k">Fig 1 · edge-notched card sorter</span>
+      <span class="r" id="figread">{{READOUT}}</span>
+    </figcaption>
+  </figure>
+  <p style="color:var(--muted);font-size:13.5px;margin-top:12px;max-width:68ch">
+    Every card is one syllabus item. Cut the notch through to the edge — you can explain it
+    cold — and that card slips off the needle and stays in the tray. Lift the needle and what
+    rises is exactly what is left. That is the tracker’s “show: to-do” filter, as a machine.
+  </p>
+
+  <div class="stat">
+    <div><b id="s-cold">—</b><span>Can explain cold</span></div>
+    <div><b id="s-read">—</b><span>Read, not yet cold</span></div>
+    <div><b id="s-left">—</b><span>Not started</span></div>
+  </div>
+
+  <section class="goals">
+    <div class="k">Pick where to start</div>
+    <h2>Three things, nothing else.</h2>
+    <div class="grid">
+      <a class="goal" href="/tracker.html#t01">
+        <div class="n">01 · Certification</div>
+        <h3>Get Claude certified</h3>
+        <ul><li>The exam blueprint, domain by domain</li><li>Weighted to what it actually tests</li><li>Graded cold, not skimmed</li></ul>
+        <span class="pill">{{N_CERT}} items</span>
+      </a>
+      <a class="goal" href="/library.html">
+        <div class="n">02 · Interviews</div>
+        <h3>Survive the loop</h3>
+        <ul><li>Every question your resume invites</li><li>Each number, defended</li><li>Rounds, formats and real questions</li></ul>
+        <span class="pill">{{N_DOCS}} documents</span>
+      </a>
+      <a class="goal" href="/tracker.html#t03">
+        <div class="n">03 · Skills</div>
+        <h3>Close the gaps</h3>
+        <ul><li>RAG, agents, evaluation, serving</li><li>System design and the DSA that recurs</li><li>Primary sources, not summaries</li></ul>
+        <span class="pill">{{N_SKILL}} items</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    Progress syncs across every device you sign in on.<br>
+    Private — this site is not indexed, and the database stores item ids and a number each.
+  </footer>
+</div>
+<script>
+(function () {
+  var TOTAL = {{TOTAL}};
+  var svg = document.querySelector(".sorter");
+  var cards = svg ? [].slice.call(svg.querySelectorAll(".cd")) : [];
+  var el = function (id) { return document.getElementById(id); };
+  fetch("/api/pull?since=0", { credentials: "same-origin", cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) return;
+      var cold = 0, read = 0;
+      (d.grades || []).forEach(function (g) { if (g[1] === 2) cold++; else if (g[1] === 1) read++; });
+      el("s-cold").textContent = cold;
+      el("s-read").textContent = read;
+      el("s-left").textContent = TOTAL - cold - read;
+      /* Drop the mastered share of the deck into the tray, so the figure is a real
+         progress display rather than a picture of one. */
+      var n = TOTAL > 0 ? Math.round((cold / TOTAL) * cards.length) : 0;
+      cards.forEach(function (c, i) { c.classList.toggle("cold", i < n); });
+      var pct = TOTAL > 0 ? Math.round((cold / TOTAL) * 100) : 0;
+      el("figread").textContent = cold + " of " + TOTAL + " cold · " + (TOTAL - cold) + " still lift · " + pct + "%";
+    })
+    .catch(function () { /* signed out or offline: the static figure still reads */ });
+})();
+</script>
+<script src="/assets/{{JS}}"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 (async()=>{
   const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
-  const PAGES=["/index.html","/library.html","/questions.html","/resources.html",
+  const PAGES=["/tracker.html","/library.html","/questions.html","/resources.html",
                "/answers/05-scale-and-narrative.html","/accenture/question-bank.html",
                "/diagrams/index.html","/diagrams/01-aml-ctf-compliance-rag.svg",
                "/assets/flow-02.svg","/manifest.webmanifest"];

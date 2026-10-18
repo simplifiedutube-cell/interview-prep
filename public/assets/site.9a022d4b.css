@@ -4,20 +4,35 @@
    index.html and questions.html no longer carry their own copies.
    ============================================================ */
 :root{
-  --bg:#F5F6F2; --panel:#FFFFFF; --ink:#18222E; --muted:#5A6673;
-  --line:#DFE3DA; --teal:#0E6B5C; --teal-soft:#E3F0EC; --teal-mid:#8FC0B3;
-  --amber:#B4700F; --amber-soft:#FBF1DF;
-  --red:#9E3B2E; --red-soft:#F8E9E5;
-  --done:#8A9490;
+  /* Neutral ground lifted from fanout.sh: a cool grey rather than the warm cream
+     this started with. Teal is deliberately kept as the single accent — the three
+     confidence states need a hue to stay readable at a glance while scrolling,
+     which a purely greyscale scheme cannot give you. */
+  --bg:#F7F7F8; --panel:#FFFFFF; --ink:#272727; --muted:#6E6E6E;
+  --line:#DEDEE2; --divider:#E8E8EA; --chip:#F4F4F5; --hover:#F0F0F2;
+  --ink-soft:#4A4A4A; --ink-faint:#ADADAD;
+  --teal:#0E6B5C; --teal-soft:#E6F1EE; --teal-mid:#8FC0B3;
+  --amber:#B4700F; --amber-soft:#FAF1E4;
+  --red:#9E3B2E; --red-soft:#FAEBE8;
+  --done:#929292;
   --side:246px; --top:52px;
+  /* 18px on real surfaces, 10px on dense rows — an 18px radius on 360 list items
+     reads as clutter, not polish. */
+  --r-card:18px; --r-sm:10px;
+  --shadow:0 2px 4px rgba(59,59,59,.05), 0 4px 8px rgba(59,59,59,.09),
+           0 8px 16px rgba(59,59,59,.10);
   --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-  --disp:ui-rounded,-apple-system,"SF Pro Display",system-ui,"Segoe UI",sans-serif;
+  --disp:-apple-system,"SF Pro Display",system-ui,"Segoe UI",Inter,sans-serif;
   --body:-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,var(--emoji);
 }
+/* The signature move on fanout.sh: large display type is weight 400 with hard
+   negative tracking, not bold. It only works big — below ~30px the same setting
+   reads as thin and weak, so smaller headings stay semibold. */
+.display{font-family:var(--disp);font-weight:400;letter-spacing:-.045em;line-height:1.0}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.58}
 a{color:var(--teal)}
 img,svg{max-width:100%}
 
@@ -62,14 +77,15 @@ img,svg{max-width:100%}
   padding-left:max(16px,env(safe-area-inset-left));
   padding-right:max(16px,env(safe-area-inset-right));
   padding-bottom:calc(90px + env(safe-area-inset-bottom))}
-.doc-head{padding:26px 0 14px;border-bottom:2px solid var(--ink)}
-.doc-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:9px}
-.doc-head h1{font-family:var(--disp);font-size:clamp(22px,5vw,31px);line-height:1.15;font-weight:700}
+.doc-head{padding:34px 0 18px;border-bottom:1px solid var(--line)}
+.doc-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:11px}
+.doc-head h1{font-family:var(--disp);font-size:clamp(30px,7.5vw,52px);font-weight:400;
+  letter-spacing:-.045em;line-height:1.02}
 .doc-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:10px}
 
 /* ---------- collapsed TOC ---------- */
-details.toc{margin:16px 0 4px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+details.toc{margin:18px 0 4px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--panel)}
 details.toc>summary{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--teal);padding:13px 15px;cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center}
 details.toc>summary::-webkit-details-marker{display:none}
@@ -82,9 +98,9 @@ details.toc a::before{content:counter(toc) ". ";font-family:var(--mono);font-siz
 
 /* ---------- prose ---------- */
 .prose{padding-top:6px}
-.prose h2{font-family:var(--disp);font-size:20px;font-weight:700;margin:34px 0 10px;
-  padding-bottom:8px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--top) + 12px)}
-.prose h3{font-family:var(--disp);font-size:16.5px;font-weight:700;margin:24px 0 8px;
+.prose h2{font-family:var(--disp);font-size:23px;font-weight:600;letter-spacing:-.018em;margin:38px 0 11px;
+  padding-bottom:9px;border-bottom:1px solid var(--divider);scroll-margin-top:calc(var(--top) + 12px)}
+.prose h3{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.01em;margin:26px 0 8px;
   scroll-margin-top:calc(var(--top) + 12px)}
 .prose h4{font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--teal);margin:20px 0 7px}
@@ -110,7 +126,8 @@ details.toc a::before{content:counter(toc) ". ";font-family:var(--mono);font-siz
 
 /* ---------- tables: horizontal scroll with a real affordance ---------- */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
-  border:1px solid var(--line);border-radius:9px;background:var(--panel);margin:16px 0;position:relative}
+  border:1px solid var(--line);border-radius:var(--r-card);background:var(--panel);margin:18px 0;
+  position:relative;box-shadow:var(--shadow)}
 .tw:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .tw table{border-collapse:collapse;min-width:100%;width:max-content;font-size:13.5px}
 .tw th,.tw td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;
@@ -144,13 +161,14 @@ details.toc a::before{content:counter(toc) ". ";font-family:var(--mono);font-siz
 
 /* ---------- library index ---------- */
 .lib-sec{margin-top:30px}
-.lib-sec h2{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
-  color:var(--teal);padding-bottom:9px;border-bottom:1px solid var(--line)}
-.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;
-  padding:14px 16px;margin-top:9px;text-decoration:none;color:var(--ink);min-height:64px}
+.lib-sec h2{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--divider)}
+.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:17px 19px;margin-top:10px;text-decoration:none;color:var(--ink);min-height:64px;
+  box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
 .card:active{transform:scale(.995)}
-.card:hover{border-color:var(--teal)}
-.card .t{font-family:var(--disp);font-size:15.5px;font-weight:700;line-height:1.3}
+.card:hover{border-color:var(--ink-faint);transform:translateY(-1px)}
+.card .t{font-family:var(--disp);font-size:16.5px;font-weight:600;letter-spacing:-.011em;line-height:1.3}
 .card .d{color:var(--muted);font-size:13.5px;margin-top:4px}
 .card .m{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:7px}
 
@@ -159,7 +177,8 @@ details.toc a::before{content:counter(toc) ". ";font-family:var(--mono);font-siz
 .dg h2{font-family:var(--disp);font-size:18px;font-weight:700}
 .dg .d{color:var(--muted);font-size:13.5px;margin:4px 0 9px}
 .diagram{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
-  border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px}
+  border:1px solid var(--line);border-radius:var(--r-card);background:#fff;padding:10px;
+  box-shadow:var(--shadow)}
 .diagram:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .diagram svg{display:block;height:auto}
 .diagram.fit svg{width:100%}
@@ -172,8 +191,8 @@ details.toc a::before{content:counter(toc) ". ";font-family:var(--mono);font-siz
 
 /* ---------- prev / next ---------- */
 .pn{display:flex;gap:10px;margin-top:38px;padding-top:18px;border-top:1px solid var(--line)}
-.pn a{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;
-  padding:12px 14px;text-decoration:none;color:var(--ink);min-height:56px}
+.pn a{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:14px 16px;text-decoration:none;color:var(--ink);min-height:56px}
 .pn a:hover{border-color:var(--teal)}
 .pn .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .pn .l{font-size:13.5px;font-weight:600;margin-top:3px;line-height:1.3}

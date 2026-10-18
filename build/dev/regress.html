@@ -4,7 +4,7 @@
 <script>window.onerror=(m,u,l)=>{document.getElementById("out").textContent="JS ERROR "+m+" @"+l;document.title="DONE"}</script>
 <script>
 const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
-const frame=()=>new Promise(r=>{const f=document.createElement("iframe");f.src="/index.html";
+const frame=()=>new Promise(r=>{const f=document.createElement("iframe");f.src="/tracker.html";
   f.onload=()=>setTimeout(()=>r(f),450);document.body.appendChild(f);});
 (async()=>{
 try{

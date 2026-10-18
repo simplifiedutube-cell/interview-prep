@@ -1,6 +1,6 @@
 (async()=>{
   const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
-  log(location.pathname==="/index.html", "landed on /index.html with the server down");
+  log(location.pathname==="/tracker.html", "landed on /tracker.html with the server down");
   log(document.querySelectorAll("li.item").length>400,
       `tracker rendered from cache: ${document.querySelectorAll("li.item").length} items`);
   log(!!navigator.serviceWorker.controller, "page is controlled by the service worker");

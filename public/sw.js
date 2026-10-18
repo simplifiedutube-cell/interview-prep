@@ -2,7 +2,7 @@
    cache-first is always a hit — instant and offline by construction. Correctness
    comes from the version bump, not from revalidation.
    BUILD changes whenever any file changes, which is the entire update mechanism. */
-const BUILD = "20261018-ed16e861";
+const BUILD = "20261018-8ee7f36a";
 const CACHE = "prep-" + BUILD;
 const PRECACHE = [
   "/",
@@ -27,7 +27,7 @@ const PRECACHE = [
   "/assets/icon-512-maskable.png",
   "/assets/icon-512.png",
   "/assets/icon.svg",
-  "/assets/site.75823c14.css",
+  "/assets/site.9a022d4b.css",
   "/assets/site.d62a8d99.js",
   "/assets/sync.bf928ee9.js",
   "/diagrams/01-aml-ctf-compliance-rag.svg",
@@ -45,7 +45,8 @@ const PRECACHE = [
   "/questions.html",
   "/resources.html",
   "/robots.txt",
-  "/story-bank.html"
+  "/story-bank.html",
+  "/tracker.html"
 ];
 
 self.addEventListener("install", (e) => {

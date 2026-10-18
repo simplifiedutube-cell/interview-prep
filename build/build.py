@@ -262,7 +262,7 @@ def shell(title, current):
         'aria-expanded="false" aria-controls="s-side">☰</button>'
         '<button class="tb-btn tb-back" id="s-back" aria-label="Back" hidden>‹</button>'
         f'<span class="tb-title">{html.escape(title)}</span>'
-        '<a class="tb-btn tb-home" href="/index.html">Tracker</a>'
+        '<a class="tb-btn tb-home" href="/tracker.html">Tracker</a>'
         "</header>"
         + nav_html(current)
         + '<div id="s-scrim"></div>'
@@ -277,6 +277,31 @@ def fill(tpl, **kw):
     if left:
         warn(f"template {tpl} left unfilled: {sorted(set(left))}")
     return s
+
+
+def track_counts():
+    """Real item counts straight out of master-tracker.html.
+
+    The landing page quotes these, so they must come from the tracker itself
+    rather than being typed in and left to drift the next time a track changes.
+    """
+    src = (ROOT / "master-tracker.html").read_text(encoding="utf-8")
+    lines = src.splitlines()
+    i = next(n for n, l in enumerate(lines) if l.startswith("const TRACKS"))
+    j = next(n for n, l in enumerate(lines[i:], i) if l.strip() == "];")
+    counts, cur = {}, None
+    for l in lines[i:j]:
+        m = re.match(r'\s*\{id:"(t\d\d)", num:', l)
+        if m:
+            cur = m.group(1); counts[cur] = 0
+        elif cur and re.match(r'\s*\[["\u2b50]', l):
+            counts[cur] += 1
+    dsa = len(re.findall(r'\["', re.search(r"const DSA_LIST = \[(.*?)\n\];", src, re.S).group(1)))
+    if "t11" in counts:
+        counts["t11"] = dsa
+    skill = sum(v for k2, v in counts.items() if k2 in
+                {"t03", "t04", "t05", "t06", "t07", "t08", "t09", "t10"})
+    return {"total": sum(counts.values()), "cert": counts.get("t01", 0), "skill": skill}
 
 
 def write(rel, text):
@@ -361,7 +386,7 @@ def main():
         banner = ""
         if "DAILY-CHECKLIST" in r["src"]:
             banner = ('<div class="refbar"><b>Reference, not state.</b> Ticking happens in the '
-                      '<a href="/index.html">tracker</a> — Today (00) for the routine, tracks '
+                      '<a href="/tracker.html">tracker</a> — Today (00) for the routine, tracks '
                       '01–13 for the syllabus. This page is the plan behind them.</div>')
 
         mins = max(1, round(r["words"] / 220))
@@ -434,6 +459,25 @@ def main():
     import apppages
     apppages.build(ROOT, DIST, HEAD, js_name, css_name, warn, shell, sync_name)
 
+    # ---- landing page at / , with the isometric figure and real counts
+    fig = HERE / "figure" / "hero.svg.html"
+    if not fig.exists():
+        warn("build/figure/hero.svg.html missing — run: node build/figure/build.mjs")
+        figure, readout = "", ""
+    else:
+        figure = fig.read_text(encoding="utf-8")
+        readout = "sign in to see your progress"
+    n = track_counts()
+    # The figure's tones come from the anatomy kit's own stylesheet, scoped under
+    # .iso — without it every path falls back to a solid black fill.
+    iso_css = (HERE / "figure" / "kit" / "iso.css")
+    write("index.html", fill(
+        "landing.html", HEAD=HEAD, FIGURE=figure, READOUT=readout, JS=js_name,
+        ISOCSS=iso_css.read_text(encoding="utf-8") if iso_css.exists() else "",
+        TOTAL=str(n["total"]), N_CERT=str(n["cert"]), N_SKILL=str(n["skill"]),
+        N_DOCS=str(len(DOCS)),
+    ))
+
     # ---- login page: reachable while logged out, so it links only /assets/*
     write("login.html", fill("login.html", HEAD=HEAD))
 
@@ -445,7 +489,7 @@ def main():
          "<p>That URL doesn't exist on this site.</p>"),
     ]:
         write(name, fill("simple.html", HEAD=HEAD, TITLE=h1, KICKER=kicker, H1=h1,
-                         BODY=msg + '<p><a href="/index.html">Tracker</a> · '
+                         BODY=msg + '<p><a href="/tracker.html">Tracker</a> · '
                                     '<a href="/library.html">Library</a></p>'))
 
     # ---- static site files

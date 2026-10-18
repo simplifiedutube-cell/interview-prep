@@ -3,7 +3,7 @@
 <script>
 const L=[]; const log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
 function frame(){return new Promise(r=>{
-  const f=document.createElement("iframe"); f.src="/index.html";
+  const f=document.createElement("iframe"); f.src="/tracker.html";
   f.onload=()=>setTimeout(()=>r(f),500); document.body.appendChild(f);});}
 const kill=f=>f.remove();
 (async()=>{

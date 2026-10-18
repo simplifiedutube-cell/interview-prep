@@ -135,7 +135,7 @@ SECTION_ORDER = [
 
 # Standalone app pages that are not markdown-derived but do appear in nav.
 APP_PAGES = [
-    ("index.html", "Tracker", "The certification blueprint, the syllabus, and the resource library"),
+    ("tracker.html", "Tracker", "The certification blueprint, the syllabus, and the resource library"),
     ("questions.html", "Resume Question Bank", "Every question your resume invites"),
 ]
 

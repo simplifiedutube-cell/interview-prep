@@ -5,7 +5,7 @@
 <script>
 const L=[], log=(ok,m)=>L.push((ok?"PASS  ":"FAIL  ")+m);
 function frame(){return new Promise(r=>{
-  const f=document.createElement("iframe"); f.src="/index.html";
+  const f=document.createElement("iframe"); f.src="/tracker.html";
   f.onload=()=>{
     /* stub the API before PrepSync's first scheduled flush (600ms) fires */
     f.contentWindow.__net=[];

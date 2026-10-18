@@ -7,6 +7,17 @@ sees the same state.
 python3 build/build.py          # writes public/ ; needs pandoc (brew install pandoc)
 ```
 
+The hero figure on the landing page is generated separately and committed, so a
+normal build does not need Node:
+
+```bash
+node build/figure/build.mjs     # only after editing the figure itself
+```
+
+Routes: `/` is the landing page and `/tracker.html` is the checklist. The PWA's
+`start_url` is `/tracker.html`, so the installed app opens straight to the
+checklist and never pays for the landing page on a daily tick.
+
 Everything else is Python stdlib. Vercel runs **no build** — it serves the committed
 `public/` folder and the functions in `api/`.
 
@@ -141,6 +152,8 @@ each device.
 | Shared styling | `build/site/site.css` |
 | Sync behaviour | `build/site/sync.js` (client), `api/*.js` + `lib/db.js` (server) |
 | A Mermaid flowchart | `build/site/mermaid/flow-0N.mmd`, then `build/site/mermaid/render.sh` |
+| The landing page | `build/templates/landing.html` |
+| The hero figure | `build/figure/build.mjs`, then `node build/figure/build.mjs` |
 
 > ⚠️ **Never reword an existing item in `master-tracker.html`.** `idFor(track, group, text)`
 > hashes the group title and item text into the storage key. Changing the wording orphans that

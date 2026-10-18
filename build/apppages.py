@@ -49,7 +49,10 @@ def build(root, dist, head, js_name, css_name, warn, shell, sync_name):
     # it must load BEFORE the inline script's PrepSync.start() call runs.
     s = s.replace("<!--BUILD:SYNC-->", f'<script src="/assets/{sync_name}"></script>')
     s = s.replace("<!--BUILD:JS-->", f'<script src="/assets/{js_name}"></script>')
-    (dist / "index.html").write_text(s, encoding="utf-8")
+    # The tracker lives at /tracker.html now; / is the landing page. The PWA's
+    # start_url still points here, so the installed app opens straight to the
+    # checklist and never pays for the landing page on a daily tick.
+    (dist / "tracker.html").write_text(s, encoding="utf-8")
 
     # ---------------- questions.html : the resume question bank ----------------
     q = (root / "resume-question-bank.html").read_text(encoding="utf-8")
