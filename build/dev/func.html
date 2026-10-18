@@ -47,7 +47,13 @@ try{
   const gstat=d.getElementById("gstat").textContent;
   log(/read/.test(pct), `section header shows read count: "${pct.trim()}"`);
   log(/\d+\/\d+/.test(navc), `nav count updates: "${navc}"`);
-  log(/cold/.test(gstat)&&/locked/.test(gstat), `global: "${gstat.trim()}"`);
+  /* "· N locked" is appended only when a locked track exists, so assert the
+     parts that are always present and check the suffix conditionally. */
+  const lockedTracks=[...d.querySelectorAll("section.locked")].length;
+  log(/cold/.test(gstat) && /read/.test(gstat) && /\d+%/.test(gstat),
+      `global: "${gstat.trim()}"`);
+  log(lockedTracks ? /locked/.test(gstat) : !/locked/.test(gstat),
+      `locked suffix matches reality (${lockedTracks} locked track(s))`);
   const fillr=d.querySelector(`[data-fillr="${trackId}"]`).style.width;
   log(fillr!=="" && fillr!=="0%", `read bar segment has width: ${fillr}`);
 

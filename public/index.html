@@ -348,7 +348,7 @@
    ============================================================ */
 const DAY = [
  ["08:00","Retrieval warm-up · 30m","Blank paper, closed book. Write out yesterday's block A from memory, plus one item each from 3, 7 and 21 days ago. Then check and correct. <b>Recall first, reading second</b> — rereading feels like learning and mostly isn't"],
- ["08:30","Block A · Theory · 90m","One topic from tracks 03–09, in order. Read the primary source, not a summary of it. Take notes as questions you must be able to answer, not as highlights"],
+ ["08:30","Block A · Theory · 90m","One topic from tracks 02–09, in order. Read the primary source, not a summary of it. Take notes as questions you must be able to answer, not as highlights"],
  ["10:00","Break · 20m","Walk outside. No phone","brk"],
  ["10:20","Block B · Build · 90m","Implement what you just read, from a blank file. Reading about attention and writing attention are different skills and only the second one gets tested"],
  ["11:50","Lunch · 45m","","brk"],
@@ -372,27 +372,48 @@ const DAY_RULES = [
    ============================================================ */
 
 const DSA_LIST = [
-["Contains Duplicate","Arrays & Hashing"],["Valid Anagram","Arrays & Hashing"],["Two Sum","Arrays & Hashing"],
-["Group Anagrams","Arrays & Hashing"],["Top K Frequent Elements","Arrays & Hashing"],["Encode and Decode Strings","Arrays & Hashing"],
-["Product of Array Except Self","Arrays & Hashing"],["Valid Sudoku","Arrays & Hashing"],["Longest Consecutive Sequence","Arrays & Hashing"],
-["Valid Palindrome","Two Pointers"],["Two Sum II","Two Pointers"],["3Sum","Two Pointers"],["Container With Most Water","Two Pointers"],
-["Best Time to Buy and Sell Stock","Sliding Window"],["Longest Substring Without Repeating Characters","Sliding Window"],["Longest Repeating Character Replacement","Sliding Window"],["Permutation in String","Sliding Window"],["Minimum Window Substring","Sliding Window"],
-["Valid Parentheses","Stack"],["Min Stack","Stack"],["Evaluate Reverse Polish Notation","Stack"],["Generate Parentheses","Stack"],
-["Binary Search","Binary Search"],["Search a 2D Matrix","Binary Search"],["Koko Eating Bananas","Binary Search — on the answer"],
-["Find Minimum in Rotated Sorted Array","Binary Search"],["Search in Rotated Sorted Array","Binary Search"],["Time Based Key-Value Store","Binary Search — plus design"],
-["Reverse Linked List","Linked List"],["Merge Two Sorted Lists","Linked List"],["Reorder List","Linked List"],["Remove Nth Node From End of List","Linked List"],
-["Copy List with Random Pointer","Linked List"],["Add Two Numbers","Linked List"],["Linked List Cycle","Fast/Slow Pointers"],["Find the Duplicate Number","Fast/Slow Pointers"],
-["Invert Binary Tree","Trees"],["Maximum Depth of Binary Tree","Trees"],["Diameter of Binary Tree","Trees — return-value design"],["Balanced Binary Tree","Trees — return-value design"],
-["Same Tree","Trees"],["Subtree of Another Tree","Trees"],["Lowest Common Ancestor of a BST","BST"],
-["Binary Tree Level Order Traversal","Trees — BFS"],["Binary Tree Right Side View","Trees — BFS"],["Count Good Nodes in Binary Tree","Trees — DFS with state"],["Validate Binary Search Tree","BST"],
-["Kth Smallest Element in a BST","BST — inorder"],["Construct Binary Tree from Preorder and Inorder Traversal","Trees"],["Binary Tree Maximum Path Sum","Trees — return-value design"],
-["Kth Largest Element in a Stream","Heap"],["Last Stone Weight","Heap"],["K Closest Points to Origin","Heap"],["Kth Largest Element in an Array","Heap / Quickselect"],["Task Scheduler","Heap + Greedy"],
-["Subsets","Backtracking"],["Combination Sum","Backtracking"],["Permutations","Backtracking"],["Subsets II","Backtracking — dedup"],["Word Search","Backtracking on a grid"],
-["LRU Cache","Design — O(1)"],["Implement Trie","Design — Trie"],["Find Median from Data Stream","Design — two heaps"],
-["Number of Islands","Graphs — DFS/BFS grid"],["Max Area of Island","Graphs — DFS grid"],["Clone Graph","Graphs — hashmap clone"],["Rotting Oranges","Graphs — multi-source BFS"],
-["Pacific Atlantic Water Flow","Graphs — reverse DFS"],["Surrounded Regions","Graphs — boundary DFS"],["Course Schedule","Graphs — cycle detection"],["Course Schedule II","Graphs — topological sort"],
-["Climbing Stairs","1-D DP"],["Min Cost Climbing Stairs","1-D DP"],["House Robber","1-D DP"],
-["Coin Change","1-D DP — unbounded"],["Word Break","1-D DP — strings"],["Longest Increasing Subsequence","1-D DP"]
+["Two Sum","Arrays & Hashing"],
+
+["Group Anagrams","Arrays & Hashing"],
+
+["Product of Array Except Self","Arrays & Hashing"],
+["3Sum","Two Pointers"],
+["Container With Most Water","Two Pointers"],
+["Longest Substring Without Repeating Characters","Sliding Window"],
+["Minimum Window Substring","Sliding Window"],
+
+["Valid Parentheses","Stack"],
+["Min Stack","Stack"],
+["Koko Eating Bananas","Binary Search — on the answer"],
+["Search in Rotated Sorted Array","Binary Search"],
+
+["Reverse Linked List","Linked List"],
+["Merge Two Sorted Lists","Linked List"],
+["Linked List Cycle","Fast/Slow Pointers"],
+
+["Invert Binary Tree","Trees"],
+
+["Binary Tree Level Order Traversal","Trees — BFS"],
+["Validate Binary Search Tree","BST"],
+["Binary Tree Maximum Path Sum","Trees — return-value design"],
+["K Closest Points to Origin","Heap"],
+["Kth Largest Element in an Array","Heap / Quickselect"],
+
+["Subsets","Backtracking"],
+["Combination Sum","Backtracking"],
+
+["LRU Cache","Design — O(1)"],
+["Implement Trie","Design — Trie"],
+
+["Number of Islands","Graphs — DFS/BFS grid"],
+["Clone Graph","Graphs — hashmap clone"],
+["Course Schedule","Graphs — cycle detection"],
+
+["Climbing Stairs","1-D DP"],
+["House Robber","1-D DP"],
+
+["Coin Change","1-D DP — unbounded"]
+
 ];
 function dsaGroups(){
   const order=[], by={};
@@ -491,56 +512,7 @@ const TRACKS = [
  ]},
 
 /* ================= 02 ================= */
-{id:"t02", num:"02", title:"CCAR-P — Architect Professional", locked:true,
- lock:"Second exam, $175. No prerequisite chain — Professional can be taken without holding Foundations. Reported as the <i>easier</i> of the two: architecture and governance judgement rather than product-trivia recall.",
- note:"63 items · 120 min · pass 720 · valid 12 months. Domains 3–5 are RAG, evaluation, observability and governance, so most of the syllabus below already covers them.",
- groups:[
-  {t:"Domain 1 — Solution Design & Architecture", wt:"17%", items:[
-   ["Translate a business problem into a Claude solution"],
-   ["End-to-end architectures: input → processing → output → feedback loop"],
-   ["Choose the pattern: workflow vs agentic vs augmented LLM"],
-   ["Multi-agent systems, orchestration and decomposition techniques"],
-   ["Align to business value: efficiency, transformation, productivity, cost, performance SLAs"]]},
-  {t:"Domain 2 — Models, Prompting & Context Engineering", wt:"13%", items:[
-   ["Model selection tradeoffs"],
-   ["System prompts, templates, guardrails"],
-   ["Zero-shot, few-shot, chain-of-thought"],
-   ["Context window and token optimization"],
-   ["Prompt reuse — caching, modular prompts, Skills"]]},
-  {t:"Domain 3 — Integration", wt:"19% — heaviest", items:[
-   ["Tool and agent configuration against <b>capability bloat</b>"],
-   ["AuthN / authZ gap analysis"],
-   ["Accuracy-latency tradeoffs; observability at scale"],
-   ["Design a RAG pipeline with chunking and indexing strategies","Overlaps track 05 almost entirely — the cheapest 19% on offer","deep"],
-   ["Match retrieval strategy to data shape and query pattern"],
-   ["Choose the integration mechanism — MCP vs API vs CLI vs agent-to-agent"],
-   ["Progressive discovery vs monolithic context"]]},
-  {t:"Domain 4 — Evaluation, Testing & Optimization", wt:"16%", items:[
-   ["Evaluation metrics: accuracy, latency, cost, safety, security"],
-   ["Eval datasets and mixed-methodology test frameworks; A/B testing"],
-   ["Diagnose prompt failure vs hallucination vs model mismatch"],
-   ["Token, latency and cost-performance optimization"],
-   ["Logging and observability tooling"]]},
-  {t:"Domain 5 — Governance, Safety & Risk", wt:"14%", items:[
-   ["Guardrails and safety controls"],
-   ["LLM risks, limitations and failure modes"],
-   ["Human-in-the-loop validation"],
-   ["GDPR, HIPAA, FedRAMP"],
-   ["Ethical AI — bias, fairness, transparency"]]},
-  {t:"Domain 6 — Stakeholder Communication & Lifecycle", wt:"14%", items:[
-   ["Structured discovery and requirements gathering"],
-   ["Communicating architectural tradeoffs"],
-   ["Stakeholder feedback loops and SLAs"],
-   ["Documenting architectures"],
-   ["Lifecycle phases — discovery, design, handoff, monitoring, iteration"]]},
-  {t:"Domain 7 — Developer Productivity & Enablement", wt:"7%", items:[
-   ["Configure Claude tooling for a team"],
-   ["AI-assisted developer workflows"],
-   ["Debugging and operational issue resolution"]]}
- ]},
-
-/* ================= 03 ================= */
-{id:"t03", num:"03", title:"Python for AI engineering",
+{id:"t03", num:"02", title:"Python for AI engineering",
  note:"Ranked by how often each topic shows up in <i>dated first-hand accounts</i>, not by SEO listicles — no rigorously frequency-ranked public Python list exists, and anyone claiming one is guessing. Each note is the <em>discriminating</em> version of the question, not the warm-up.",
  groups:[
   {t:"Tier 1 — appears in real accounts", items:[
@@ -579,8 +551,8 @@ const TRACKS = [
    ["<a href='https://tensorgym.com/exercises' target='_blank' rel='noopener'>TensorGym</a> — supplementary only","Much smaller than Deep-ML, and I found no independent reviews of it"]]}
  ]},
 
-/* ================= 04 ================= */
-{id:"t04", num:"04", title:"LLM & transformer foundations",
+/* ================= 03 ================= */
+{id:"t04", num:"03", title:"LLM & transformer foundations",
  note:"Enough depth to explain any of this at a whiteboard without notes. <b>You do not need to be able to train one</b> — training-loop internals sit in the specialised tier and are gated on the job description. What is not optional is being able to draw the architecture and say why each piece is there.",
  groups:[
   {t:"The core mechanism", items:[
@@ -613,8 +585,8 @@ const TRACKS = [
    ["<a href='https://github.com/rasbt/LLMs-from-scratch' target='_blank' rel='noopener'>rasbt/LLMs-from-scratch</a> — Appendix A, Ch 2 and Ch 3, typed","Free repo, runs on a laptop, no GPU. Bonus modules the print book lacks: GQA, MLA, MoE, DPO"]]}
  ]},
 
-/* ================= 05 ================= */
-{id:"t05", num:"05", title:"RAG & retrieval",
+/* ================= 04 ================= */
+{id:"t05", num:"04", title:"RAG & retrieval",
  note:"The densest bucket in every question corpus. <b>“Explain how RAG works, end to end” is the single most-asked question</b> — five or more independent accounts, and at least one company uses it as its screen opener. It should be your easiest 90 seconds.",
  groups:[
   {t:"The pipeline, and every decision in it", items:[
@@ -645,8 +617,8 @@ const TRACKS = [
    ["Anthropic — Contextual Retrieval"]]}
  ]},
 
-/* ================= 06 ================= */
-{id:"t06", num:"06", title:"Agents, tools & MCP",
+/* ================= 05 ================= */
+{id:"t06", num:"05", title:"Agents, tools & MCP",
  note:"Overlaps CCAR-F Domains 1 and 2 almost completely — study these together and you are working on both at once. The seniority filter in this area is not “can you build an agent”; it is <b>knowing when not to</b>.",
  groups:[
   {t:"Agent architecture", items:[
@@ -681,9 +653,9 @@ const TRACKS = [
    ["Know LangGraph and CrewAI by name even if you'd hand-roll it","Interviewers ask “which framework and why.” Being able to justify hand-rolling is fine; not knowing the names is not"]]}
  ]},
 
-/* ================= 07 ================= */
-{id:"t07", num:"07", title:"Evaluation",
- note:"The scarcest skill in the field and the most reliable differentiator. Across interviewer-side write-ups the same three failures recur: <b>candidates describe how to build systems but not how to evaluate or monitor them</b>, they know what a thing is but not when to use it, and they ignore cost, latency and failure modes. This track is the fix for the first one. It is also CCAR-P Domain 4.",
+/* ================= 06 ================= */
+{id:"t07", num:"06", title:"Evaluation",
+ note:"The scarcest skill in the field and the most reliable differentiator. Across interviewer-side write-ups the same three failures recur: <b>candidates describe how to build systems but not how to evaluate or monitor them</b>, they know what a thing is but not when to use it, and they ignore cost, latency and failure modes. This track is the fix for the first one.",
  groups:[
   {t:"The method, in order", items:[
    ["Capture real traces before doing anything else","You cannot evaluate what you have not looked at. A hundred real traces beats any prefab metric suite","deep"],
@@ -712,9 +684,9 @@ const TRACKS = [
    ["<a href='https://github.com/benchflow-ai/awesome-evals' target='_blank' rel='noopener'>benchflow-ai/awesome-evals</a>","Small but genuinely curated"]]}
  ]},
 
-/* ================= 08 ================= */
-{id:"t08", num:"08", title:"Inference, cost & serving",
- note:"Where “I've used the API” separates from “I've run this in production.” Every cost and latency question reduces to the same move: <b>name the mechanism, then name what it cost you</b>. Also CCAR-F 4.5 and CCAR-P Domain 4.",
+/* ================= 07 ================= */
+{id:"t08", num:"07", title:"Inference, cost & serving",
+ note:"Where “I've used the API” separates from “I've run this in production.” Every cost and latency question reduces to the same move: <b>name the mechanism, then name what it cost you</b>. Also CCAR-F 4.5.",
  groups:[
   {t:"Making it faster", items:[
    ["<b>Time to first token vs total latency</b>, and why streaming changes perceived speed","TTFT is the number users feel. Optimising total tokens/sec while TTFT stays bad is the classic wrong answer"],
@@ -738,8 +710,8 @@ const TRACKS = [
    ["<a href='https://github.com/ray-project/llm-numbers' target='_blank' rel='noopener'>ray-project/llm-numbers</a>","Stale on specifics, but the <i>habit</i> of quoting numbers is what wins cost questions"]]}
  ]},
 
-/* ================= 09 ================= */
-{id:"t09", num:"09", title:"Classical ML foundations",
+/* ================= 08 ================= */
+{id:"t09", num:"08", title:"Classical ML foundations",
  note:"<em>GenAI-only preparation is a repeatedly documented way to lose a loop.</em> Two first-hand rejections trace directly to this bucket — one candidate was asked to derive entropy and Gini by hand, another was rejected in a late round on traditional-ML case studies. It arrives as an ambush precisely because candidates skip it.",
  groups:[
   {t:"The ambush topics", items:[
@@ -768,8 +740,8 @@ const TRACKS = [
    ["Andrew Ng — “Advice for applying machine learning”","<b>Course 2 of the specialization</b> (<i>Advanced Learning Algorithms</i>), <b>Week 3</b> → <a href='https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3' target='_blank' rel='noopener'>coursera.org/learn/advanced-learning-algorithms — module 3</a>. ⚠️ <em>Not</em> <code>coursera.org/learn/machine-learning</code> — that slug is Course 1 and its module 3 is Classification. Baseline and Bayes error, error analysis, the bias-variance intervention ladder","deep"]]}
  ]},
 
-/* ================= 10 ================= */
-{id:"t10", num:"10", title:"GenAI system design",
+/* ================= 09 ================= */
+{id:"t10", num:"09", title:"GenAI system design",
  note:"Now a named round at multiple companies. Format: ~45–60 min — 5 clarify, 10–15 high-level, 15–20 deep dive, 5–10 tradeoffs and bottlenecks. <b>Per rep use 45/20/40/30</b>: 45 min recorded with a hard timer and no lookups → 20 min watching it back at 1.5× and self-scoring → 40 min re-doing it with the reference open → 30 min reading only what your two worst sub-scores demand. <em>Whiteboard cold first, read second. Never the other way round.</em>",
  groups:[
   {t:"Do these reps, in this order", items:[
@@ -800,13 +772,13 @@ const TRACKS = [
    ["<a href='https://excalidraw.com' target='_blank' rel='noopener'>Excalidraw</a> — build one template in 15 minutes","Building a beautiful component library is procrastination with the aesthetics of preparation","trap"]]}
  ]},
 
-/* ================= 11 ================= */
-{id:"t11", num:"11", title:"DSA — the narrow band that matters",
+/* ================= 10 ================= */
+{id:"t11", num:"10", title:"DSA — the narrow band that matters",
  note:"Calibrate honestly. Around 70% of senior AI-engineer loops now exclude LeetCode-style problems, and several first-hand accounts at AI-first companies report none at all — but a survey of 67 interviewers (52 at FAANG) found <b>zero</b> FAANG respondents had moved away from algorithmic questions, and Indian product companies still run pure DSA panels. <em>Do this band and stop; expanding it is not where the marginal hour pays.</em><br><br><b>The 25-minute protocol:</b> 2 min restate the problem and the brute force out loud → 23 min attempt, no AI, no autocomplete, timer visible → on failure read the editorial and the pattern → <em>close everything, blank file, re-implement until it passes</em> ← this is the entire learning event → then a 60-second card: pattern name / the trigger phrase in the problem statement / the one line that is the trick. Re-solve at +3 days and +14 days, cold, in ≤25 min.",
  groups:dsaGroups()},
 
-/* ================= 12 ================= */
-{id:"t12", num:"12", title:"Interview rounds & formats",
+/* ================= 11 ================= */
+{id:"t12", num:"11", title:"Interview rounds & formats",
  note:"What the loop actually looks like: <b>3–5 rounds over 2–4 weeks, and the decisive round is almost never DSA.</b> It is a practical build, a project interrogated to production depth, or a customer conversation. Knowing the format is worth as much as knowing the material.",
  groups:[
   {t:"The practical LLM-API coding round — the modal round", items:[
@@ -858,8 +830,8 @@ const TRACKS = [
    ["❌ Repos to skip","A popular LLM-questions repo (~1.9k★) is a lead-gen funnel with paywalled answers and zero attribution. A once-excellent ML-interview repo (~12.7k★) has not been touched since 2023 and is entirely pre-GenAI. Several “N interview questions” networks are formulaic SEO. <b>Star count is not currency</b>","no"]]}
  ]},
 
-/* ================= 13 ================= */
-{id:"t13", num:"13", title:"Resource library",
+/* ================= 12 ================= */
+{id:"t13", num:"12", title:"Resource library",
  note:"Books, courses and free canon, with the reason each earned its place. <b>The ❌ lists matter as much as the ✅ lists</b> — they are where preparation hours die, and most of them are famous, highly-rated, and wrong for this goal.",
  groups:[
   {t:"Books worth buying", items:[
@@ -1061,7 +1033,7 @@ addNavLink("t00","00","Today",true,"today");
     '<span class="sec-meta"><span class="pct" data-pct="t00">0 / 0</span>'+
     '<span class="pbar"><i data-fill="t00"></i></span></span></div>'+
     '<p class="sec-note">The same day, every day. <b>Tick it as you go; it clears itself at midnight.</b> '+
-    'The blocks are fixed — what changes is which item from tracks 01–13 you carry into block A and block C. '+
+    'The blocks are fixed — what changes is which item from tracks 01–12 you carry into block A and block C. '+
     '<em>The two retrieval blocks are not optional padding</em>: testing yourself on the morning\'s material in the evening is what moves it into memory, and it is the single highest-leverage habit here.</p>';
 
   const card=document.createElement("div"); card.className="today-card";
@@ -1183,7 +1155,7 @@ addNavSep("Library");
 addNavExt("/library.html","All documents");
 addNavExt("/questions.html","Resume question bank");
 addNavExt("/answers/metric-defence.html","Metric defence");
-addNavExt("/daily-checklist.html","28-day sprint plan");
+addNavExt("/ai-engineer-interviews/real-questions.html","Real questions asked");
 addNavExt("/diagrams/index.html","Architecture diagrams");
 
 function recount(){

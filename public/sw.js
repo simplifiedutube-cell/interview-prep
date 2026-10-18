@@ -2,19 +2,14 @@
    cache-first is always a hit — instant and offline by construction. Correctness
    comes from the version bump, not from revalidation.
    BUILD changes whenever any file changes, which is the entire update mechanism. */
-const BUILD = "20260904-3bac6106";
+const BUILD = "20261018-ed16e861";
 const CACHE = "prep-" + BUILD;
 const PRECACHE = [
   "/",
   "/404.html",
-  "/accenture/answer-frameworks.html",
-  "/accenture/claim-defence-card.html",
-  "/accenture/question-bank.html",
   "/ai-engineer-interviews/checklist.html",
   "/ai-engineer-interviews/real-questions.html",
   "/ai-engineer-interviews/resources.html",
-  "/ai-engineering/daily-checklist.html",
-  "/ai-engineering/resources.html",
   "/answers/01-latency-and-cost.html",
   "/answers/02-relevance-and-agent-success.html",
   "/answers/03-turnaround-and-effort.html",
@@ -35,7 +30,6 @@ const PRECACHE = [
   "/assets/site.75823c14.css",
   "/assets/site.d62a8d99.js",
   "/assets/sync.bf928ee9.js",
-  "/daily-checklist.html",
   "/diagrams/01-aml-ctf-compliance-rag.svg",
   "/diagrams/02-indic-voice-agent.svg",
   "/diagrams/03-enterprise-rag-knowledge-assistant.svg",
@@ -48,7 +42,6 @@ const PRECACHE = [
   "/login.html",
   "/manifest.webmanifest",
   "/offline.html",
-  "/pipeline.html",
   "/questions.html",
   "/resources.html",
   "/robots.txt",

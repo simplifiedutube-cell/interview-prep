@@ -29,9 +29,17 @@ TPL = HERE / "templates"
 sys.path.insert(0, str(HERE))
 import icons                      # noqa: E402
 import excalidraw_svg             # noqa: E402
+import manifest                    # noqa: E402
 from manifest import (            # noqa: E402
-    DOCS, SECTION_ORDER, APP_PAGES, DIAGRAMS, UNPUBLISHED,
+    SECTION_ORDER, APP_PAGES, DIAGRAMS, UNPUBLISHED,
 )
+
+# Archived docs stay in the repo and in git; they are simply not built. Links
+# pointing at one degrade to plain text, exactly like a never-published file —
+# a dangling href to a page that no longer exists is worse than no link.
+DOCS = [d for d in manifest.DOCS if d[4] != "archived"]
+ARCHIVED = {(ROOT / d[0]).resolve() for d in manifest.DOCS if d[4] == "archived"}
+ARCHIVED_NAMES = {Path(d[0]).name for d in manifest.DOCS if d[4] == "archived"}
 
 WARN = []
 NOTE = []
@@ -98,6 +106,8 @@ def resolve_ref(target, src):
         return None
     for base in (src.parent, ROOT):
         cand = (base / t).resolve()
+        if cand in ARCHIVED:
+            return "ARCHIVED", False
         if cand in SRC_INDEX:
             return "/" + SRC_INDEX[cand] + frag, (base is ROOT)
         if cand in DIAG_INDEX:
@@ -111,10 +121,14 @@ A_RE = re.compile(r'<a\s+href="([^"]+)"([^>]*)>(.*?)</a>', re.S)
 def rewrite_links(body, src):
     def sub(m):
         href, rest, inner = m.group(1), m.group(2), m.group(3)
-        if Path(urllib.parse.unquote(href.split("#")[0])).name in UNPUBLISHED:
+        name = Path(urllib.parse.unquote(href.split("#")[0])).name
+        if name in UNPUBLISHED or name in ARCHIVED_NAMES:
             return (f'<a class="unpublished" title="kept in the repo, not published to this site">'
                     f'{inner}</a>')
         r = resolve_ref(href, src)
+        if r and r[0] == "ARCHIVED":
+            return (f'<a class="unpublished" title="archived \u2014 kept in the repo, '
+                    f'not published to this site">{inner}</a>')
         if r:
             url, via_root = r
             if via_root:
@@ -145,7 +159,7 @@ def autolink_code_refs(body, src):
         if inside(m.start()):
             return m.group(0)
         r = resolve_ref(m.group(1), src)
-        if not r:
+        if not r or r[0] == "ARCHIVED":
             return m.group(0)
         return f'<a class="xref" href="{r[0]}">{m.group(0)}</a>'
     return CODE_RE.sub(sub, body)
@@ -317,7 +331,8 @@ def main():
         words = len(re.findall(r"[A-Za-z0-9’'-]+", strip_tags(body)))
         rendered[out] = dict(
             body=body, h1=h1 or title, title=title or h1, sec=sec,
-            words=words, desc=first_sentence(body), src=s, vis=vis, toc=toc,
+            words=words, src=s, vis=vis, toc=toc,
+            desc=getattr(manifest, "DESCRIPTIONS", {}).get(out) or first_sentence(body),
         )
 
     # diagrams page body comes from diagrams/README.md but renders as a gallery
