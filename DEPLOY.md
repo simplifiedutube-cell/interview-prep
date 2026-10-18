@@ -12,7 +12,12 @@ normal build does not need Node:
 
 ```bash
 node build/figure/build.mjs     # only after editing the figure itself
+python3 build/sources/check.py # HTTP-checks every per-item source URL
 ```
+
+`check.py` is deliberately not part of the build — the build must work offline —
+but run it whenever you touch `build/sources/sources.py`. A dead link in a study
+plan is worse than no link.
 
 Routes: `/` is the landing page and `/tracker.html` is the checklist. The PWA's
 `start_url` is `/tracker.html`, so the installed app opens straight to the
@@ -154,6 +159,7 @@ each device.
 | A Mermaid flowchart | `build/site/mermaid/flow-0N.mmd`, then `build/site/mermaid/render.sh` |
 | The landing page | `build/templates/landing.html` |
 | The hero figure | `build/figure/build.mjs`, then `node build/figure/build.mjs` |
+| A per-item learning source | `build/sources/sources.py`, then re-run `build/sources/apply.py` |
 
 > ⚠️ **Never reword an existing item in `master-tracker.html`.** `idFor(track, group, text)`
 > hashes the group title and item text into the storage key. Changing the wording orphans that

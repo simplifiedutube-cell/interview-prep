@@ -186,6 +186,12 @@
   .tag.num{background:var(--red-soft);color:var(--red)}
   .tag.no{background:#EFEFEF;color:#7A7A7A}
   .freq{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:6px}
+  .src{margin-top:8px;font-family:var(--mono);font-size:11px;line-height:1.5;
+       display:flex;gap:7px;flex-wrap:wrap;align-items:baseline}
+  .src span{color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;
+            font-size:9.5px;flex:0 0 auto}
+  .src a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-soft)}
+  .src a:hover{border-bottom-color:var(--teal)}
 
   .callout{background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:13px 17px;margin:15px 0;font-size:14px}
   .callout.warn{background:var(--amber-soft);border-color:var(--amber)}
@@ -430,7 +436,10 @@ function dsaGroups(){
   const order=[], by={};
   DSA_LIST.forEach(([n,p])=>{ const k=p.split(" —")[0].split(" +")[0].split(" on")[0].trim();
     if(!by[k]){by[k]=[];order.push(k)} by[k].push([n,p]); });
-  return order.map(k=>({t:k, items:by[k]}));
+  /* every one of these has a worked solution video on neetcode */
+  /* every one of these has a worked solution video on neetcode */
+  return order.map(k=>({t:k, items:by[k].map(([n,pat])=>[n,pat]),
+    note:"Use the 25-minute protocol on the track note above. Attempt it cold and timed first; open the solution only after you have failed, then close it and re-implement from a blank file."}));
 }
 
 const TRACKS = [
@@ -440,68 +449,68 @@ const TRACKS = [
  note:"<b>Claude Certified Architect, Foundations.</b> 60 items · 120 min · pass 720 on a 100–1000 scale · $125 · valid 12 months with a free open-book renewal · <b>closed book, AI assistance explicitly forbidden</b> · English only · 4 scenarios drawn from a bank of 6. Every item below is one published blueprint objective.<br><br><em>Spend your hours on Domain 3, not on the biggest domain.</em> Domain 1 is generic agent engineering that transfers from any stack. Domain 3 is Claude-product surface that transfers from nothing — and pass reports say it is tested to the level of exact CLI arguments.",
  groups:[
   {t:"Logistics — settle these before you book", note:"Do all of this in one sitting, before studying anything. §9 and §8 of the guide are the only official graded material that exists — working them first tells you which domains you can already skip.", items:[
-   ["Registration requires a partner email on a recognised company domain","Personal email addresses are rejected. If the domain is not yet linked to its partner record, <code>partner-support@anthropic.com</code> takes <b>7–10 business days</b> — start that before anything else","trap"],
-   ["Check the partner tier before paying","Registered pays full $125; Select / Preferred / Global Premier get <b>50% off</b>, applied automatically at checkout"],
-   ["Download the free 39-page exam guide","<a href='https://anthropic-partners.skilljar.com/page/partner-certifications' target='_blank' rel='noopener'>anthropic-partners.skilljar.com/page/partner-certifications</a> — public, no login"],
-   ["Work exam guide §9 — 12 sample questions with full answer rationales","The single highest-value free asset for this exam. Do these before scheduling, not after","deep"],
-   ["Work exam guide §8 — 4 hands-on preparation exercises mapped to domains"],
-   ["Pay on Partner Academy, then schedule with Pearson VUE","<a href='https://wsr.pearsonvue.com/testtaker/signin/SignInPage/ANTHROPIC' target='_blank' rel='noopener'>wsr.pearsonvue.com/…/ANTHROPIC</a>. OnVUE remote or a test centre. Registration stays valid <b>5 years</b> once paid, so paying early does not force an early date"],
-   ["Know the retake ladder before setting a date","14 days after a first fail, 30 after a second, 90 after a third; max 4 attempts per rolling 12 months, full fee each time"],
-   ["❌ There is no official practice exam","It was retired on 30 Jun 2026 in the move to Pearson. Anything advertising an “official practice test” is lying. Dumps sites (<code>dumpsbase</code>, <code>itexamspro</code>, <code>passquestion</code>) violate the exam policy — permanent ban plus revocation","no"]]},
+   ["Registration requires a partner email on a recognised company domain","Personal email addresses are rejected. If the domain is not yet linked to its partner record, <code>partner-support@anthropic.com</code> takes <b>7–10 business days</b> — start that before anything else","trap","CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Check the partner tier before paying","Registered pays full $125; Select / Preferred / Global Premier get <b>50% off</b>, applied automatically at checkout",null,"CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Download the free 39-page exam guide","<a href='https://anthropic-partners.skilljar.com/page/partner-certifications' target='_blank' rel='noopener'>anthropic-partners.skilljar.com/page/partner-certifications</a> — public, no login",null,"CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Work exam guide §9 — 12 sample questions with full answer rationales","The single highest-value free asset for this exam. Do these before scheduling, not after","deep","CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Work exam guide §8 — 4 hands-on preparation exercises mapped to domains",null,null,"CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Pay on Partner Academy, then schedule with Pearson VUE","<a href='https://wsr.pearsonvue.com/testtaker/signin/SignInPage/ANTHROPIC' target='_blank' rel='noopener'>wsr.pearsonvue.com/…/ANTHROPIC</a>. OnVUE remote or a test centre. Registration stays valid <b>5 years</b> once paid, so paying early does not force an early date",null,"Pearson VUE — Anthropic|https://wsr.pearsonvue.com/testtaker/signin/SignInPage/ANTHROPIC"],
+   ["Know the retake ladder before setting a date","14 days after a first fail, 30 after a second, 90 after a third; max 4 attempts per rolling 12 months, full fee each time",null,"CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["❌ There is no official practice exam","It was retired on 30 Jun 2026 in the move to Pearson. Anything advertising an “official practice test” is lying. Dumps sites (<code>dumpsbase</code>, <code>itexamspro</code>, <code>passquestion</code>) violate the exam policy — permanent ban plus revocation","no","CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"]]},
 
   {t:"What the pass reports converge on", note:"Read now, re-read the week you book. The layer question is the exam’s whole shape: take any feature you have built and practise naming which layer should own it — hook, prompt, schema, or subagent.", items:[
-   ["Budget 40–80 hours; official courses cover only ~20% of exam scope","Reported by a candidate who scored 886/1000 in May 2026 after ~60–80h across three months, most of it a final two-week hands-on build sprint. <b>Building beats reading</b>","trap"],
-   ["The exam asks which <i>layer</i> solves the problem — hook vs prompt vs schema vs architecture","A candidate who scored 843/1000 plateaued at ~77% until she stopped asking “what's correct?” and started asking “why is this the right architectural layer?” Her one-line summary: <b>“prompts guide, systems enforce.”</b> Several options are always technically workable; you must pick the one Anthropic prefers","deep"],
-   ["Foundations is <i>harder</i> than Professional","One candidate took all four exams: Architect-Foundations 811, Architect-Professional 925. Foundations demands exact CLI-argument and API-parameter recall; Professional is architecture judgement"]]},
+   ["Budget 40–80 hours; official courses cover only ~20% of exam scope","Reported by a candidate who scored 886/1000 in May 2026 after ~60–80h across three months, most of it a final two-week hands-on build sprint. <b>Building beats reading</b>","trap","CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["The exam asks which <i>layer</i> solves the problem — hook vs prompt vs schema vs architecture","A candidate who scored 843/1000 plateaued at ~77% until she stopped asking “what's correct?” and started asking “why is this the right architectural layer?” Her one-line summary: <b>“prompts guide, systems enforce.”</b> Several options are always technically workable; you must pick the one Anthropic prefers","deep","CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"],
+   ["Foundations is <i>harder</i> than Professional","One candidate took all four exams: Architect-Foundations 811, Architect-Professional 925. Foundations demands exact CLI-argument and API-parameter recall; Professional is architecture judgement",null,"CCAR-F exam guide, §8 and §9|https://anthropic-partners.skilljar.com/page/partner-certifications"]]},
 
   {t:"Domain 1 — Agentic Architecture & Orchestration", note:"Build it, do not read it. Stand up a coordinator with two subagents in the Agent SDK, pass context between them, then fork a session and resume it. Handoff semantics do not survive being learned from prose.", wt:"27%", items:[
-   ["1.1 Agentic loops for autonomous task execution","Inspect <code>stop_reason</code> (<code>\"tool_use\"</code> vs <code>\"end_turn\"</code>); append tool results to history; model-driven decisions over pre-built decision trees. Anti-patterns: parsing natural language for loop termination, an iteration cap as the <i>primary</i> stop, treating assistant text as a completion signal","trap"],
-   ["1.2 Coordinator-subagent orchestration","Hub-and-spoke. Subagents have <b>isolated context and do not inherit coordinator history</b>. Coordinator owns decomposition, delegation and aggregation; partition scope to minimise duplication; route all subagent communication through the coordinator so it stays observable"],
-   ["1.3 Subagent invocation, context passing and spawning","The <b>Task tool</b>; <code>allowedTools</code> must include <code>\"Task\"</code>; context has to be passed explicitly in the prompt; <code>AgentDefinition</code> config; <b>parallel subagents = multiple Task calls in one response</b>; prompt with goals and quality criteria, not step-by-step procedures","deep"],
-   ["1.4 Multi-step workflows with enforcement and handoff","Programmatic enforcement (hooks, prerequisite gates) vs prompt guidance — prompt instructions have a non-zero failure rate wherever deterministic compliance is required. Canonical example: block <code>process_refund</code> until <code>get_customer</code> has returned a verified ID"],
-   ["1.5 Agent SDK hooks for interception and normalisation","<code>PostToolUse</code> hooks transform results before the model sees them; intercept outgoing calls to enforce policy; normalise heterogeneous formats (Unix timestamps vs ISO 8601 vs numeric status codes) at the hook, not in the prompt"],
-   ["1.6 Task decomposition strategies","Fixed sequential pipelines (prompt chaining) vs dynamic adaptive decomposition; per-file local passes plus a separate cross-file integration pass to avoid attention dilution"],
-   ["1.7 Session state, resumption and forking","<code>--resume &lt;session-name&gt;</code>; <code>fork_session</code> for divergent branches; when a fresh session with a structured summary beats resuming with stale tool results"]]},
+   ["1.1 Agentic loops for autonomous task execution","Inspect <code>stop_reason</code> (<code>\"tool_use\"</code> vs <code>\"end_turn\"</code>); append tool results to history; model-driven decisions over pre-built decision trees. Anti-patterns: parsing natural language for loop termination, an iteration cap as the <i>primary</i> stop, treating assistant text as a completion signal","trap","Anthropic Academy|https://anthropic.skilljar.com/"],
+   ["1.2 Coordinator-subagent orchestration","Hub-and-spoke. Subagents have <b>isolated context and do not inherit coordinator history</b>. Coordinator owns decomposition, delegation and aggregation; partition scope to minimise duplication; route all subagent communication through the coordinator so it stays observable",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["1.3 Subagent invocation, context passing and spawning","The <b>Task tool</b>; <code>allowedTools</code> must include <code>\"Task\"</code>; context has to be passed explicitly in the prompt; <code>AgentDefinition</code> config; <b>parallel subagents = multiple Task calls in one response</b>; prompt with goals and quality criteria, not step-by-step procedures","deep","Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["1.4 Multi-step workflows with enforcement and handoff","Programmatic enforcement (hooks, prerequisite gates) vs prompt guidance — prompt instructions have a non-zero failure rate wherever deterministic compliance is required. Canonical example: block <code>process_refund</code> until <code>get_customer</code> has returned a verified ID",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["1.5 Agent SDK hooks for interception and normalisation","<code>PostToolUse</code> hooks transform results before the model sees them; intercept outgoing calls to enforce policy; normalise heterogeneous formats (Unix timestamps vs ISO 8601 vs numeric status codes) at the hook, not in the prompt",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["1.6 Task decomposition strategies","Fixed sequential pipelines (prompt chaining) vs dynamic adaptive decomposition; per-file local passes plus a separate cross-file integration pass to avoid attention dilution",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["1.7 Session state, resumption and forking","<code>--resume &lt;session-name&gt;</code>; <code>fork_session</code> for divergent branches; when a fresh session with a structured summary beats resuming with stale tool results",null,"Claude Docs|https://docs.claude.com/en/docs/"]]},
 
   {t:"Domain 2 — Tool Design & MCP Integration", note:"Write one tool description deliberately badly, watch the model misroute, then fix it. That single experiment teaches 2.1 and 2.3 better than the documentation does.", wt:"18%", items:[
-   ["2.1 Tool interfaces with clear descriptions and boundaries","<b>The description is the selection mechanism.</b> Include input formats, example queries, edge cases and boundaries. Ambiguous or overlapping descriptions cause misrouting; split generic tools into purpose-specific ones with defined I/O contracts","deep"],
-   ["2.2 Structured error responses for MCP tools","The <code>isError</code> flag; transient vs validation vs business vs permission errors; return <code>errorCategory</code> and <code>isRetryable</code>; recover locally inside a subagent before propagating; <b>distinguish an access failure from a valid empty result</b>"],
-   ["2.3 Tool distribution across agents, and tool choice","Too many tools degrades selection reliability (18 vs 4–5 is the worked example); scope tool access per agent; <code>tool_choice</code> as <code>\"auto\"</code>, <code>\"any\"</code>, or forced <code>{\"type\":\"tool\",\"name\":\"…\"}</code>","trap"],
-   ["2.4 Integrating MCP servers into Claude Code","Project scope <code>.mcp.json</code> vs user scope <code>~/.claude.json</code>; <b>env var expansion</b> (<code>${GITHUB_TOKEN}</code>); MCP <b>resources</b> to expose content catalogs and cut exploratory calls; write descriptions strong enough that the agent doesn't fall back to built-ins like Grep"],
-   ["2.5 The built-in tools — Read, Write, Edit, Bash, Grep, Glob","Grep for content, Glob for path patterns, Edit for unique-text matching, Read+Write as the fallback when Edit can't find a unique anchor"]]},
+   ["2.1 Tool interfaces with clear descriptions and boundaries","<b>The description is the selection mechanism.</b> Include input formats, example queries, edge cases and boundaries. Ambiguous or overlapping descriptions cause misrouting; split generic tools into purpose-specific ones with defined I/O contracts","deep","modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["2.2 Structured error responses for MCP tools","The <code>isError</code> flag; transient vs validation vs business vs permission errors; return <code>errorCategory</code> and <code>isRetryable</code>; recover locally inside a subagent before propagating; <b>distinguish an access failure from a valid empty result</b>",null,"modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["2.3 Tool distribution across agents, and tool choice","Too many tools degrades selection reliability (18 vs 4–5 is the worked example); scope tool access per agent; <code>tool_choice</code> as <code>\"auto\"</code>, <code>\"any\"</code>, or forced <code>{\"type\":\"tool\",\"name\":\"…\"}</code>","trap","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["2.4 Integrating MCP servers into Claude Code","Project scope <code>.mcp.json</code> vs user scope <code>~/.claude.json</code>; <b>env var expansion</b> (<code>${GITHUB_TOKEN}</code>); MCP <b>resources</b> to expose content catalogs and cut exploratory calls; write descriptions strong enough that the agent doesn't fall back to built-ins like Grep",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["2.5 The built-in tools — Read, Write, Edit, Bash, Grep, Glob","Grep for content, Glob for path patterns, Edit for unique-text matching, Read+Write as the fallback when Edit can't find a unique anchor",null,"Claude Docs|https://docs.claude.com/en/docs/"]]},
 
   {t:"Domain 3 — Claude Code Configuration & Workflows", note:"Pure muscle memory — do it in a real repo. Write a CLAUDE.md, add a slash command and a path-specific rule, then run the same task twice, once in plan mode and once direct.", wt:"20% ← the part that needs building", items:[
-   ["3.1 CLAUDE.md files","Hierarchy: user <code>~/.claude/CLAUDE.md</code>, project <code>.claude/CLAUDE.md</code> or repo root, and directory-level. User-level is <b>not</b> shared through version control. <code>@import</code> for modularity; <code>/memory</code> to verify what actually loaded","deep"],
-   ["3.2 Custom slash commands and skills","<code>.claude/commands/</code> (project, version-controlled) vs <code>~/.claude/commands/</code> (personal). <code>.claude/skills/</code> with SKILL.md frontmatter — <code>context: fork</code>, <code>allowed-tools</code>, <code>argument-hint</code>. <code>context: fork</code> runs the skill in an isolated sub-agent context. Skills load on demand; CLAUDE.md is always loaded","deep"],
-   ["3.3 Path-specific rules","<code>.claude/rules/</code> files with YAML frontmatter <code>paths</code> globs; they load only when you edit a matching file; glob rules beat directory CLAUDE.md when a convention spans directories (<code>**/*.test.tsx</code>)"],
-   ["3.4 Plan mode vs direct execution","Plan mode for large, multi-approach, architectural or multi-file work; direct execution for well-scoped changes; the Explore subagent to keep verbose discovery out of the main context"],
-   ["3.5 Iterative refinement","2–3 concrete input/output examples beat prose; test-driven iteration; the interview pattern (have the model ask questions first); batch interacting issues into one message, send independent ones separately"],
-   ["3.6 Claude Code in CI/CD","<code>-p</code> / <code>--print</code> for non-interactive runs; <code>--output-format json</code> and <code>--json-schema</code>; CLAUDE.md as the CI context mechanism; why the session that generated code reviews it worse than a fresh instance"],
-   ["Do this by building, not reading","Take a real repo and set up: a CLAUDE.md hierarchy with <code>@import</code>, a <code>.claude/rules/</code> file with a glob, a skill with <code>context: fork</code>, and a <code>.mcp.json</code> with env expansion. That one afternoon is worth more than the whole domain in prose","deep"]]},
+   ["3.1 CLAUDE.md files","Hierarchy: user <code>~/.claude/CLAUDE.md</code>, project <code>.claude/CLAUDE.md</code> or repo root, and directory-level. User-level is <b>not</b> shared through version control. <code>@import</code> for modularity; <code>/memory</code> to verify what actually loaded","deep","Claude Docs|https://docs.claude.com/en/docs/"],
+   ["3.2 Custom slash commands and skills","<code>.claude/commands/</code> (project, version-controlled) vs <code>~/.claude/commands/</code> (personal). <code>.claude/skills/</code> with SKILL.md frontmatter — <code>context: fork</code>, <code>allowed-tools</code>, <code>argument-hint</code>. <code>context: fork</code> runs the skill in an isolated sub-agent context. Skills load on demand; CLAUDE.md is always loaded","deep","Claude Docs|https://docs.claude.com/en/docs/"],
+   ["3.3 Path-specific rules","<code>.claude/rules/</code> files with YAML frontmatter <code>paths</code> globs; they load only when you edit a matching file; glob rules beat directory CLAUDE.md when a convention spans directories (<code>**/*.test.tsx</code>)",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["3.4 Plan mode vs direct execution","Plan mode for large, multi-approach, architectural or multi-file work; direct execution for well-scoped changes; the Explore subagent to keep verbose discovery out of the main context",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["3.5 Iterative refinement","2–3 concrete input/output examples beat prose; test-driven iteration; the interview pattern (have the model ask questions first); batch interacting issues into one message, send independent ones separately",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["3.6 Claude Code in CI/CD","<code>-p</code> / <code>--print</code> for non-interactive runs; <code>--output-format json</code> and <code>--json-schema</code>; CLAUDE.md as the CI context mechanism; why the session that generated code reviews it worse than a fresh instance",null,"GitHub — preventing pwn requests|https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/"],
+   ["Do this by building, not reading","Take a real repo and set up: a CLAUDE.md hierarchy with <code>@import</code>, a <code>.claude/rules/</code> file with a glob, a skill with <code>context: fork</code>, and a <code>.mcp.json</code> with env expansion. That one afternoon is worth more than the whole domain in prose","deep","Claude Docs|https://docs.claude.com/en/docs/"]]},
 
   {t:"Domain 4 — Prompt Engineering & Structured Output", note:"Take one extraction task and force it through all four: freeform, few-shot, JSON schema via tool use, then validation with retry. Diff the failure rates and keep the numbers.", wt:"20%", items:[
-   ["4.1 Explicit criteria to reduce false positives","Categorical criteria beat “be conservative” or “only flag high-confidence”; false positives destroy trust faster than false negatives; temporarily disabling a high-FP category is a legitimate answer"],
-   ["4.2 Few-shot prompting","The most effective lever for consistent formatting. 2–4 targeted examples for the ambiguous cases, each showing <i>why</i> that action was chosen — which generalises, rather than pattern-matching the examples you happened to pick"],
-   ["4.3 Structured output via tool use and JSON schemas","<code>tool_use</code> plus a JSON schema is the most reliable approach. <b>Strict schemas eliminate syntax errors but not semantic ones</b> — line items that don't sum, values in the wrong field. Optional/nullable fields prevent fabrication; an <code>\"other\"</code> enum plus a detail string keeps it extensible; an <code>\"unclear\"</code> enum handles ambiguity","trap"],
-   ["4.4 Validation, retry and feedback loops","Retry with the specific validation errors appended. <b>Retries are useless when the information is simply absent from the source</b> — know when to stop. Extract <code>calculated_total</code> alongside <code>stated_total</code>; add <code>conflict_detected</code> booleans"],
-   ["4.5 Batch processing","<b>Message Batches API: 50% cheaper, up to a 24-hour window, no latency SLA.</b> Right for overnight and weekly jobs, wrong for a blocking pre-merge check. <b>It does not support multi-turn tool calling within a request.</b> <code>custom_id</code> for correlation; resubmit only the failures","num"],
-   ["4.6 Multi-instance and multi-pass review","Self-review is weak because the model still holds its own generation reasoning — independent review instances beat both self-review instructions and extended thinking. Per-file local passes plus cross-file integration passes"]]},
+   ["4.1 Explicit criteria to reduce false positives","Categorical criteria beat “be conservative” or “only flag high-confidence”; false positives destroy trust faster than false negatives; temporarily disabling a high-FP category is a legitimate answer",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["4.2 Few-shot prompting","The most effective lever for consistent formatting. 2–4 targeted examples for the ambiguous cases, each showing <i>why</i> that action was chosen — which generalises, rather than pattern-matching the examples you happened to pick",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["4.3 Structured output via tool use and JSON schemas","<code>tool_use</code> plus a JSON schema is the most reliable approach. <b>Strict schemas eliminate syntax errors but not semantic ones</b> — line items that don't sum, values in the wrong field. Optional/nullable fields prevent fabrication; an <code>\"other\"</code> enum plus a detail string keeps it extensible; an <code>\"unclear\"</code> enum handles ambiguity","trap","Claude Docs|https://docs.claude.com/en/docs/"],
+   ["4.4 Validation, retry and feedback loops","Retry with the specific validation errors appended. <b>Retries are useless when the information is simply absent from the source</b> — know when to stop. Extract <code>calculated_total</code> alongside <code>stated_total</code>; add <code>conflict_detected</code> booleans",null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["4.5 Batch processing","<b>Message Batches API: 50% cheaper, up to a 24-hour window, no latency SLA.</b> Right for overnight and weekly jobs, wrong for a blocking pre-merge check. <b>It does not support multi-turn tool calling within a request.</b> <code>custom_id</code> for correlation; resubmit only the failures","num","Claude Docs|https://docs.claude.com/en/docs/"],
+   ["4.6 Multi-instance and multi-pass review","Self-review is weak because the model still holds its own generation reasoning — independent review instances beat both self-review instructions and extended thinking. Per-file local passes plus cross-file integration passes",null,"Anthropic Engineering|https://www.anthropic.com/engineering"]]},
 
   {t:"Domain 5 — Context Management & Reliability", note:"The hardest to drill and the easiest to reason about. For each item write the one-sentence failure it prevents, then find that failure in something you have actually shipped.", wt:"15%", items:[
-   ["5.1 Context across long interactions","Progressive summarisation quietly drops numbers, dates and percentages; the “lost in the middle” effect; tool results eat tokens disproportionately (40 fields returned when 5 matter); keep a persistent “case facts” block outside the summarised history; put key findings at the <i>start</i> of aggregated inputs"],
-   ["5.2 Escalation and ambiguity resolution","Valid triggers: an explicit human request, a policy gap, an inability to progress. <b>Sentiment-based escalation and self-reported confidence are unreliable proxies.</b> Multiple matches means asking for an identifier, not picking heuristically","trap"],
-   ["5.3 Error propagation across multi-agent systems","Structured error context — failure type, attempted query, partial results, alternatives. Generic statuses hide what the next agent needs. Silently suppressing an error and killing the whole workflow are both anti-patterns; annotate coverage gaps in the synthesis"],
-   ["5.4 Context in large codebase exploration","Degradation shows up as the model citing “typical patterns” instead of specifics. Scratchpad files to persist findings; subagent delegation for verbose exploration; structured manifests for crash recovery; <code>/compact</code>"],
-   ["5.5 Human review workflows and confidence calibration","Aggregate accuracy hides per-segment failure — 97% overall can be 60% on one document type. Stratified random sampling; field-level confidence calibrated on a labelled validation set; validate by segment before automating","num"],
-   ["5.6 Provenance and uncertainty","Preserve claim-to-source mappings through synthesis; annotate conflicting statistics with attribution rather than silently picking one; require publication dates so a temporal difference isn't read as a contradiction"]]},
+   ["5.1 Context across long interactions","Progressive summarisation quietly drops numbers, dates and percentages; the “lost in the middle” effect; tool results eat tokens disproportionately (40 fields returned when 5 matter); keep a persistent “case facts” block outside the summarised history; put key findings at the <i>start</i> of aggregated inputs",null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["5.2 Escalation and ambiguity resolution","Valid triggers: an explicit human request, a policy gap, an inability to progress. <b>Sentiment-based escalation and self-reported confidence are unreliable proxies.</b> Multiple matches means asking for an identifier, not picking heuristically","trap","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["5.3 Error propagation across multi-agent systems","Structured error context — failure type, attempted query, partial results, alternatives. Generic statuses hide what the next agent needs. Silently suppressing an error and killing the whole workflow are both anti-patterns; annotate coverage gaps in the synthesis",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["5.4 Context in large codebase exploration","Degradation shows up as the model citing “typical patterns” instead of specifics. Scratchpad files to persist findings; subagent delegation for verbose exploration; structured manifests for crash recovery; <code>/compact</code>",null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["5.5 Human review workflows and confidence calibration","Aggregate accuracy hides per-segment failure — 97% overall can be 60% on one document type. Stratified random sampling; field-level confidence calibrated on a labelled validation set; validate by segment before automating","num","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["5.6 Provenance and uncertainty","Preserve claim-to-source mappings through synthesis; annotate conflicting statistics with attribution rather than silently picking one; require publication dates so a temporal difference isn't read as a contradiction",null,"Anthropic Engineering|https://www.anthropic.com/engineering"]]},
 
   {t:"The 6 scenarios — 4 appear on your form", note:"Four of these are on your form. For each, write the three-line architecture — which layer, which tools, where the human gate sits — before you ever see the question.", items:[
-   ["Customer Support Resolution Agent","Agent SDK; <code>get_customer</code>, <code>lookup_order</code>, <code>process_refund</code>, <code>escalate_to_human</code>; an 80%+ first-contact resolution target"],
-   ["Code Generation with Claude Code","Slash commands, CLAUDE.md, plan mode vs direct execution"],
-   ["Multi-Agent Research System","Coordinator plus search / analysis / synthesis / report subagents"],
-   ["Developer Productivity with Claude","Built-in tools plus MCP servers"],
-   ["Claude Code for Continuous Integration","Automated review, test generation, PR feedback"],
-   ["Structured Data Extraction","JSON schemas, validation, edge cases"]]},
+   ["Customer Support Resolution Agent","Agent SDK; <code>get_customer</code>, <code>lookup_order</code>, <code>process_refund</code>, <code>escalate_to_human</code>; an 80%+ first-contact resolution target",null,"Anthropic Academy|https://anthropic.skilljar.com/"],
+   ["Code Generation with Claude Code","Slash commands, CLAUDE.md, plan mode vs direct execution",null,"Anthropic Academy|https://anthropic.skilljar.com/"],
+   ["Multi-Agent Research System","Coordinator plus search / analysis / synthesis / report subagents",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["Developer Productivity with Claude","Built-in tools plus MCP servers",null,"Anthropic Academy|https://anthropic.skilljar.com/"],
+   ["Claude Code for Continuous Integration","Automated review, test generation, PR feedback",null,"GitHub — preventing pwn requests|https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/"],
+   ["Structured Data Extraction","JSON schemas, validation, edge cases",null,"Claude Docs|https://docs.claude.com/en/docs/"]]},
 
   {t:"Free official prep — no partner login", note:"Watch at 1.5× with a console open and build along. These cover roughly 20% of exam scope, so treat them as orientation, not preparation.", items:[
    ["Claude Code in Action","<a href='https://anthropic.skilljar.com/' target='_blank' rel='noopener'>anthropic.skilljar.com</a>. The highest-value course for Domain 3","deep"],
@@ -527,34 +536,34 @@ const TRACKS = [
  note:"Ranked by how often each topic shows up in <i>dated first-hand accounts</i>, not by SEO listicles — no rigorously frequency-ranked public Python list exists, and anyone claiming one is guessing. Each note is the <em>discriminating</em> version of the question, not the warm-up.",
  groups:[
   {t:"Tier 1 — appears in real accounts", note:"Every one of these has shown up verbatim. Practise from a blank file, not from reading. For the first item run a full four-level session under a 90-minute timer — it is the CodeSignal Industry Coding Framework and it is the Anthropic Track A gate.", items:[
-   ["Progressive multi-level class design","<b>The highest-yield Python topic, and the one almost nobody preps.</b> The format: implement a class exposing a public API exactly to spec, then it gets extended level by level. Drill it as: KV store with TTL → add transactions → add nested transactions. Solve level 1 fast and clean, because level 4 is where judgement happens","deep"],
-   ["<code>asyncio.Semaphore</code> for bounded concurrency","The most AI-engineer-specific primitive there is. Archetype: 100 LLM calls, at most 20 in flight, handle partial failure. Real take-homes add per-vendor token-bucket rate limits on top","deep"],
-   ["Retry with exponential backoff, as a decorator","The warm-up is “explain a decorator.” The real chain: write a retry decorator with exponential backoff → make it work for async → add jitter → distinguish retryable (429, 5xx, timeout) from non-retryable (400, 401)","deep"],
-   ["The GIL, and asyncio vs threading vs multiprocessing","The version actually asked: “given the GIL, how do you write concurrent code that runs in parallel?” Multiprocessing for CPU-bound, asyncio for I/O-bound, CPython threads give no compute parallelism — <i>but the GIL is released during I/O and inside NumPy and other C extensions</i>","trap"],
-   ["Mutability, lists vs tuples, and the shared-mutable-default trap"],
-   ["OOP fundamentals — <code>__init__</code>, abstraction, inheritance, composition over inheritance"],
-   ["REST semantics — PUT vs PATCH, status codes, FastAPI dependency injection","Asked constantly in enterprise loops. Easy marks; don't skip it because it feels basic"],
-   ["Generators and lazy evaluation for memory-bounded processing","The natural follow-up to “how would you process a 200-page PDF?”"]]},
+   ["Progressive multi-level class design","<b>The highest-yield Python topic, and the one almost nobody preps.</b> The format: implement a class exposing a public API exactly to spec, then it gets extended level by level. Drill it as: KV store with TTL → add transactions → add nested transactions. Solve level 1 fast and clean, because level 4 is where judgement happens","deep","field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["<code>asyncio.Semaphore</code> for bounded concurrency","The most AI-engineer-specific primitive there is. Archetype: 100 LLM calls, at most 20 in flight, handle partial failure. Real take-homes add per-vendor token-bucket rate limits on top","deep","docs.python.org|https://docs.python.org/3/"],
+   ["Retry with exponential backoff, as a decorator","The warm-up is “explain a decorator.” The real chain: write a retry decorator with exponential backoff → make it work for async → add jitter → distinguish retryable (429, 5xx, timeout) from non-retryable (400, 401)","deep","openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["The GIL, and asyncio vs threading vs multiprocessing","The version actually asked: “given the GIL, how do you write concurrent code that runs in parallel?” Multiprocessing for CPU-bound, asyncio for I/O-bound, CPython threads give no compute parallelism — <i>but the GIL is released during I/O and inside NumPy and other C extensions</i>","trap","docs.python.org|https://docs.python.org/3/"],
+   ["Mutability, lists vs tuples, and the shared-mutable-default trap",null,null,"docs.python.org|https://docs.python.org/3/"],
+   ["OOP fundamentals — <code>__init__</code>, abstraction, inheritance, composition over inheritance",null,null,"docs.python.org|https://docs.python.org/3/"],
+   ["REST semantics — PUT vs PATCH, status codes, FastAPI dependency injection","Asked constantly in enterprise loops. Easy marks; don't skip it because it feels basic",null,"FastAPI docs|https://fastapi.tiangolo.com/"],
+   ["Generators and lazy evaluation for memory-bounded processing","The natural follow-up to “how would you process a 200-page PDF?”",null,"docs.python.org|https://docs.python.org/3/"]]},
   {t:"Tier 2 — implied by the round formats", note:"One short script each, then move on. You need to recognise and use these under time pressure, not lecture on them.", items:[
-   ["Pydantic v2 and typing","Structured output <i>is</i> Pydantic. BaseModel vs dataclass, validators, <code>model_validate_json</code>, Field constraints, Literal and Enum for closed vocabularies — and why a tighter schema lowers the retry rate"],
-   ["Context managers","<code>__enter__</code>/<code>__exit__</code>, <code>contextlib.asynccontextmanager</code>, client lifecycles, FastAPI <code>lifespan</code>"],
-   ["pytest — fixtures, parametrize, and mocking the LLM client","The AI twist: “how do you test a non-deterministic function?” Temperature 0 and seeds where available, mock the provider at the transport layer, assert on schema and invariants rather than exact strings, and push semantic judgement into a separate eval suite — not into pytest","deep"],
-   ["Dunder methods beyond <code>__init__</code>","<code>__repr__</code>, <code>__eq__</code>, <code>__hash__</code>, <code>__iter__</code>, <code>__call__</code>, <code>__getitem__</code> — these fall out of progressive-class rounds naturally"],
-   ["Pythonic idioms","Comprehensions vs map/filter, enumerate/zip, defaultdict/Counter/deque, itertools.islice and batched, EAFP vs LBYL, functools.lru_cache"]]},
+   ["Pydantic v2 and typing","Structured output <i>is</i> Pydantic. BaseModel vs dataclass, validators, <code>model_validate_json</code>, Field constraints, Literal and Enum for closed vocabularies — and why a tighter schema lowers the retry rate",null,"Pydantic docs|https://docs.pydantic.dev/latest/"],
+   ["Context managers","<code>__enter__</code>/<code>__exit__</code>, <code>contextlib.asynccontextmanager</code>, client lifecycles, FastAPI <code>lifespan</code>",null,"docs.python.org|https://docs.python.org/3/"],
+   ["pytest — fixtures, parametrize, and mocking the LLM client","The AI twist: “how do you test a non-deterministic function?” Temperature 0 and seeds where available, mock the provider at the transport layer, assert on schema and invariants rather than exact strings, and push semantic judgement into a separate eval suite — not into pytest","deep","pytest docs|https://docs.pytest.org/en/stable/"],
+   ["Dunder methods beyond <code>__init__</code>","<code>__repr__</code>, <code>__eq__</code>, <code>__hash__</code>, <code>__iter__</code>, <code>__call__</code>, <code>__getitem__</code> — these fall out of progressive-class rounds naturally",null,"docs.python.org|https://docs.python.org/3/"],
+   ["Pythonic idioms","Comprehensions vs map/filter, enumerate/zip, defaultdict/Counter/deque, itertools.islice and batched, EAFP vs LBYL, functools.lru_cache",null,"docs.python.org|https://docs.python.org/3/"]]},
   {t:"Tier 3 — one paragraph each, then stop", note:"One paragraph, said out loud, then stop. These are depth-probes, not working knowledge, and over-studying them is the classic time sink on this track.", items:[
-   ["Metaclasses","<code>type</code> is the metaclass; <code>__new__</code> on the metaclass customises class creation; Pydantic, Django ORM and ABC use them. <b>No verified account has a metaclass question in an AI-engineer loop</b> — it survives only in SEO “advanced Python” lists","no"],
-   ["Memory model","Refcounting plus generational GC and cycles, <code>sys.getrefcount</code>, <code>__slots__</code>, why <code>del</code> doesn't free memory. Only ever a GIL follow-up","no"]]},
+   ["Metaclasses","<code>type</code> is the metaclass; <code>__new__</code> on the metaclass customises class creation; Pydantic, Django ORM and ABC use them. <b>No verified account has a metaclass question in an AI-engineer loop</b> — it survives only in SEO “advanced Python” lists","no","docs.python.org|https://docs.python.org/3/"],
+   ["Memory model","Refcounting plus generational GC and cycles, <code>sys.getrefcount</code>, <code>__slots__</code>, why <code>del</code> doesn't free memory. Only ever a GIL follow-up","no","docs.python.org|https://docs.python.org/3/"]]},
   {t:"Timed drills — camera on, no AI", note:"This group is the track. One drill per session, timer visible, no AI and no autocomplete. Re-do any drill you failed three days later from a blank file — the re-do is the learning event, not the first attempt.", items:[
-   ["Async batch client: 100 prompts, ≤20 concurrent, retry with backoff, collect partial results"],
-   ["SSE streaming handler that accumulates partial JSON into a validated Pydantic model"],
-   ["Token-bucket rate limiter for <i>tokens</i>, not requests"],
-   ["Tool-dispatch loop with retries and a step budget"],
-   ["Cosine similarity and top-k in NumPy, batched"],
-   ["BM25 and Reciprocal Rank Fusion (<code>Σ 1/(60+rank)</code>) from scratch","If you talk about hybrid retrieval you have to be able to write it","trap"],
-   ["LRU cache in O(1), from a blank file, twice"],
-   ["In-memory KV store with TTL, then transactions, then nested transactions"],
-   ["Refactor 100–120 lines of deeply nested code into something testable"],
-   ["Logistic regression with SGD, L2 and early stopping, in NumPy"]]},
+   ["Async batch client: 100 prompts, ≤20 concurrent, retry with backoff, collect partial results",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["SSE streaming handler that accumulates partial JSON into a validated Pydantic model",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Token-bucket rate limiter for <i>tokens</i>, not requests",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Tool-dispatch loop with retries and a step budget",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Cosine similarity and top-k in NumPy, batched",null,null,"Deep-ML|https://www.deep-ml.com/"],
+   ["BM25 and Reciprocal Rank Fusion (<code>Σ 1/(60+rank)</code>) from scratch","If you talk about hybrid retrieval you have to be able to write it","trap","Deep-ML|https://www.deep-ml.com/"],
+   ["LRU cache in O(1), from a blank file, twice",null,null,"neetcode.io/practice|https://neetcode.io/practice"],
+   ["In-memory KV store with TTL, then transactions, then nested transactions",null,null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["Refactor 100–120 lines of deeply nested code into something testable",null,null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["Logistic regression with SGD, L2 and early stopping, in NumPy",null,null,"Deep-ML|https://www.deep-ml.com/"]]},
   {t:"Where to practise", note:"Deep-ML is the engine; work it in order. The cookbook and the field guide are reference — open them when a drill exposes a gap, not before.", items:[
    ["<a href='https://www.deep-ml.com/' target='_blank' rel='noopener'>Deep-ML.com</a> — free, 100+ graded from-scratch problems, linear algebra through attention","The most efficient way to close the NumPy-from-scratch gap, and it replicates the real format: blank editor, implement from memory, instant tests. 30 min/day inside block D","deep"],
    ["<a href='https://github.com/openai/openai-cookbook' target='_blank' rel='noopener'>openai/openai-cookbook</a>","Read the code, not the prose: retries and backoff, structured outputs, function calling, batching, streaming"],
@@ -567,27 +576,27 @@ const TRACKS = [
  note:"Enough depth to explain any of this at a whiteboard without notes. <b>You do not need to be able to train one</b> — training-loop internals sit in the specialised tier and are gated on the job description. What is not optional is being able to draw the architecture and say why each piece is there.",
  groups:[
   {t:"The core mechanism", note:"Whiteboard every item from memory, recorded, until attention takes under four minutes with no notes. Reading about attention does not survive contact with an interviewer.", items:[
-   ["Self-attention, from scratch on paper","Q/K/V, scaled dot-product, why the <code>√d_k</code> (without it the dot products grow with dimension and push softmax into a near-one-hot regime with vanishing gradients)","deep"],
-   ["Causal masking, and why decoder-only won","Each position may only attend to what precedes it, which makes every token a training signal"],
-   ["Multi-head attention — what the heads buy you"],
-   ["Positional encoding: sinusoidal → learned → <b>RoPE</b>, and why rotation generalises to longer contexts"],
-   ["Encoder-only vs decoder-only vs encoder-decoder, and when each is right"],
-   ["<b>The seven deltas from the 2017 paper to a modern Llama block</b>","decoder-only · pre-norm · RMSNorm · RoPE instead of sinusoidal · SwiGLU · GQA · no encoder. <em>Never answer the architecture question by reciting “Attention Is All You Need”</em> — in 2026 that marks you as a reader rather than a builder. The real question is what changed since","trap"],
-   ["Mixture of Experts — what it is and what it buys"],
-   ["Attention is O(n²) — what Flash Attention and sparse attention actually change","Flash Attention is an IO-aware exact algorithm, not an approximation. Getting that distinction right is a real signal"]]},
+   ["Self-attention, from scratch on paper","Q/K/V, scaled dot-product, why the <code>√d_k</code> (without it the dot products grow with dimension and push softmax into a near-one-hot regime with vanishing gradients)","deep","Karpathy — Zero to Hero|https://karpathy.ai/zero-to-hero.html"],
+   ["Causal masking, and why decoder-only won","Each position may only attend to what precedes it, which makes every token a training signal",null,"Karpathy — Zero to Hero|https://karpathy.ai/zero-to-hero.html"],
+   ["Multi-head attention — what the heads buy you",null,null,"Karpathy — Zero to Hero|https://karpathy.ai/zero-to-hero.html"],
+   ["Positional encoding: sinusoidal → learned → <b>RoPE</b>, and why rotation generalises to longer contexts",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Encoder-only vs decoder-only vs encoder-decoder, and when each is right",null,null,"rasbt/LLMs-from-scratch|https://github.com/rasbt/LLMs-from-scratch"],
+   ["<b>The seven deltas from the 2017 paper to a modern Llama block</b>","decoder-only · pre-norm · RMSNorm · RoPE instead of sinusoidal · SwiGLU · GQA · no encoder. <em>Never answer the architecture question by reciting “Attention Is All You Need”</em> — in 2026 that marks you as a reader rather than a builder. The real question is what changed since","trap","Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Mixture of Experts — what it is and what it buys",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Attention is O(n²) — what Flash Attention and sparse attention actually change","Flash Attention is an IO-aware exact algorithm, not an approximation. Getting that distinction right is a real signal",null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"]]},
   {t:"Tokens and context", note:"Practise with a tokenizer open. Run one prompt through BPE and SentencePiece, watch non-Latin token counts inflate several-fold, then do the cost arithmetic out loud.", items:[
-   ["Tokenization: BPE vs WordPiece vs SentencePiece","Plus the practical consequence — non-Latin scripts inflate token counts several-fold, which changes both cost and effective context"],
-   ["What the context window is, what happens when you exceed it, and how it gets extended"],
-   ["The <b>KV cache</b>: what it stores, why it makes generation linear rather than quadratic, and how to estimate its size","<code>2 × layers × heads × d_head × seq × batch × bytes</code>. Being able to do this arithmetic out loud is a differentiator","deep"],
-   ["Sampling: temperature, top-k, top-p, and what each does to the distribution"],
-   ["Why hallucinations happen, and the distinct forms they take"]]},
+   ["Tokenization: BPE vs WordPiece vs SentencePiece","Plus the practical consequence — non-Latin scripts inflate token counts several-fold, which changes both cost and effective context",null,"rasbt/LLMs-from-scratch|https://github.com/rasbt/LLMs-from-scratch"],
+   ["What the context window is, what happens when you exceed it, and how it gets extended",null,null,"rasbt/LLMs-from-scratch|https://github.com/rasbt/LLMs-from-scratch"],
+   ["The <b>KV cache</b>: what it stores, why it makes generation linear rather than quadratic, and how to estimate its size","<code>2 × layers × heads × d_head × seq × batch × bytes</code>. Being able to do this arithmetic out loud is a differentiator","deep","Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Sampling: temperature, top-k, top-p, and what each does to the distribution",null,null,"rasbt/LLMs-from-scratch|https://github.com/rasbt/LLMs-from-scratch"],
+   ["Why hallucinations happen, and the distinct forms they take",null,null,"Lilian Weng|https://lilianweng.github.io/"]]},
   {t:"Training, at decision depth", note:"Nobody is asking you to train. For each item be able to say when you would choose it and what it costs — rehearse as a 30-second answer to ‘would you fine-tune here?’", items:[
-   ["The lifecycle: pretraining → SFT → reward model → RLHF, and where DPO short-circuits it","“Why DPO instead of PPO” is a standard question — DPO removes the separate reward model and the RL loop by optimising preferences directly"],
-   ["LoRA: <code>ΔW = BA</code>, B zero-initialised, the α/r ratio, which modules to target, merge vs multi-LoRA serving","trap"],
-   ["QLoRA and PEFT — when parameter-efficient beats full fine-tuning"],
-   ["Quantization: int8, int4, GPTQ/AWQ — and why accuracy holds up better than intuition suggests"],
-   ["Catastrophic forgetting, and how instruction tuning mitigates it"],
-   ["Scaling laws and the compute-vs-data tradeoff, at a conversational level"]]},
+   ["The lifecycle: pretraining → SFT → reward model → RLHF, and where DPO short-circuits it","“Why DPO instead of PPO” is a standard question — DPO removes the separate reward model and the RL loop by optimising preferences directly",null,"Lilian Weng|https://lilianweng.github.io/"],
+   ["LoRA: <code>ΔW = BA</code>, B zero-initialised, the α/r ratio, which modules to target, merge vs multi-LoRA serving","trap",null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["QLoRA and PEFT — when parameter-efficient beats full fine-tuning",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Quantization: int8, int4, GPTQ/AWQ — and why accuracy holds up better than intuition suggests",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Catastrophic forgetting, and how instruction tuning mitigates it",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Scaling laws and the compute-vs-data tradeoff, at a conversational level",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"]]},
   {t:"Build these once — they are worth more than any reading", note:"The highest-return group on this page. Type micrograd line by line, then rewrite it from a blank file; the second pass is where it lands.", items:[
    ["Karpathy, <b>micrograd</b> — typed line by line, then rewritten from a blank file","<a href='https://karpathy.ai/zero-to-hero.html' target='_blank' rel='noopener'>karpathy.ai/zero-to-hero.html</a>. Backprop stops being magic after this","deep"],
    ["Karpathy, <b>“Let's build GPT”</b> and nanoGPT"],
@@ -601,26 +610,26 @@ const TRACKS = [
  note:"The densest bucket in every question corpus. <b>“Explain how RAG works, end to end” is the single most-asked question</b> — five or more independent accounts, and at least one company uses it as its screen opener. It should be your easiest 90 seconds.",
  groups:[
   {t:"The pipeline, and every decision in it", note:"Say the whole pipeline out loud in 90 seconds, recorded, before studying any single decision. Then for each decision state the alternative you rejected and why — that is the form the question actually takes.", items:[
-   ["Explain RAG end to end, in 90 seconds, out loud <span class='freq'>[most-asked]</span>","Two separate systems with separate failure modes: an offline ingestion path and an online query path. Say it that way and you are already above most candidates","deep"],
-   ["Chunking: what drives the size, and how you handle tables, PDFs and code","The trap answer is “recursive splitter, 500 tokens” with no reason. The real answer names the document structure, an experiment across 2–3 sizes, and the tradeoff — small chunks retrieve precisely but lose context","trap"],
-   ["Embedding models: how to choose one and how to benchmark it on your own data"],
-   ["Vector index internals — HNSW and IVF, and what recall/latency knobs each exposes"],
-   ["Vector DB vs Postgres+pgvector vs plain full-text search, and when each is right","Being able to argue for the <i>simpler</i> option is the senior signal"],
-   ["<b>Hybrid retrieval</b>: dense + BM25 fused with Reciprocal Rank Fusion","<code>Σ 1/(60+rank)</code>. Know why rank fusion beats score fusion — scores from different retrievers are not on a comparable scale","deep"],
-   ["Cross-encoder reranking: what it buys and what it costs in latency"],
-   ["<b>Lost in the Middle</b> — accuracy sags when the relevant passage sits mid-context","This is the empirical result that justifies reranking and trimming rather than stuffing"],
-   ["Contextual retrieval — prepending chunk-level context before embedding","Reported to cut retrieval failures substantially; naming it unprompted is a strong signal"],
-   ["Citations and source attribution, and refusing when context is insufficient","An explicit requirement in the majority of real take-homes — the system must be able to say “I don't have that information”","trap"],
-   ["Index freshness: incremental re-embedding, delete-then-upsert by doc ID, and the stale-answer window","Asked verbatim in real loops as “how do you refresh embeddings when the source data updates?”"],
-   ["Multi-tenant isolation as a filter in the query, never as a prompt instruction","Know precisely why prompt-level isolation fails: it is a request, not a boundary","trap"]]},
+   ["Explain RAG end to end, in 90 seconds, out loud <span class='freq'>[most-asked]</span>","Two separate systems with separate failure modes: an offline ingestion path and an online query path. Say it that way and you are already above most candidates","deep","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Chunking: what drives the size, and how you handle tables, PDFs and code","The trap answer is “recursive splitter, 500 tokens” with no reason. The real answer names the document structure, an experiment across 2–3 sizes, and the tradeoff — small chunks retrieve precisely but lose context","trap","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Embedding models: how to choose one and how to benchmark it on your own data",null,null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Vector index internals — HNSW and IVF, and what recall/latency knobs each exposes",null,null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Vector DB vs Postgres+pgvector vs plain full-text search, and when each is right","Being able to argue for the <i>simpler</i> option is the senior signal",null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["<b>Hybrid retrieval</b>: dense + BM25 fused with Reciprocal Rank Fusion","<code>Σ 1/(60+rank)</code>. Know why rank fusion beats score fusion — scores from different retrievers are not on a comparable scale","deep","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Cross-encoder reranking: what it buys and what it costs in latency",null,null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["<b>Lost in the Middle</b> — accuracy sags when the relevant passage sits mid-context","This is the empirical result that justifies reranking and trimming rather than stuffing",null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Contextual retrieval — prepending chunk-level context before embedding","Reported to cut retrieval failures substantially; naming it unprompted is a strong signal",null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Citations and source attribution, and refusing when context is insufficient","An explicit requirement in the majority of real take-homes — the system must be able to say “I don't have that information”","trap","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Index freshness: incremental re-embedding, delete-then-upsert by doc ID, and the stale-answer window","Asked verbatim in real loops as “how do you refresh embeddings when the source data updates?”",null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Multi-tenant isolation as a filter in the query, never as a prompt instruction","Know precisely why prompt-level isolation fails: it is a request, not a boundary","trap","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"]]},
   {t:"When it goes wrong", note:"These are diagnostic questions, so drill them diagnostically: write the ordered list of things you would check, and practise saying the check before the fix.", items:[
-   ["<b>The canonical debugging question:</b> confident wrong answers, and the right document <i>is</i> in the index","Seen in four or more accounts. The expected answer is not “switch models” or “re-index” — it is: log exactly what landed in the context window, then split <b>retrieval failure</b> (never retrieved, or retrieved but ranked below the cutoff) from <b>generation failure</b> (present in context, model ignored it). Rehearse it until it is 60 structured seconds","deep"],
-   ["Scaling to 10M+ documents — what breaks first","Index size and memory, rebuild time, recall degradation at higher ef/nprobe tradeoffs, and cost per query"],
-   ["Retrieval is too slow — the ordered list of things you'd try"],
-   ["Semantic caching, and where it silently returns the wrong answer"]]},
+   ["<b>The canonical debugging question:</b> confident wrong answers, and the right document <i>is</i> in the index","Seen in four or more accounts. The expected answer is not “switch models” or “re-index” — it is: log exactly what landed in the context window, then split <b>retrieval failure</b> (never retrieved, or retrieved but ranked below the cutoff) from <b>generation failure</b> (present in context, model ignored it). Rehearse it until it is 60 structured seconds","deep","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Scaling to 10M+ documents — what breaks first","Index size and memory, rebuild time, recall degradation at higher ef/nprobe tradeoffs, and cost per query",null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Retrieval is too slow — the ordered list of things you'd try",null,null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"],
+   ["Semantic caching, and where it silently returns the wrong answer",null,null,"NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"]]},
   {t:"The framing question you will be asked", note:"Near-guaranteed. Put one decision framework on an index card and rehearse until it is 45 seconds, not three minutes.", items:[
-   ["<b>Fine-tune vs RAG vs prompt engineering</b> — the decision framework <span class='freq'>[near-guaranteed]</span>","RAG for knowledge that changes or must be cited; fine-tuning for form, format and behaviour; prompting for everything you haven't yet proven needs more. Lead with what the failure actually is","deep"],
-   ["<b>Long context vs RAG</b> — argued, not settled, in 2026","The expected answer is <i>neither, route per query</i>: RAG wins on cost and freshness at scale; long context wins under a couple hundred thousand tokens with a stable corpus and whole-corpus reasoning; long-context accuracy degrades when the answer is buried mid-window. The production pattern is hybrid — retrieve a subset, then reason over it with a long-context model","deep"]]},
+   ["<b>Fine-tune vs RAG vs prompt engineering</b> — the decision framework <span class='freq'>[near-guaranteed]</span>","RAG for knowledge that changes or must be cited; fine-tuning for form, format and behaviour; prompting for everything you haven't yet proven needs more. Lead with what the failure actually is","deep","Chip Huyen — Building a GenAI Platform|https://huyenchip.com/2024/07/25/genai-platform.html"],
+   ["<b>Long context vs RAG</b> — argued, not settled, in 2026","The expected answer is <i>neither, route per query</i>: RAG wins on cost and freshness at scale; long context wins under a couple hundred thousand tokens with a stable corpus and whole-corpus reasoning; long-context accuracy degrades when the answer is buried mid-window. The production pattern is hybrid — retrieve a subset, then reason over it with a long-context model","deep","NirDiamant/RAG_Techniques|https://github.com/NirDiamant/RAG_Techniques"]]},
   {t:"Read these", note:"NirDiamant for breadth; the original RAG paper for method and figures only, 45 minutes, not an afternoon.", items:[
    ["<a href='https://github.com/NirDiamant/RAG_Techniques' target='_blank' rel='noopener'>NirDiamant/RAG_Techniques</a>","The best runnable catalogue of advanced techniques. Being able to name and explain ten of them — HyDE, RAPTOR, contextual retrieval, reranking, fusion retrieval, self-RAG — out-answers almost everyone on “how would you improve this RAG system?”","deep"],
    ["Jason Liu — Systematically Improving RAG Applications","Open-sourced in Feb 2026; he shut the paid course down and released it, so there's no marketing incentive behind it"],
@@ -633,28 +642,28 @@ const TRACKS = [
  note:"Overlaps CCAR-F Domains 1 and 2 almost completely — study these together and you are working on both at once. The seniority filter in this area is not “can you build an agent”; it is <b>knowing when not to</b>.",
  groups:[
   {t:"Agent architecture", note:"Map each pattern onto something you have built or could build in an hour. ‘When is an agent the wrong solution’ is the item that separates senior answers — have a real example ready.", items:[
-   ["The five patterns, and which problem each fits","Prompt chaining · routing · parallelisation · orchestrator-workers · evaluator-optimiser. From Anthropic's <i>Building Effective Agents</i>","deep"],
-   ["<b>What lives in the orchestrator vs what lives in the model</b> <span class='freq'>[common]</span>","Control flow belongs in code. Putting it in the prompt is the most commonly penalised design mistake in these rounds","trap"],
-   ["How an agent chooses a tool — and why the tool description is the real mechanism"],
-   ["Tool failure: retries, idempotency keys, and bounded retry budgets so a retry storm doesn't become the outage"],
-   ["Detecting and stopping infinite planning loops; termination conditions that aren't just an iteration cap"],
-   ["<b>When is an agent the wrong solution?</b>","A workflow with fixed steps, a hard latency budget, or a task where a wrong action is expensive and irreversible. Have this answer crisp — it separates senior from mid","deep"],
-   ["Multi-agent coordination, and its honest cost","Anthropic's own multi-agent research system reports roughly 15× the token usage of chat. Quoting that tradeoff unprompted reads very well"],
-   ["Agent memory: scratchpads, summarisation, and what to persist between sessions"],
-   ["Context engineering as a named discipline","Take-home rubrics now allocate explicit weight to it — one published rubric gives it 25%"]]},
+   ["The five patterns, and which problem each fits","Prompt chaining · routing · parallelisation · orchestrator-workers · evaluator-optimiser. From Anthropic's <i>Building Effective Agents</i>","deep","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["<b>What lives in the orchestrator vs what lives in the model</b> <span class='freq'>[common]</span>","Control flow belongs in code. Putting it in the prompt is the most commonly penalised design mistake in these rounds","trap","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["How an agent chooses a tool — and why the tool description is the real mechanism",null,null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Tool failure: retries, idempotency keys, and bounded retry budgets so a retry storm doesn't become the outage",null,null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Detecting and stopping infinite planning loops; termination conditions that aren't just an iteration cap",null,null,"Lilian Weng|https://lilianweng.github.io/"],
+   ["<b>When is an agent the wrong solution?</b>","A workflow with fixed steps, a hard latency budget, or a task where a wrong action is expensive and irreversible. Have this answer crisp — it separates senior from mid","deep","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Multi-agent coordination, and its honest cost","Anthropic's own multi-agent research system reports roughly 15× the token usage of chat. Quoting that tradeoff unprompted reads very well",null,"Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["Agent memory: scratchpads, summarisation, and what to persist between sessions",null,null,"Lilian Weng|https://lilianweng.github.io/"],
+   ["Context engineering as a named discipline","Take-home rubrics now allocate explicit weight to it — one published rubric gives it 25%",null,"Anthropic Engineering|https://www.anthropic.com/engineering"]]},
   {t:"MCP, at spec depth", note:"Read the spec itself, then build the three-tool server in the same session. Your resume claims MCP; a hostile expert will ask about the control model and transports inside three minutes.", items:[
-   ["<b>The primitive control model</b>","Tools are <i>model</i>-controlled · resources are <i>application</i>-controlled · prompts are <i>user</i>-controlled. Sampling flows server→host; roots flow host→server. This is the first thing a knowledgeable interviewer probes","deep"],
-   ["Transports: stdio vs Streamable HTTP","SSE is deprecated. <em>Reject any tutorial that predates Streamable HTTP and elicitation</em> — the ecosystem is full of them","trap"],
-   ["Tool schema design, and the <code>isError</code> convention"],
-   ["Resources vs tools — exposing a catalog instead of forcing exploratory calls"],
-   ["Server configuration and scope: <code>.mcp.json</code> project scope vs user scope, and env-var expansion"],
-   ["<b>MCP-specific attack classes</b>","Tool poisoning · rug pull · tool shadowing · confused deputy · indirect prompt injection through resource content · cross-tenant leakage","trap"],
-   ["Build one: a 3-tool MCP server with one resource and one prompt, wired into a real client","Then draw the client↔server lifecycle from memory. This single exercise covers a large share of CCAR-F Domain 2","deep"],
-   ["Debugging: why anything written to stdout corrupts a stdio server, and where logs must go instead"]]},
+   ["<b>The primitive control model</b>","Tools are <i>model</i>-controlled · resources are <i>application</i>-controlled · prompts are <i>user</i>-controlled. Sampling flows server→host; roots flow host→server. This is the first thing a knowledgeable interviewer probes","deep","modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Transports: stdio vs Streamable HTTP","SSE is deprecated. <em>Reject any tutorial that predates Streamable HTTP and elicitation</em> — the ecosystem is full of them","trap","modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Tool schema design, and the <code>isError</code> convention",null,null,"modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Resources vs tools — exposing a catalog instead of forcing exploratory calls",null,null,"modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Server configuration and scope: <code>.mcp.json</code> project scope vs user scope, and env-var expansion",null,null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["<b>MCP-specific attack classes</b>","Tool poisoning · rug pull · tool shadowing · confused deputy · indirect prompt injection through resource content · cross-tenant leakage","trap","modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Build one: a 3-tool MCP server with one resource and one prompt, wired into a real client","Then draw the client↔server lifecycle from memory. This single exercise covers a large share of CCAR-F Domain 2","deep","modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"],
+   ["Debugging: why anything written to stdout corrupts a stdio server, and where logs must go instead",null,null,"modelcontextprotocol.io — the spec|https://modelcontextprotocol.io"]]},
   {t:"Safety and injection", note:"Attack your own server. Put an injection string in a document, retrieve it, watch what the agent does — then add the gate and watch it stop.", items:[
-   ["Prompt injection — direct, and indirect via retrieved content or tool output","<b>The correct answer is architectural, not a better prompt.</b> Separate instructions from data, treat all tool output as untrusted, constrain what tools can do, and require confirmation for irreversible actions. Most candidates answer with prompt wording and lose the round there","trap"],
-   ["Sandboxing tool execution; least privilege; capability bloat"],
-   ["Human-in-the-loop gates for irreversible operations"]]},
+   ["Prompt injection — direct, and indirect via retrieved content or tool output","<b>The correct answer is architectural, not a better prompt.</b> Separate instructions from data, treat all tool output as untrusted, constrain what tools can do, and require confirmation for irreversible actions. Most candidates answer with prompt wording and lose the round there","trap","Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Sandboxing tool execution; least privilege; capability bloat",null,null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Human-in-the-loop gates for irreversible operations",null,null,"Anthropic Engineering|https://www.anthropic.com/engineering"]]},
   {t:"Read these, in date order", note:"Date order is the point. This field moved fast, and anything predating Streamable HTTP and elicitation is actively misleading.", items:[
    ["Anthropic engineering — the five-post arc","Contextual Retrieval (Sep 2024) → Building Effective Agents (Dec 2024) → Effective Context Engineering (Sep 2025) → Code Execution with MCP (Nov 2025) → Demystifying Evals for AI Agents (Jan 2026). <em>Citing only the Dec 2024 post dates you</em>","trap"],
    ["<a href='https://modelcontextprotocol.io' target='_blank' rel='noopener'>modelcontextprotocol.io</a> — the spec itself","First-party, and cross-vendor adoption is the strongest possible evidence of standard status"],
@@ -669,24 +678,24 @@ const TRACKS = [
  note:"The scarcest skill in the field and the most reliable differentiator. Across interviewer-side write-ups the same three failures recur: <b>candidates describe how to build systems but not how to evaluate or monitor them</b>, they know what a thing is but not when to use it, and they ignore cost, latency and failure modes. This track is the fix for the first one.",
  groups:[
   {t:"The method, in order", note:"Run the whole loop once, end to end, in order, on something real. One completed pass over your own traces is worth more than every eval post ever written.", items:[
-   ["Capture real traces before doing anything else","You cannot evaluate what you have not looked at. A hundred real traces beats any prefab metric suite","deep"],
-   ["<b>Open-code the traces by hand</b>","Read them, write freeform notes on what went wrong. This is the step everyone skips and the step that shows in an interview","deep"],
-   ["Axial-code those notes into a 5–8 mode failure taxonomy, and stop at saturation","Saturation = roughly 20 further traces yielding no new category"],
-   ["<b>Separate retrieval metrics from generation metrics</b>","recall@k, MRR, nDCG for the retriever; groundedness and citation-correctness for the generator. Knowing these are two different evaluation problems is itself a differentiator","deep"],
-   ["Build one binary LLM judge for the top failure mode, and validate it against your own labels","Report <b>TPR and TNR on a held-out split</b>. An unvalidated judge is a vibe with a number attached","deep"],
-   ["Turn 20–50 cases into a regression suite that runs in CI and fails the build","This is what converts “we evaluate” from a claim into an artifact"],
-   ["Write the before/after delta on one page"]]},
+   ["Capture real traces before doing anything else","You cannot evaluate what you have not looked at. A hundred real traces beats any prefab metric suite","deep","Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["<b>Open-code the traces by hand</b>","Read them, write freeform notes on what went wrong. This is the step everyone skips and the step that shows in an interview","deep","Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Axial-code those notes into a 5–8 mode failure taxonomy, and stop at saturation","Saturation = roughly 20 further traces yielding no new category",null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["<b>Separate retrieval metrics from generation metrics</b>","recall@k, MRR, nDCG for the retriever; groundedness and citation-correctness for the generator. Knowing these are two different evaluation problems is itself a differentiator","deep","Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Build one binary LLM judge for the top failure mode, and validate it against your own labels","Report <b>TPR and TNR on a held-out split</b>. An unvalidated judge is a vibe with a number attached","deep","Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Turn 20–50 cases into a regression suite that runs in CI and fails the build","This is what converts “we evaluate” from a claim into an artifact",null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Write the before/after delta on one page",null,null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"]]},
   {t:"Judges, and how they fail", note:"Build one binary judge and deliberately break it — swap candidate order, pad one response, watch the score move. Then you can discuss judge bias from evidence rather than from reading.", items:[
-   ["LLM-as-judge: how it works and its failure modes","Position bias, verbosity bias, self-preference bias. The order-swap check is the standard mitigation","deep"],
-   ["Binary judgements beat Likert scales","Graded scales produce inconsistent boundaries between raters and between runs"],
-   ["Building a golden dataset from a vague spec"],
-   ["<b>pass@k vs pass^k</b>, and why the difference matters for agents","pass@k rewards any success across k attempts; pass^k requires success every time. Multi-step agents are judged by the second and it is brutally unforgiving"],
-   ["Agent-specific metrics: tool-selection quality, action advancement, end-state vs trajectory scoring, cost per successful task"],
-   ["Measuring hallucination rate in production, not just offline"],
-   ["Aggregate accuracy hides per-segment failure","97% overall can be 60% on one document type. Stratify before you trust a headline number","num"]]},
+   ["LLM-as-judge: how it works and its failure modes","Position bias, verbosity bias, self-preference bias. The order-swap check is the standard mitigation","deep","LLM-as-a-judge, arXiv 2306.05685|https://arxiv.org/abs/2306.05685"],
+   ["Binary judgements beat Likert scales","Graded scales produce inconsistent boundaries between raters and between runs",null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Building a golden dataset from a vague spec",null,null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["<b>pass@k vs pass^k</b>, and why the difference matters for agents","pass@k rewards any success across k attempts; pass^k requires success every time. Multi-step agents are judged by the second and it is brutally unforgiving",null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Agent-specific metrics: tool-selection quality, action advancement, end-state vs trajectory scoring, cost per successful task",null,null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["Measuring hallucination rate in production, not just offline",null,null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Aggregate accuracy hides per-segment failure","97% overall can be 60% on one document type. Stratify before you trust a headline number","num","Evidently — multi-class metrics|https://www.evidentlyai.com/classification-metrics/multi-class-metrics"]]},
   {t:"Two phrasings that change the outcome", note:"Pure rehearsal. Record yourself opening a project description with the eval layer and the cost number, twice.", items:[
-   ["❌ Don't name a prefab eval framework as your answer","The widely-propagated critique: all you get from prefab evals is not knowing what they actually do. Say instead: <em>“We started with off-the-shelf metrics, found they didn't correlate with our reviewers' judgements, so we built a domain-specific binary judge and validated it against 100 hand-labelled traces.”</em> That sentence out-depths most interviewers","no"],
-   ["Lead any project discussion with the eval layer and the cost number, not the framework name","The documented signal difference: strong candidates say “cut p95 latency 40%”; weak ones say “used LangChain and Pinecone”","deep"]]},
+   ["❌ Don't name a prefab eval framework as your answer","The widely-propagated critique: all you get from prefab evals is not knowing what they actually do. Say instead: <em>“We started with off-the-shelf metrics, found they didn't correlate with our reviewers' judgements, so we built a domain-specific binary judge and validated it against 100 hand-labelled traces.”</em> That sentence out-depths most interviewers","no","Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["Lead any project discussion with the eval layer and the cost number, not the framework name","The documented signal difference: strong candidates say “cut p95 latency 40%”; weak ones say “used LangChain and Pinecone”","deep","Eugene Yan — LLM patterns|https://eugeneyan.com/writing/llm-patterns/"]]},
   {t:"Read these", note:"Hamel’s FAQ is the single highest-value free document in this field. Read it before the others, not after.", items:[
    ["⭐ <a href='https://hamel.dev/blog/posts/evals-faq/' target='_blank' rel='noopener'>hamel.dev — LLM Evals FAQ</a>","Free, and roughly all of the interview-relevant value of the paid course by the same author. If you read one thing in this track, read this","deep"],
    ["<a href='https://eugeneyan.com/writing/llm-patterns/' target='_blank' rel='noopener'>Eugene Yan — Patterns for Building LLM-based Systems</a>","Seven patterns: evals, RAG, fine-tuning, caching, guardrails, defensive UX, collect feedback. Maps almost 1:1 onto a system-design deep dive"],
@@ -700,24 +709,24 @@ const TRACKS = [
  note:"Where “I've used the API” separates from “I've run this in production.” Every cost and latency question reduces to the same move: <b>name the mechanism, then name what it cost you</b>. Also CCAR-F 4.5.",
  groups:[
   {t:"Making it faster", note:"For each item, be able to name which bottleneck it attacks — prefill or decode. Practise on an endpoint you own: find where the time actually goes before optimising anything.", items:[
-   ["<b>Time to first token vs total latency</b>, and why streaming changes perceived speed","TTFT is the number users feel. Optimising total tokens/sec while TTFT stays bad is the classic wrong answer"],
-   ["KV cache and PagedAttention — why memory fragmentation was the bottleneck","Read §1 and §4 of the PagedAttention paper alongside the vLLM optimization docs","deep"],
-   ["Continuous batching, and why it beats static batching under mixed request lengths"],
-   ["Speculative decoding — a draft model proposes, the target verifies"],
-   ["GQA and MQA — sharing key/value heads to shrink the cache"],
-   ["Quantization for serving: the size, speed and accuracy triangle"],
-   ["Prefill vs decode: why they have completely different bottlenecks","Prefill is compute-bound, decode is memory-bandwidth-bound. Saying that unprompted is a strong signal","deep"]]},
+   ["<b>Time to first token vs total latency</b>, and why streaming changes perceived speed","TTFT is the number users feel. Optimising total tokens/sec while TTFT stays bad is the classic wrong answer",null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["KV cache and PagedAttention — why memory fragmentation was the bottleneck","Read §1 and §4 of the PagedAttention paper alongside the vLLM optimization docs","deep","vLLM docs|https://docs.vllm.ai/en/latest/"],
+   ["Continuous batching, and why it beats static batching under mixed request lengths",null,null,"vLLM docs|https://docs.vllm.ai/en/latest/"],
+   ["Speculative decoding — a draft model proposes, the target verifies",null,null,"vLLM docs|https://docs.vllm.ai/en/latest/"],
+   ["GQA and MQA — sharing key/value heads to shrink the cache",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Quantization for serving: the size, speed and accuracy triangle",null,null,"Raschka — Ahead of AI|https://magazine.sebastianraschka.com/"],
+   ["Prefill vs decode: why they have completely different bottlenecks","Prefill is compute-bound, decode is memory-bandwidth-bound. Saying that unprompted is a strong signal","deep","vLLM docs|https://docs.vllm.ai/en/latest/"]]},
   {t:"Making it cheaper", note:"The 1M-queries question is near-guaranteed. Do the arithmetic out loud on paper until tokens to dollars to p95 is automatic; the interviewer is listening for whether your numbers are real.", items:[
-   ["<b>“1M queries a day — cut the cost”</b> <span class='freq'>[near-guaranteed]</span>","The ordered answer: measure where tokens actually go → cut prompt size and context → prompt caching → semantic caching → model tiering and routing → batch what isn't interactive → only then consider fine-tuning a smaller model","deep"],
-   ["Prompt caching vs semantic caching — different mechanisms, different failure modes"],
-   ["Model tiering: route easy queries to a small model, escalate on a confidence or validation signal"],
-   ["Batch APIs: roughly half price for a 24-hour window, no latency SLA","Right for overnight and bulk work, wrong for anything blocking a user or a merge","num"],
-   ["Cost arithmetic out loud","Tokens per request × requests per day × price per million. Do it in the room; almost nobody does and it lands every time","num"],
-   ["Provider failover, circuit breakers, and graceful degradation"]]},
+   ["<b>“1M queries a day — cut the cost”</b> <span class='freq'>[near-guaranteed]</span>","The ordered answer: measure where tokens actually go → cut prompt size and context → prompt caching → semantic caching → model tiering and routing → batch what isn't interactive → only then consider fine-tuning a smaller model","deep","ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["Prompt caching vs semantic caching — different mechanisms, different failure modes",null,null,"Claude Docs|https://docs.claude.com/en/docs/"],
+   ["Model tiering: route easy queries to a small model, escalate on a confidence or validation signal",null,null,"Chip Huyen — Building a GenAI Platform|https://huyenchip.com/2024/07/25/genai-platform.html"],
+   ["Batch APIs: roughly half price for a 24-hour window, no latency SLA","Right for overnight and bulk work, wrong for anything blocking a user or a merge","num","Claude Docs|https://docs.claude.com/en/docs/"],
+   ["Cost arithmetic out loud","Tokens per request × requests per day × price per million. Do it in the room; almost nobody does and it lands every time","num","ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["Provider failover, circuit breakers, and graceful degradation",null,null,"Chip Huyen — Building a GenAI Platform|https://huyenchip.com/2024/07/25/genai-platform.html"]]},
   {t:"Knowing it works", note:"Load-test something you own. Push concurrency until p99 separates from p50, then explain the queueing — that gap is the entire topic.", items:[
-   ["Benchmark every hop in a multi-step pipeline to find the real bottleneck","Otherwise you optimise the model when the retrieval call was 80% of the latency","trap"],
-   ["p50 vs p95 vs p99 — and why an average latency claim invites a follow-up"],
-   ["Load-testing an LLM endpoint: concurrency, queueing and tail behaviour"],
+   ["Benchmark every hop in a multi-step pipeline to find the real bottleneck","Otherwise you optimise the model when the retrieval call was 80% of the latency","trap","ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["p50 vs p95 vs p99 — and why an average latency claim invites a follow-up",null,null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["Load-testing an LLM endpoint: concurrency, queueing and tail behaviour",null,null,"vLLM docs|https://docs.vllm.ai/en/latest/"],
    ["<a href='https://github.com/ray-project/llm-numbers' target='_blank' rel='noopener'>ray-project/llm-numbers</a>","Stale on specifics, but the <i>habit</i> of quoting numbers is what wins cost questions"]]}
  ]},
 
@@ -726,28 +735,28 @@ const TRACKS = [
  note:"<em>GenAI-only preparation is a repeatedly documented way to lose a loop.</em> Two first-hand rejections trace directly to this bucket — one candidate was asked to derive entropy and Gini by hand, another was rejected in a late round on traditional-ML case studies. It arrives as an ambush precisely because candidates skip it.",
  groups:[
   {t:"The ambush topics", note:"These arrive unannounced in an AI-engineer loop. Drill as flashcards with a worked number: compute entropy by hand, pick a threshold from a cost matrix, name the leakage in a described split.", items:[
-   ["Bias–variance, and the intervention ladder for each"],
-   ["Regularisation: L1 vs L2, and <i>why</i> L1 produces sparsity","The geometric answer — the constraint region has corners on the axes","deep"],
-   ["Precision, recall, F1 — and <b>PR-AUC over ROC-AUC at low prevalence</b>","ROC-AUC looks flattering on imbalanced data. Knowing which to use is a standard filter","trap"],
-   ["Choosing a threshold from a cost matrix rather than defaulting to 0.5"],
-   ["Class imbalance — and why SMOTE is the wrong first answer","Try class weights, threshold tuning and better features first; SMOTE interpolates in feature space and often fabricates implausible points"],
-   ["<b>Data leakage taxonomy</b>, including grouped splitting","Target leakage, train-test contamination, temporal leakage, and grouping — if several rows share an entity, a random split leaks it across the boundary","trap"],
-   ["Always establish the majority-class or simple baseline first","An accuracy number with no baseline next to it is not a result. This is the single most common way a metric claim collapses under questioning","num"],
-   ["Bagging vs boosting, and when each is the right call"],
-   ["Cross-validation schemes, and when k-fold is wrong (time series, grouped data)"],
-   ["Entropy and Gini — be able to compute both by hand"],
-   ["Choosing k in clustering; the elbow and silhouette methods"],
-   ["Gradient descent variants and what each optimizer actually fixes"]]},
+   ["Bias–variance, and the intervention ladder for each",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Regularisation: L1 vs L2, and <i>why</i> L1 produces sparsity","The geometric answer — the constraint region has corners on the axes","deep","Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Precision, recall, F1 — and <b>PR-AUC over ROC-AUC at low prevalence</b>","ROC-AUC looks flattering on imbalanced data. Knowing which to use is a standard filter","trap","Evidently — precision, recall, accuracy|https://www.evidentlyai.com/classification-metrics/accuracy-precision-recall"],
+   ["Choosing a threshold from a cost matrix rather than defaulting to 0.5",null,null,"scikit-learn — tuning the decision threshold|https://scikit-learn.org/stable/modules/classification_threshold.html"],
+   ["Class imbalance — and why SMOTE is the wrong first answer","Try class weights, threshold tuning and better features first; SMOTE interpolates in feature space and often fabricates implausible points",null,"Evidently — precision, recall, accuracy|https://www.evidentlyai.com/classification-metrics/accuracy-precision-recall"],
+   ["<b>Data leakage taxonomy</b>, including grouped splitting","Target leakage, train-test contamination, temporal leakage, and grouping — if several rows share an entity, a random split leaks it across the boundary","trap","scikit-learn — cross-validation|https://scikit-learn.org/stable/modules/cross_validation.html"],
+   ["Always establish the majority-class or simple baseline first","An accuracy number with no baseline next to it is not a result. This is the single most common way a metric claim collapses under questioning","num","Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Bagging vs boosting, and when each is the right call",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Cross-validation schemes, and when k-fold is wrong (time series, grouped data)",null,null,"scikit-learn — cross-validation|https://scikit-learn.org/stable/modules/cross_validation.html"],
+   ["Entropy and Gini — be able to compute both by hand",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Choosing k in clustering; the elbow and silhouette methods",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
+   ["Gradient descent variants and what each optimizer actually fixes",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"]]},
   {t:"Implement from scratch in NumPy", note:"Blank file, no references, twice each. Deep-ML grades these for you, which removes the excuse.", items:[
-   ["Cosine similarity, batched"],
-   ["k-means"],
-   ["Logistic regression with SGD, L2 and early stopping"],
-   ["Softmax, numerically stable"],
-   ["Linear regression via the normal equation, and via gradient descent"]]},
+   ["Cosine similarity, batched",null,null,"Deep-ML|https://www.deep-ml.com/"],
+   ["k-means",null,null,"Deep-ML|https://www.deep-ml.com/"],
+   ["Logistic regression with SGD, L2 and early stopping",null,null,"Deep-ML|https://www.deep-ml.com/"],
+   ["Softmax, numerically stable",null,null,"Deep-ML|https://www.deep-ml.com/"],
+   ["Linear regression via the normal equation, and via gradient descent",null,null,"Deep-ML|https://www.deep-ml.com/"]]},
   {t:"Ops", note:"Tie each item to monitoring you would actually add. Ng’s ‘advice for applying machine learning’ is the one lecture worth the hour here.", items:[
-   ["Concept drift vs data drift, and how each is detected"],
-   ["Monitoring a model in production: what you log and what alerts"],
-   ["Data-centric AI — why improving labels usually beats improving the model"],
+   ["Concept drift vs data drift, and how each is detected",null,null,"Evidently — data drift|https://www.evidentlyai.com/ml-in-production/data-drift"],
+   ["Monitoring a model in production: what you log and what alerts",null,null,"Evidently — data drift|https://www.evidentlyai.com/ml-in-production/data-drift"],
+   ["Data-centric AI — why improving labels usually beats improving the model",null,null,"Ng — Advice for applying ML|https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3"],
    ["Andrew Ng — “Advice for applying machine learning”","<b>Course 2 of the specialization</b> (<i>Advanced Learning Algorithms</i>), <b>Week 3</b> → <a href='https://www.coursera.org/learn/advanced-learning-algorithms/home/module/3' target='_blank' rel='noopener'>coursera.org/learn/advanced-learning-algorithms — module 3</a>. ⚠️ <em>Not</em> <code>coursera.org/learn/machine-learning</code> — that slug is Course 1 and its module 3 is Classification. Baseline and Bayes error, error analysis, the bias-variance intervention ladder","deep"]]}
  ]},
 
@@ -756,24 +765,24 @@ const TRACKS = [
  note:"Now a named round at multiple companies. Format: ~45–60 min — 5 clarify, 10–15 high-level, 15–20 deep dive, 5–10 tradeoffs and bottlenecks. <b>Per rep use 45/20/40/30</b>: 45 min recorded with a hard timer and no lookups → 20 min watching it back at 1.5× and self-scoring → 40 min re-doing it with the reference open → 30 min reading only what your two worst sub-scores demand. <em>Whiteboard cold first, read second. Never the other way round.</em>",
  groups:[
   {t:"Do these reps, in this order", note:"45/20/40/30 per rep: 45 minutes recorded in Excalidraw with no lookups, 20 watching it back at 1.5× and self-scoring, 40 re-doing with the reference open, 30 reading only what your two worst sub-scores demand. The first two are deliberately trivial — they are framework rehearsal, not content.", items:[
-   ["URL shortener","Deliberately trivial — you are rehearsing the framework, not the problem"],
-   ["Distributed rate limiter"],
-   ["⭐ RAG over 10k enterprise documents with per-tenant isolation","The archetype. Isolation belongs in the query filter, never in the prompt","deep"],
-   ["Real-time chat","Prerequisite for reasoning about streaming LLM UIs"],
-   ["⭐ LLM customer-support agent with tool calling and human escalation","Reported as the single most common opener in this round","deep"],
-   ["⭐ Evaluation and observability platform for LLM applications"],
-   ["⭐ LLM inference serving at scale","Queueing, GPU worker scheduling, TTFT, streaming, fairness across tiers, context management","deep"],
-   ["⭐ Real-time voice agent under an 800ms budget","STT→LLM→TTS pipelining, streaming partials, barge-in, per-hop latency budget"],
-   ["⭐ Agentic coding assistant","Repo indexing, tools, sandboxed execution, PR and CI hooks"],
-   ["⭐ Document Q&A with citations and multi-hop questions"],
-   ["Design a search engine with LLM synthesis over results"],
-   ["Cross-conversation memory for a chat product"],
-   ["Then re-do the first two, cold and recorded, and diff against the originals","If the delta isn't obvious on camera, do another week of reps before moving on","deep"]]},
+   ["URL shortener","Deliberately trivial — you are rehearsing the framework, not the problem",null,"Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"],
+   ["Distributed rate limiter",null,null,"Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"],
+   ["⭐ RAG over 10k enterprise documents with per-tenant isolation","The archetype. Isolation belongs in the query filter, never in the prompt","deep","Evidently — 800 ML system design cases|https://www.evidentlyai.com/ml-system-design"],
+   ["Real-time chat","Prerequisite for reasoning about streaming LLM UIs",null,"Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"],
+   ["⭐ LLM customer-support agent with tool calling and human escalation","Reported as the single most common opener in this round","deep","Anthropic — multi-agent research system|https://www.anthropic.com/engineering/multi-agent-research-system"],
+   ["⭐ Evaluation and observability platform for LLM applications",null,null,"Hamel — LLM Evals FAQ|https://hamel.dev/blog/posts/evals-faq/"],
+   ["⭐ LLM inference serving at scale","Queueing, GPU worker scheduling, TTFT, streaming, fairness across tiers, context management","deep","Chip Huyen — Building a GenAI Platform|https://huyenchip.com/2024/07/25/genai-platform.html"],
+   ["⭐ Real-time voice agent under an 800ms budget","STT→LLM→TTS pipelining, streaming partials, barge-in, per-hop latency budget",null,"Uber — GenAI Gateway|https://www.uber.com/blog/genai-gateway/"],
+   ["⭐ Agentic coding assistant","Repo indexing, tools, sandboxed execution, PR and CI hooks",null,"Anthropic Engineering|https://www.anthropic.com/engineering"],
+   ["⭐ Document Q&A with citations and multi-hop questions",null,null,"Evidently — 800 ML system design cases|https://www.evidentlyai.com/ml-system-design"],
+   ["Design a search engine with LLM synthesis over results",null,null,"Evidently — 800 ML system design cases|https://www.evidentlyai.com/ml-system-design"],
+   ["Cross-conversation memory for a chat product",null,null,"Chip Huyen — Building a GenAI Platform|https://huyenchip.com/2024/07/25/genai-platform.html"],
+   ["Then re-do the first two, cold and recorded, and diff against the originals","If the delta isn't obvious on camera, do another week of reps before moving on","deep","Excalidraw|https://excalidraw.com"]]},
   {t:"How it is scored", note:"Score yourself against these four after every rep, before looking at any reference. Expect 40–50 out of 100 early; that is the correct early score, not a failure.", items:[
-   ["The four patterns every prompt maps to","Grounding and retrieval · feedback and reinforcement loops · hallucination mitigation · scalability and cost. Recognising which one you're in tells you where the deep dive should go"],
-   ["Senior signal: reasoning under uncertainty, tradeoff fluency, communication clarity","The actual skill under test is keeping a system predictable when the component at its centre is not"],
-   ["Cost and latency arithmetic out loud, in every rep","num"],
-   ["❌ The documented mistakes","Jumping to a solution before clarifying · treating the model as a source of truth instead of grounding it · designing only the happy path · <b>naming tools instead of explaining mechanisms</b> · ignoring token budgets · ignoring prompt injection and unsafe tool execution · <b>putting control flow in prompts instead of the orchestrator</b> · choosing agents because they're interesting","no"]]},
+   ["The four patterns every prompt maps to","Grounding and retrieval · feedback and reinforcement loops · hallucination mitigation · scalability and cost. Recognising which one you're in tells you where the deep dive should go",null,"Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"],
+   ["Senior signal: reasoning under uncertainty, tradeoff fluency, communication clarity","The actual skill under test is keeping a system predictable when the component at its centre is not",null,"Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"],
+   ["Cost and latency arithmetic out loud, in every rep","num",null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["❌ The documented mistakes","Jumping to a solution before clarifying · treating the model as a source of truth instead of grounding it · designing only the happy path · <b>naming tools instead of explaining mechanisms</b> · ignoring token budgets · ignoring prompt injection and unsafe tool execution · <b>putting control flow in prompts instead of the orchestrator</b> · choosing agents because they're interesting","no","Hello Interview — System Design in a Hurry|https://www.hellointerview.com/learn/system-design/in-a-hurry"]]},
   {t:"Read these — your interviewer has", note:"Your interviewer has read these. Evidently’s case studies are for breadth — skim the ones matching your target company’s domain the week of the loop.", items:[
    ["<a href='https://huyenchip.com/2024/07/25/genai-platform.html' target='_blank' rel='noopener'>Chip Huyen — Building a Generative AI Platform</a>","The canonical architecture and the mental model most interviewers grade against. Read it first","deep"],
    ["<a href='https://www.anthropic.com/engineering/multi-agent-research-system' target='_blank' rel='noopener'>Anthropic — Building a multi-agent research system</a>","The honest cost discussion is the best material available for “when not to use agents”"],
@@ -793,46 +802,46 @@ const TRACKS = [
  note:"What the loop actually looks like: <b>3–5 rounds over 2–4 weeks, and the decisive round is almost never DSA.</b> It is a practical build, a project interrogated to production depth, or a customer conversation. Knowing the format is worth as much as knowing the material.",
  groups:[
   {t:"The practical LLM-API coding round — the modal round", note:"The modal round, so rehearse the whole thing: 60 minutes, real API, working output at the end. Practise narrating cost implications while you type — that narration is itself scored.", items:[
-   ["What it is: build a small working thing against a real LLM API, in 60 minutes to 3 days","It has largely replaced LeetCode at AI-first companies"],
-   ["Graded on clean, extensible structure — <b>not</b> on algorithms","One company states this explicitly in its own process write-up"],
-   ["Bounded concurrency, retry with backoff, timeouts, and which status codes to retry","deep"],
-   ["Streaming: SSE, partial-JSON accumulation, time to first token"],
-   ["Say the cost implications out loud while you code"],
-   ["Real tasks that have been given: parse a flaky API with fallbacks · build a voice-activity detector from scratch in 2.5h · parse complex JSON then summarise via an LLM in 30 min · optimise a FastAPI endpoint with an unfamiliar driver"]]},
+   ["What it is: build a small working thing against a real LLM API, in 60 minutes to 3 days","It has largely replaced LeetCode at AI-first companies",null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["Graded on clean, extensible structure — <b>not</b> on algorithms","One company states this explicitly in its own process write-up",null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["Bounded concurrency, retry with backoff, timeouts, and which status codes to retry","deep",null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Streaming: SSE, partial-JSON accumulation, time to first token",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Say the cost implications out loud while you code",null,null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["Real tasks that have been given: parse a flaky API with fallbacks · build a voice-activity detector from scratch in 2.5h · parse complex JSON then summarise via an LLM in 30 min · optimise a FastAPI endpoint with an unfamiliar driver",null,null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"]]},
   {t:"The progressive OOP round — the lab replacement for LeetCode", note:"Run full four-level sessions under a 90-minute timer. Practise the extension, not the first implementation: level 1 is not where you are judged, and level 3 is only as hard as your level 1 design was careless.", items:[
-   ["Format: a toy system built level by level over 60 minutes","In-memory KV store, an in-memory SQL-like DB, a credits system with expiry rules, LRU cache, rate limiter, circuit breaker"],
-   ["<b>Solve level 1 fast and clean — level 4 is where they actually judge you</b>","trap"],
-   ["Practise the extension, not just the first implementation","Most people drill LRU once and never practise being asked to add TTL, then transactions, then nesting"]]},
+   ["Format: a toy system built level by level over 60 minutes","In-memory KV store, an in-memory SQL-like DB, a credits system with expiry rules, LRU cache, rate limiter, circuit breaker",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["<b>Solve level 1 fast and clean — level 4 is where they actually judge you</b>","trap",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["Practise the extension, not just the first implementation","Most people drill LRU once and never practise being asked to add TTL, then transactions, then nesting",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"]]},
   {t:"The debugging / code-review round", note:"Plant three bugs in an unfamiliar repo a week earlier, so you have genuinely forgotten them, then fix them on camera narrating the diagnostic before the fix.", items:[
-   ["Formats seen: find and fix planted bugs in a small unfamiliar codebase · review a colleague's draft PR · a dedicated code-review interview"],
-   ["<b>Say the diagnostic before the fix.</b> Candidates fail this round by guessing fixes","trap"],
-   ["Practise it: clone an unfamiliar repo, plant three bugs a week earlier, fix them cold in 45 minutes","Nothing off-the-shelf rehearses this format"]]},
+   ["Formats seen: find and fix planted bugs in a small unfamiliar codebase · review a colleague's draft PR · a dedicated code-review interview",null,null,"interviewing.io blog|https://interviewing.io/blog"],
+   ["<b>Say the diagnostic before the fix.</b> Candidates fail this round by guessing fixes","trap",null,"interviewing.io blog|https://interviewing.io/blog"],
+   ["Practise it: clone an unfamiliar repo, plant three bugs a week earlier, fix them cold in 45 minutes","Nothing off-the-shelf rehearses this format",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"The take-home", note:"Build the reusable skeleton before you start applying — eval harness, README, cost table, retries, one test that validates model output. Then a real take-home becomes assembly rather than invention.", items:[
-   ["<b>Start with the eval harness.</b> Not starting with evals is documented red flag #1","deep"],
-   ["README stating tradeoffs <i>and the alternatives you rejected</i>"],
-   ["A cost and latency table"],
-   ["Real error handling, retries, and a test that validates the model output"],
-   ["A short recorded walkthrough — repeatedly cited as a differentiator"],
-   ["Build a reusable skeleton before you start applying","Retrieval + reranking + citations + eval harness + Docker + README. Then each take-home is a few hours of customisation rather than a fortnight","deep"],
-   ["Scope discipline: advertised 2–4 hours routinely means 2× that. Refuse anything over ~4h offered before a human conversation","trap"]]},
+   ["<b>Start with the eval harness.</b> Not starting with evals is documented red flag #1","deep",null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["README stating tradeoffs <i>and the alternatives you rejected</i>",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["A cost and latency table",null,null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
+   ["Real error handling, retries, and a test that validates the model output",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["A short recorded walkthrough — repeatedly cited as a differentiator",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["Build a reusable skeleton before you start applying","Retrieval + reranking + citations + eval harness + Docker + README. Then each take-home is a few hours of customisation rather than a fortnight","deep","anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["Scope discipline: advertised 2–4 hours routinely means 2× that. Refuse anything over ~4h offered before a human conversation","trap",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"The project deep dive — the most-failed round", note:"The most-failed round, so over-rehearse it. Whiteboard each architecture from memory in three minutes, recorded, and have the ‘what breaks at 100×’ answer ready before anyone asks for it.", items:[
-   ["Be able to reproduce your architecture on a whiteboard in three minutes"],
-   ["Three decisions you can defend <b>with the alternative you rejected</b>","“I chose X” is junior. “I chose X over Y because our constraint was Z, and here's what it cost us” is senior","deep"],
-   ["Two real failures and what they cost"],
-   ["The “what breaks at 100×” answer"],
-   ["<b>Say “I” not “we”, and be specific about what you personally built</b>","Vague team-level narration is the single most cited reason this round fails","trap"],
-   ["Honesty beats bluffing, with evidence","Multiple hired candidates report saying plainly that they didn't know something, or hadn't used a tool before, and being selected anyway on clarity of thought"]]},
+   ["Be able to reproduce your architecture on a whiteboard in three minutes",null,null,"Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Three decisions you can defend <b>with the alternative you rejected</b>","“I chose X” is junior. “I chose X over Y because our constraint was Z, and here's what it cost us” is senior","deep","Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Two real failures and what they cost",null,null,"Exponent Practice|https://www.tryexponent.com/practice"],
+   ["The “what breaks at 100×” answer",null,null,"Evidently — 800 ML system design cases|https://www.evidentlyai.com/ml-system-design"],
+   ["<b>Say “I” not “we”, and be specific about what you personally built</b>","Vague team-level narration is the single most cited reason this round fails","trap","Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Honesty beats bluffing, with evidence","Multiple hired candidates report saying plainly that they didn't know something, or hadn't used a tool before, and being selected anyway on clarity of thought",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"AI-assisted coding — new, growing, and bimodal", note:"Ask which regime applies, then practise that one. Record yourself decomposing, delegating, verifying and integrating — and catching the model’s mistakes out loud, because catching them is the signal.", items:[
-   ["<b>Ask the recruiter which regime applies, per round</b>","Some companies now supply models in the editor and grade how you verify their output; others prohibit AI outright and call it grounds for disqualification; at least one allows it in round 1 and bans it in round 2. There is no default","trap"],
-   ["What is graded: decompose → delegate → <b>verify</b> → integrate. Not typing speed","deep"],
-   ["The problems are tuned so the model can't solve them alone","Blind prompting hits a dead end and you must defend every line"],
-   ["Practise narrating out loud, including the catches","“The model generated raw SQL here — I'm parameterising it”"],
-   ["❌ Never use an AI interview copilot","Roughly a third of surveyed FAANG interviewers have caught suspected AI cheating and some run detection software. It is a permanent-blacklist event","no"]]},
+   ["<b>Ask the recruiter which regime applies, per round</b>","Some companies now supply models in the editor and grade how you verify their output; others prohibit AI outright and call it grounds for disqualification; at least one allows it in round 1 and bans it in round 2. There is no default","trap","Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"],
+   ["What is graded: decompose → delegate → <b>verify</b> → integrate. Not typing speed","deep",null,"Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
+   ["The problems are tuned so the model can't solve them alone","Blind prompting hits a dead end and you must defend every line",null,"Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
+   ["Practise narrating out loud, including the catches","“The model generated raw SQL here — I'm parameterising it”",null,"METR — AI and experienced-dev productivity|https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/"],
+   ["❌ Never use an AI interview copilot","Roughly a third of surveyed FAANG interviewers have caught suspected AI cheating and some run detection software. It is a permanent-blacklist event","no","Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"]]},
   {t:"The rest of the loop", note:"Rehearse the recruiter screen and the story bank out loud. These are the cheapest marginal points anywhere in the process and the most commonly skipped.", items:[
-   ["Recruiter screen: one comp number rather than a range; raise location and visa constraints in round 1, before investing four weeks","trap"],
-   ["Behavioural: a bank of stories, each with a 60-second and a 4-minute version","The two most commonly missing: a failure with a named cost, and a disagreement you lost and then committed to"],
-   ["Customer / discovery round (common for forward-deployed and applied roles)","<b>Rule: no solution until you have asked five questions.</b> The documented failure mode is pitching instead of investigating","trap"],
-   ["Read the company's own engineering blog and its interview reviews the week before the loop","Free, specific, and almost nobody does it"]]},
+   ["Recruiter screen: one comp number rather than a range; raise location and visa constraints in round 1, before investing four weeks","trap",null,"interviewing.io blog|https://interviewing.io/blog"],
+   ["Behavioural: a bank of stories, each with a 60-second and a 4-minute version","The two most commonly missing: a failure with a named cost, and a disagreement you lost and then committed to",null,"Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Customer / discovery round (common for forward-deployed and applied roles)","<b>Rule: no solution until you have asked five questions.</b> The documented failure mode is pitching instead of investigating","trap","Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
+   ["Read the company's own engineering blog and its interview reviews the week before the loop","Free, specific, and almost nobody does it",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"The best free question banks", note:"Work the field guide end to end — every question in it carries a footnote to where it was actually asked. The rest are supplementary.", items:[
    ["⭐ <a href='https://github.com/alexeygrigorev/ai-engineering-field-guide' target='_blank' rel='noopener'>alexeygrigorev/ai-engineering-field-guide</a>","The best artifact in this space. 1,765 job descriptions analysed, 100+ real candidate take-home repos, hundreds of sourced threads — and <b>every question carries a footnote to where it was actually asked</b>. Its six question files are about 1,000 lines total; read them end to end","deep"],
    ["<a href='https://github.com/ombharatiya/ai-system-design-guide' target='_blank' rel='noopener'>ombharatiya/ai-system-design-guide</a>","Living document on production AI system design and evals"],
@@ -997,7 +1006,17 @@ function addNavSep(label){
   const d=document.createElement("div"); d.className="navsep"; d.textContent=label; navEl.appendChild(d);
 }
 
-function mkItem(id, text, meta, tag, extraClass, timeChip, store, onToggle, mode){
+/* src is "Label" or "Label|https://url": the one place to learn this item from.
+   It is rendered, never hashed — idFor() uses the group title and the item text
+   only, so a source can be added, corrected or replaced without losing a grade. */
+function srcHtml(src){
+  if(!src) return "";
+  const bar=src.indexOf("|");
+  const label=bar<0?src:src.slice(0,bar), url=bar<0?"":src.slice(bar+1);
+  const inner=url?'<a href="'+url+'" target="_blank" rel="noopener">'+label+'</a>':label;
+  return '<div class="src"><span>Learn it from</span>'+inner+'</div>';
+}
+function mkItem(id, text, meta, tag, extraClass, timeChip, store, onToggle, mode, src){
   const li=document.createElement("li");
   li.className="item"+(extraClass?" "+extraClass:""); li.dataset.id=id;
   li.dataset.search=(text+" "+(meta||"")).replace(/<[^>]+>/g,"").toLowerCase();
@@ -1030,7 +1049,7 @@ function mkItem(id, text, meta, tag, extraClass, timeChip, store, onToggle, mode
   const body=document.createElement("div"); body.className="body";
   body.innerHTML='<div class="txt">'+text+(tag?'<span class="tag '+tag+'">'+
     (tag==="deep"?"DEEP-DIVE":tag==="trap"?"TRAP":tag==="num"?"METRIC":"AVOID")+'</span>':'')+'</div>'+
-    (meta?'<div class="meta">'+meta+'</div>':'');
+    (meta?'<div class="meta">'+meta+'</div>':'')+srcHtml(src);
   li.appendChild(body);
   return li;
 }
@@ -1121,11 +1140,11 @@ TRACKS.forEach(tr=>{
     gd.innerHTML='<div class="grp-head"><h3>'+g.t+'</h3>'+(g.wt?'<span class="wt">'+g.wt+'</span>':'')+'</div>'+
       (g.note?'<p class="grp-note">'+g.note+'</p>':'');
     const ul=document.createElement("ul"); ul.className="items";
-    g.items.forEach(([text,meta,tag])=>{
+    g.items.forEach(([text,meta,tag,src])=>{
       const id=idFor(tr.id,g.t,text);
       (TRACK_IDS[tr.id]||(TRACK_IDS[tr.id]=[])).push(id);
       const li=mkItem(id, text, meta, tag, null, null, state,
-                      ()=>{ save(); recount(); applyFilter() }, "tri");
+                      ()=>{ save(); recount(); applyFilter() }, "tri", src);
       li.dataset.track=tr.id; ALL_LI.push(li); ul.appendChild(li);
     });
     gd.appendChild(ul); sec.appendChild(gd);
