@@ -2,7 +2,7 @@
    cache-first is always a hit — instant and offline by construction. Correctness
    comes from the version bump, not from revalidation.
    BUILD changes whenever any file changes, which is the entire update mechanism. */
-const BUILD = "20261020-e176acea";
+const BUILD = "20261020-fc44362e";
 const CACHE = "prep-" + BUILD;
 const PRECACHE = [
   "/",
