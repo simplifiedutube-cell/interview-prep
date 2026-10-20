@@ -1,5 +1,8 @@
 """Learn / Practise / Evidence data for track t03 (Python for AI engineering).
 
+This module also documents the field format used by every other table in this
+package.
+
 Keyed by a distinctive substring of the item text, because idFor() hashes the
 group title and the item text — so slots 0-2 of every item must stay byte
 identical. Only slots 3 (learn), 4 (practise) and 5 (evidence) are written.
