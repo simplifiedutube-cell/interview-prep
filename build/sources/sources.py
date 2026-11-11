@@ -61,7 +61,7 @@ IIO= "interviewing.io blog|https://interviewing.io/blog"
 SIE= "Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"
 ACG= "Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"
 THO= "anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"
-EXP= "Exponent Practice|https://www.tryexponent.com/practice"
+EXP= "Aced Practice (formerly Exponent)|https://www.aced.io/practice"
 MET= "METR — AI and experienced-dev productivity|https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/"
 GHA= "GitHub — preventing pwn requests|https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/"
 

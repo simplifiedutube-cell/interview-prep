@@ -19,319 +19,255 @@
 
 <title>AI Engineer Tracker — daily routine, CCAR-F, and the syllabus</title>
 <style>
+  /* Distilled Oct 2026 with Impeccable (Operate mode): one sans family, mono only for
+     numbers and times, flat rows instead of cards, teal reserved for state and the one
+     primary action. Every functional selector from the previous sheet is kept. */
   :root{
-    /* Cool neutral ground from fanout.sh; teal kept as the one accent, because
-       the three confidence states need a hue to stay legible while scrolling. */
-    --bg:#F7F7F8; --panel:#FFFFFF; --ink:#272727; --muted:#6E6E6E;
-    --line:#DEDEE2; --divider:#E8E8EA; --chip:#F4F4F5; --hover:#F0F0F2;
-    --ink-faint:#ADADAD;
-    --teal:#0E6B5C; --teal-soft:#E6F1EE;
-    --amber:#B4700F; --amber-soft:#FAF1E4;
-    --red:#9E3B2E; --red-soft:#FAEBE8;
-    --done:#929292;
-    --r-card:18px; --r-sm:10px;
-    --shadow:0 2px 4px rgba(59,59,59,.05), 0 4px 8px rgba(59,59,59,.09),
-             0 8px 16px rgba(59,59,59,.10);
-    --teal-mid:#8FC0B3;          /* state 1 "read" — already the heatmap mid-tone */
-    --side:246px;
-    /* Declared honestly: these families were never loaded, so the page has always
-       rendered in the system stack. Phone-first + offline-first keep it that way. */
+    --bg:#F7F7F8; --panel:#FFFFFF; --ink:#24262A; --muted:#55585E; --faint:#6E7177;
+    --line:#E2E3E6; --divider:#ECEDEF; --hover:#F0F1F3;
+    --teal:#0E6B5C; --teal-soft:#E7F1EE; --teal-mid:#8FC0B3;
+    --amber:#9A5F0C; --amber-soft:#FAF2E6;
+    --red:#9E3B2E; --red-soft:#FAECE9;
+    --done:#6E7177;
+    --r:10px; --side:248px;
     --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
     --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
-    --disp:-apple-system,'SF Pro Display',system-ui,'Segoe UI',Inter,sans-serif;
-    --body:-apple-system,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,var(--emoji);
+    --sans:-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,var(--emoji);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth;color-scheme:light}
-  body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.58;
-       -webkit-text-size-adjust:100%;padding-left:var(--side)}
-  a{color:var(--teal)}
-  .wrap{max-width:940px;margin:0 auto;
-       padding-left:max(20px,env(safe-area-inset-left));
-       padding-right:max(20px,env(safe-area-inset-right));
-       padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;
+       -webkit-text-size-adjust:100%;padding-left:var(--side);caret-color:var(--teal)}
+  ::selection{background:var(--teal-soft);color:var(--ink)}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:4px}
+  a{color:var(--teal);text-underline-offset:3px}
+  .num,.pct,.gstat,nav a .n,nav a .c,.sec-num,.time,.today-cnt,.side-h .p,.hist-lbl{
+       font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .wrap{max-width:960px;margin:0 auto;
+       padding-left:max(24px,env(safe-area-inset-left));
+       padding-right:max(24px,env(safe-area-inset-right));
+       padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 
-  header{padding:46px 0 24px;border-bottom:1px solid var(--line)}
-  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:13px}
-  h1{font-family:var(--disp);font-size:clamp(30px,6.4vw,54px);line-height:1.02;font-weight:400;
-     letter-spacing:-.045em}
-  .sub{color:var(--muted);margin-top:11px;max-width:680px;font-size:14.5px}
+  /* ---- header: just the key to the three states ---- */
+  header{padding:18px 0 0}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--muted)}
+  .legend span{display:flex;gap:7px;align-items:center}
+  .legend i{width:14px;height:14px;border:1.5px solid #B9BEC5;border-radius:4px;background:#fff;flex:0 0 auto}
+  .legend i.r{border-color:var(--teal-mid);background:linear-gradient(180deg,#fff 0 50%,var(--teal-mid) 50% 100%)}
+  .legend i.c{background:var(--teal);border-color:var(--teal)}
 
-  /* ---- left sidebar ---- */
+  /* ---- sidebar: the only navigation ---- */
   aside{position:fixed;left:0;top:0;bottom:0;width:var(--side);background:var(--panel);
         border-right:1px solid var(--line);overflow-y:auto;overscroll-behavior-y:contain;z-index:80;
         -webkit-overflow-scrolling:touch;
-        padding:max(22px,env(safe-area-inset-top)) 12px calc(30px + env(safe-area-inset-bottom))
+        padding:max(20px,env(safe-area-inset-top)) 12px calc(28px + env(safe-area-inset-bottom))
                 max(12px,env(safe-area-inset-left))}
-  .side-h{padding:0 10px 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
-  .side-h .t{font-family:var(--disp);font-size:15px;font-weight:700;line-height:1.25}
-  .side-h .s{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
-  .side-h .p{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:9px}
-  .side-h .pbar{width:100%;margin-top:5px}
-  nav a{position:relative;display:flex;gap:9px;align-items:baseline;
-        padding:8px 10px 11px;border-radius:7px;text-decoration:none;color:var(--ink)}
-  nav a.ext .l{color:var(--teal)}
-  nav a.ext .n{color:var(--teal)}
-  nav a:hover{background:#F3F5F0}
+  .side-h{padding:2px 10px 14px;border-bottom:1px solid var(--divider);margin-bottom:6px}
+  .side-h .t{font-size:15px;font-weight:650;line-height:1.3}
+  .side-h .p{font-size:11.5px;color:var(--muted);margin-top:4px}
+  nav a{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:7px;
+        text-decoration:none;color:var(--ink)}
+  nav a:hover{background:var(--hover)}
   nav a.active{background:var(--teal-soft)}
   nav a.active .l{color:var(--teal);font-weight:600}
-  nav a .n{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex:0 0 auto}
+  nav a .n{font-size:11px;color:var(--faint);flex:0 0 18px}
   nav a.active .n{color:var(--teal)}
-  nav a .l{font-size:13px;line-height:1.3;flex:1;min-width:0}
-  nav a .c{font-family:var(--mono);font-size:10px;color:var(--muted);flex:0 0 auto;white-space:nowrap}
-  nav a .mini{position:absolute;left:10px;right:10px;bottom:5px;height:2px;background:var(--line);border-radius:2px;overflow:hidden;display:flex}
-  nav a .mini b{height:100%;width:0;background:var(--teal);transition:width .2s}
-  nav a .mini b.r{background:var(--teal-mid)}
+  nav a .l{font-size:13.5px;line-height:1.3;flex:1;min-width:0}
+  nav a .c{font-size:11px;color:var(--faint);flex:0 0 auto;white-space:nowrap}
+  nav a.ext .l{color:var(--muted)}
   nav a.today .l{font-weight:600}
-  .navsep{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
-          color:var(--muted);padding:14px 10px 5px;border-top:1px solid var(--line);margin-top:8px}
-  .menu{display:none}
-  #scrim{display:none;position:fixed;inset:0;background:rgba(24,34,46,.38);z-index:70}
+  .navsep{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);
+          padding:16px 10px 4px}
+  .btn.menu{display:none}
+  #scrim{display:none;position:fixed;inset:0;background:rgba(24,30,38,.32);z-index:70}
   #scrim.on{display:block}
 
-  /* ---- sticky control bar ---- */
-  .bar{position:sticky;top:0;z-index:60;background:rgba(245,246,242,.96);backdrop-filter:blur(8px);
-       border-bottom:1px solid var(--line);padding:max(10px,env(safe-area-inset-top)) 0 10px}
-  .bar-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .bar-row2{display:flex;align-items:center;gap:10px;margin-top:8px}
-  #find{display:none}
-  .gstat{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  /* ---- sticky control bar: one row ---- */
+  .bar{position:sticky;top:0;z-index:60;background:rgba(247,247,248,.94);backdrop-filter:blur(8px);
+       -webkit-backdrop-filter:blur(8px);
+       padding:max(12px,env(safe-area-inset-top)) 0 12px;border-bottom:1px solid var(--line)}
+  .bar-row{display:flex;align-items:center;gap:8px}
+  .bar-cap{display:none}
+  .gstat{font-size:11.5px;color:var(--muted);white-space:nowrap}
   .gstat b{color:var(--ink);font-weight:600}
-  .gbar{flex:1;min-width:100px;height:6px;background:var(--line);border-radius:99px;overflow:hidden;display:flex}
-  .gbar>i{height:100%;background:var(--teal);width:0;transition:width .2s}
-  .gbar>i.r{background:var(--teal-mid)}
-  .btn{font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;
-       display:inline-flex;align-items:center;justify-content:center;touch-action:manipulation}
-  .btn:hover{border-color:var(--teal);color:var(--teal)}
-  .btn:active{transform:scale(.97)}
+  .btn{font-family:var(--sans);font-size:13px;font-weight:500;min-height:34px;padding:0 12px;border-radius:7px;
+       border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;
+       display:inline-flex;align-items:center;justify-content:center;gap:6px;touch-action:manipulation;
+       transition:border-color .15s,background .15s,color .15s}
+  .btn:hover{border-color:#C9CCD1;background:var(--hover)}
+  .btn:active{transform:scale(.98)}
   .btn.on{background:var(--teal);border-color:var(--teal);color:#fff}
-  /* 16px is not a style choice: any focused input below 16px makes iOS Safari zoom
-     the page in and never zoom back out. The filter is one of the most-tapped controls. */
-  input.q{font-family:var(--mono);font-size:16px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-width:130px;flex:1}
-  input.q:focus{outline:none;border-color:var(--teal)}
-  @media(min-width:1001px){ input.q{font-size:12.5px;padding:5px 10px} }
+  .btn.quiet{border-color:transparent;background:none;color:var(--muted);padding:0 8px}
+  .btn.quiet:hover{color:var(--ink);background:var(--hover)}
+  /* 16px is load-bearing: any focused input below 16px makes iOS Safari zoom in */
+  input.q{font-family:var(--sans);font-size:16px;min-height:34px;padding:0 11px;border-radius:7px;
+       border:1px solid var(--line);background:var(--panel);color:var(--ink);min-width:0;flex:1}
+  input.q::placeholder{color:var(--faint)}
+  input.q:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+  @media(min-width:1001px){ input.q{font-size:13.5px} }
 
   /* ---- sections ---- */
-  section{margin-top:44px;scroll-margin-top:110px}
-  .sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--divider);padding-bottom:11px;flex-wrap:wrap}
-  .sec-num{font-family:var(--mono);font-size:13px;color:var(--teal)}
-  h2{font-family:var(--disp);font-size:23px;font-weight:600;letter-spacing:-.018em}
-  .sec-meta{margin-left:auto;display:flex;align-items:center;gap:10px}
-  .pct{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
-  .pbar{width:110px;height:5px;background:var(--line);border-radius:99px;overflow:hidden;display:flex}
-  .pbar>i{height:100%;background:var(--teal);width:0;transition:width .2s}
+  section{margin-top:28px;scroll-margin-top:150px}
+  .sec-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:12px;
+            border-bottom:1px solid var(--line)}
+  .sec-num{font-size:13px;color:var(--faint)}
+  h2{font-size:22px;font-weight:650;letter-spacing:-.015em;line-height:1.25}
+  .sec-meta{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .pct{font-size:12px;color:var(--muted);white-space:nowrap}
+  .pbar{width:96px;height:4px;background:var(--line);border-radius:99px;overflow:hidden;display:flex}
+  .pbar>i{height:100%;background:var(--teal);width:0;transition:width .2s ease-out}
   .pbar>i.r{background:var(--teal-mid)}
-  .sec-note{color:var(--muted);font-size:14px;margin:12px 0 4px;max-width:760px}
-  .sec-note em{font-style:normal;color:var(--red);font-weight:500}
-  .sec-note code,.item code,.callout code,.grp-note code,.txt code,.meta code{font-family:var(--mono);font-size:12.5px;background:#EDF0EA;padding:1px 5px;border-radius:4px}
+  .sec-note{color:var(--muted);font-size:14.5px;margin:14px 0 0;max-width:72ch}
+  .sec-note b,.grp-note b{color:var(--ink);font-weight:600}
+  .sec-note em{font-style:normal;color:var(--ink);font-weight:600}
+  .sec-note code,.item code,.callout code,.grp-note code,.txt code,.meta code{
+       font-family:var(--mono);font-size:12.5px;background:#EEEFF1;padding:1px 5px;border-radius:4px}
 
-  .grp{margin-top:20px}
-  .grp-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
-  h3{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
-  .wt{font-family:var(--mono);font-size:11px;color:var(--red);background:var(--red-soft);padding:1px 7px;border-radius:4px}
-  .grp-note{color:var(--muted);font-size:13.5px;margin:4px 0 10px;max-width:760px}
-  ul.items{list-style:none}
-  /* Dense rows stay flat and tight: 18px radius and a drop shadow on every one
-     of 360 list items reads as clutter and costs paint time on a phone. */
-  li.item{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:6px}
-  li.item.done{background:#FAFBF8;border-color:#E9ECE5}
+  .grp{margin-top:32px}
+  .grp-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h3{font-size:15.5px;font-weight:650;color:var(--ink);letter-spacing:-.005em}
+  .wt{font-size:11.5px;font-weight:500;color:var(--red);background:var(--red-soft);padding:1px 7px;border-radius:4px}
+  .grp-note{color:var(--muted);font-size:13.5px;margin:4px 0 10px;max-width:72ch}
+  ul.items{list-style:none;border-top:1px solid var(--divider)}
+
+  /* ---- rows: flat, divided, no card per item ---- */
+  li.item{display:flex;gap:11px;align-items:flex-start;padding:12px 4px;border-bottom:1px solid var(--divider)}
+  li.item:hover{background:rgba(255,255,255,.6)}
   li.item.done .txt{color:var(--done);text-decoration:line-through;text-decoration-thickness:1px}
   li.item.hidden{display:none}
-  /* 44px hit area, 20px visible mark. The negative margins absorb the difference so
-     442 rows don't get taller. Applies to both the binary box and the tri-state control. */
+  /* a filtered-out group drops its header too, instead of leaving empty headings */
+  .grp:has(ul.items):not(:has(li.item:not(.hidden))){display:none}
+  /* 44px hit area, 20px visible mark; negative margins keep the row height */
   li.item input[type=checkbox],li.item .tri{
      flex:0 0 auto;width:44px;height:44px;margin:-11px 0 -11px -12px;padding:0;
      appearance:none;-webkit-appearance:none;border:0;background:none;cursor:pointer;
      position:relative;display:grid;place-items:center;touch-action:manipulation;
      -webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
   li.item input[type=checkbox]::before,li.item .glyph{
-     content:"";width:20px;height:20px;border:1.5px solid #BFC8BB;border-radius:6px;
+     content:"";width:20px;height:20px;border:1.5px solid #B9BEC5;border-radius:6px;
      background:#fff;position:relative;transition:background .12s,border-color .12s}
+  li.item input[type=checkbox]:hover::before,li.item .tri:hover .glyph{border-color:var(--teal)}
   li.item input[type=checkbox]:checked::before{background:var(--teal);border-color:var(--teal)}
   li.item input[type=checkbox]:checked::after{content:"";position:absolute;left:18.5px;top:14.5px;
      width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
   li.item input[type=checkbox]:active::before,li.item .tri:active .glyph{transform:scale(.9)}
+  li.item input[type=checkbox]:focus-visible,li.item .tri:focus-visible{outline:none}
   li.item input[type=checkbox]:focus-visible::before,li.item .tri:focus-visible .glyph{
      outline:2px solid var(--teal);outline-offset:3px}
-
-  /* ---- three-state confidence: unseen -> read -> can explain cold ----
-     State is on the <li> as data-s; every rule below descends from it.
-     The "read" glyph is half-FILLED, not merely a different colour, so the three
-     states stay distinguishable at arm's length and without colour vision. */
+  /* three states; "read" is half-filled so the states survive without colour vision */
   li.item[data-s="1"] .glyph{border-color:var(--teal-mid);
      background:linear-gradient(180deg,#fff 0 50%,var(--teal-mid) 50% 100%)}
   li.item[data-s="2"] .glyph{background:var(--teal);border-color:var(--teal)}
   li.item[data-s="2"] .glyph::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
      border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
-  /* the rail is what makes state readable while scrolling past, without looking at the glyph */
-  li.item[data-s="1"]{box-shadow:inset 3px 0 0 var(--teal-mid)}
-  li.item[data-s="2"]{box-shadow:inset 3px 0 0 var(--teal);background:#FAFBF8;border-color:#E9ECE5}
-  /* deliberately NOT line-through: striking out an item you have mastered reads as
-     "discarded". Muted plus the teal rail reads as "done with it". */
   li.item[data-s="2"] .txt{color:var(--done)}
 
-  .legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:12px 0 2px;
-     font-family:var(--mono);font-size:11px;color:var(--muted)}
-  .legend span{display:flex;gap:7px;align-items:center}
-  .legend i{width:15px;height:15px;border:1.5px solid #BFC8BB;border-radius:5px;background:#fff;flex:0 0 auto}
-  .legend i.r{border-color:var(--teal-mid);background:linear-gradient(180deg,#fff 0 50%,var(--teal-mid) 50% 100%)}
-  .legend i.c{background:var(--teal);border-color:var(--teal)}
   .body{flex:1;min-width:0}
   .txt,.meta,.sec-note,.grp-note,.callout,.lockbar{overflow-wrap:anywhere}
-  .txt{font-size:14.5px}
-  .meta{color:var(--muted);font-size:13px;margin-top:4px}
-  .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 6px;border-radius:4px;margin-left:7px;vertical-align:2px;white-space:nowrap}
+  .txt{font-size:15px;line-height:1.45}
+  .meta{color:var(--muted);font-size:13.5px;margin-top:3px}
+  .tag{font-size:10.5px;font-weight:600;letter-spacing:.03em;padding:1px 6px;border-radius:4px;
+       margin-left:7px;vertical-align:1px;white-space:nowrap}
   .tag.deep{background:var(--teal-soft);color:var(--teal)}
   .tag.trap{background:var(--amber-soft);color:var(--amber)}
   .tag.num{background:var(--red-soft);color:var(--red)}
-  .tag.no{background:#EFEFEF;color:#7A7A7A}
-  .freq{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:6px}
-  /* the source sits in braces directly after the point it teaches */
-  .src{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);
-       margin-left:6px;white-space:normal}
-  .src a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-soft)}
-  .src a:hover{border-bottom-color:var(--teal)}
+  .tag.no{background:#EEEFF1;color:var(--muted)}
+  .freq{font-size:11.5px;color:var(--faint);margin-left:6px}
+  .src{font-size:13px;color:var(--faint);margin-left:6px}
+  .src a,.cell a{color:var(--ink);text-decoration:underline;text-decoration-color:#C9CCD1;
+       text-decoration-thickness:1px;text-underline-offset:3px}
+  .src a:hover,.cell a:hover{color:var(--teal);text-decoration-color:var(--teal)}
 
   /* ---- Topic / Learn from / Practise with ----
-     A CSS grid, not a <table>, so it can collapse to stacked labelled cells on a
-     phone. The column maths is load-bearing: li.item is border 1 + padding 14,
-     and its control is 44px wide with a -12px left margin, so the body starts at
-     1+14-12+44+11 = 58px and the free space either side works out to W-95 for
-     both rows. .thead mirrors that with padding 15 and a 32px first column. */
+     Row maths: li padding-left 4, control 44 with -12 margin, gap 11, so the body
+     starts at 47px. .thead matches with padding 4 + a 32px first column + gap 11. */
   .thead{display:none}
-  /* repo paths and module names are long and unbroken; without this they punch
-     out of the column instead of wrapping */
-  .cell{font-size:12.5px;min-width:0;overflow-wrap:anywhere}
-  .cl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;
-     text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
-  .cell a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-soft)}
-  .cell a:hover{border-bottom-color:var(--teal)}
-  .cell .ev{margin-left:6px;font-family:var(--mono);font-size:10px;color:var(--muted);
-     border-bottom:1px dotted #B9C1B3;white-space:nowrap}
-  .cell .ev:hover{color:var(--ink);border-bottom-color:var(--muted)}
-  .cell .ev.weak{opacity:.6}
-  /* phone: stacked, each cell labelled and separated by a hairline */
-  .body.row .cell:not(.c-topic){margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
+  .cell{font-size:13px;line-height:1.45;color:var(--muted);min-width:0;overflow-wrap:anywhere}
+  .cell.c-topic{font-size:inherit;color:var(--ink)}
+  .cl{display:block;font-size:11px;font-weight:600;color:var(--faint);margin-bottom:2px}
+  .cell .ev{margin-left:6px;font-size:11.5px;color:var(--faint);text-decoration:underline dotted;
+       text-decoration-color:#B9BEC5;white-space:nowrap}
+  .cell .ev:hover{color:var(--ink)}
+  .cell .ev.weak{opacity:.7}
+  .body.row .cell:not(.c-topic){margin-top:8px}
   @media(min-width:860px){
     .thead{display:grid;grid-template-columns:32px minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);
-       gap:11px;padding:0 15px 7px;font-family:var(--mono);font-size:9.5px;
-       letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+       gap:11px;padding:0 4px 6px;font-size:11.5px;font-weight:600;color:var(--faint)}
     .body.row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);
        gap:11px;align-items:start}
-    .body.row .cell:not(.c-topic){margin-top:0;padding-top:0;border-top:0}
+    .body.row .cell:not(.c-topic){margin-top:2px}
     .body.row .cl{display:none}
   }
 
-  .callout{background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:13px 17px;margin:15px 0;font-size:14px}
-  .callout.warn{background:var(--amber-soft);border-color:var(--amber)}
+  .callout{background:var(--teal-soft);border-radius:var(--r);padding:12px 16px;margin:14px 0;font-size:14px}
+  .callout.warn{background:var(--amber-soft)}
   .locked{opacity:.62}
-  .lockbar{display:flex;gap:10px;align-items:center;background:#EFEFEA;border:1px dashed #C6CCC0;border-radius:9px;padding:11px 15px;margin:12px 0;font-size:13.5px;color:var(--muted)}
+  .lockbar{background:#EFF0F2;border-radius:var(--r);padding:11px 15px;margin:14px 0;font-size:13.5px;color:var(--muted)}
 
   /* ---- TODAY ---- */
-  #t00{margin-top:26px}
-  .today-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);
-               padding:19px 21px;margin-top:16px;box-shadow:var(--shadow)}
-  .today-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-  .today-date{font-family:var(--disp);font-size:18px;font-weight:700}
-  .today-cnt{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .today-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+               padding:16px 18px;margin-top:18px}
+  .today-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .today-date{font-size:16px;font-weight:650}
+  .today-cnt{font-size:12px;color:var(--muted)}
   .today-top .btn{margin-left:auto}
   .hist{display:flex;gap:4px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
-  .hist i{width:15px;height:15px;border-radius:4px;background:var(--line);display:block;position:relative}
+  .hist i{width:14px;height:14px;border-radius:3px;background:var(--line);display:block;position:relative}
   .hist i[data-p="1"]{background:#CFE0DA} .hist i[data-p="2"]{background:#8FC0B3}
   .hist i[data-p="3"]{background:#3F8E7C} .hist i[data-p="4"]{background:var(--teal)}
   .hist i.today{outline:2px solid var(--ink);outline-offset:1px}
-  .hist-lbl{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:8px}
+  .hist-lbl{font-size:11px;color:var(--faint);margin-top:7px}
   li.item.slot{align-items:center}
-  .time{font-family:var(--mono);font-size:11.5px;color:var(--teal);background:var(--teal-soft);
-        padding:2px 8px;border-radius:5px;flex:0 0 auto;white-space:nowrap;margin-top:1px}
-  .dur{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:7px}
-  li.item.brk{background:transparent;border-style:dashed}
-  li.item.brk .txt{color:var(--muted);font-size:13.5px}
+  .time{font-size:12px;color:var(--muted);flex:0 0 46px;white-space:nowrap;margin-top:1px}
+  li.item.brk .txt{color:var(--muted);font-size:14px}
+  li.item.brk .time{color:var(--faint)}
 
-  footer{margin-top:64px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px;font-family:var(--mono);line-height:1.8}
+  footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;line-height:1.7}
+  footer code{font-family:var(--mono);font-size:11.5px}
 
-  /* ---- home: one card per track, each carrying its own progress ---- */
-  .home-h{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
-          color:var(--muted);margin:42px 0 14px}
-  .grid{display:grid;grid-template-columns:1fr;gap:11px}
-  @media(min-width:680px){ .grid{grid-template-columns:1fr 1fr} }
-  @media(min-width:1180px){ .grid{grid-template-columns:1fr 1fr 1fr} }
-  a.tcard{display:block;text-decoration:none;color:var(--ink);background:var(--panel);
-          border:1px solid var(--line);border-radius:var(--r-card);padding:17px 19px;
-          box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
-  a.tcard:hover{transform:translateY(-2px);border-color:var(--ink-faint)}
-  a.tcard:active{transform:translateY(0)}
-  .tcard .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted)}
-  .tcard .t{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.012em;
-            line-height:1.25;margin-top:7px}
-  .tcard .s{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:11px}
-  .tcard .bar{display:flex;height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:7px}
-  .tcard .bar i{height:100%;width:0;background:var(--teal);transition:width .25s}
-  .tcard .bar i.r{background:var(--teal-mid)}
-  .back{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;
-        border-radius:99px;border:1px solid var(--line);background:var(--panel);
-        font-family:var(--mono);font-size:12px;color:var(--ink);text-decoration:none;margin:26px 0 4px}
-  .back:hover{border-color:var(--ink-faint)}
-  body.track .home-h,body.track .grid{display:none}
-  /* the section is focused on route() so screen readers announce the new view;
-     it should not paint a focus ring for a container nobody tabbed to */
   main > section:focus{outline:none}
-  body.home  .back{display:none}
 
-  /* ---- drawer footer: Data lives here, far from the filter controls ----
-     Restore one thumb-width from "Hide done" is asking for an accidental
-     overwrite of 442 items. */
-  .side-data{margin-top:18px;padding:14px 10px 0;border-top:1px solid var(--line)}
-  .side-data h4{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
-     color:var(--muted);font-weight:400;margin-bottom:9px}
-  .side-data .btn{width:100%;margin-bottom:7px;min-height:40px;justify-content:flex-start}
-  .side-data .note{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.6;margin-top:4px}
+  /* ---- drawer footer: Data and Sync, far from the filter controls ---- */
+  .side-data{margin-top:16px;padding:14px 10px 0;border-top:1px solid var(--divider)}
+  .side-data h4{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .side-data .btn{width:100%;margin-bottom:6px;justify-content:flex-start}
+  .side-data .note{font-size:11.5px;color:var(--faint);line-height:1.5;margin-top:2px}
   .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
-  .banner{border-radius:9px;padding:12px 15px;margin:14px 0;font-size:13.5px;display:flex;gap:12px;align-items:flex-start}
-  .banner.info{background:var(--teal-soft);border-left:3px solid var(--teal)}
-  .banner.warn{background:var(--amber-soft);border-left:3px solid var(--amber)}
+  .banner{border-radius:var(--r);padding:12px 15px;margin:14px 0;font-size:13.5px;display:flex;gap:12px;align-items:flex-start}
+  .banner.info{background:var(--teal-soft)}
+  .banner.warn{background:var(--amber-soft)}
   .banner .x{margin-left:auto;flex:0 0 auto;background:none;border:0;color:inherit;
      font-size:17px;cursor:pointer;line-height:1;padding:4px 6px;min-height:34px}
   .upd-pill{position:fixed;left:50%;transform:translateX(-50%);
      bottom:calc(18px + env(safe-area-inset-bottom));z-index:95;
-     font-family:var(--mono);font-size:12.5px;min-height:44px;padding:0 18px;border-radius:99px;
-     border:0;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(14,107,92,.35)}
+     font-family:var(--sans);font-size:13px;font-weight:500;min-height:44px;padding:0 18px;border-radius:99px;
+     border:0;background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(14,107,92,.28)}
 
   @media(max-width:1000px){
     body{padding-left:0}
-    aside{transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 0 30px rgba(24,34,46,.18)}
+    aside{transform:translateX(-100%);transition:transform .22s cubic-bezier(.16,1,.3,1);box-shadow:0 0 30px rgba(24,30,38,.16)}
     aside.open{transform:none}
-    .menu{display:inline-flex}
-    #find{display:inline-flex}
-    nav a{padding:11px 10px 14px}
+    .btn.menu{display:inline-flex}
+    .bar-cap{display:block;margin-top:7px}
+    nav a{padding:10px}
   }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{transition:none!important}
   }
   @media(max-width:640px){
-    .wrap{padding-left:max(14px,env(safe-area-inset-left));
-          padding-right:max(14px,env(safe-area-inset-right));
-          padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+    .wrap{padding-left:max(16px,env(safe-area-inset-left));
+          padding-right:max(16px,env(safe-area-inset-right));
+          padding-bottom:calc(80px + env(safe-area-inset-bottom))}
     .sec-meta{margin-left:0;width:100%}
     .pbar{flex:1;width:auto}
     li.item.slot{align-items:flex-start}
-    /* One row of chrome, not three. At 390px the old six-control flex row wrapped
-       to three rows and ate ~130px of a 667px viewport. */
-    .btn{min-height:44px;padding:0 13px}
-    /* one line of chrome: [☰] [bar] [🔍], with the numbers as a caption beneath */
-    .bar-row{gap:8px}
-    .menu{order:0} .gbar{order:1;min-width:60px} #find{order:2}
-    .gstat{order:3;flex-basis:100%;font-size:11px}
-    .bar-row2{display:none}
-    .bar-row2.on{display:flex}
-    /* 21 cells must fit one row inside the card's padding, or the strip reads as two weeks */
+    .btn,input.q{min-height:44px}
+    .btn.quiet{min-height:40px}
     .hist{gap:3px}
-    .hist i{width:12px;height:12px;border-radius:3px}
-    .sec-head .btn{min-height:36px}
-    header{padding:26px 0 18px}
-    .side-data .btn{min-height:44px}
+    .hist i{width:12px;height:12px}
+    h2{font-size:20px}
   }
 </style>
 </head>
@@ -339,26 +275,24 @@
 
 <aside id="side">
   <div class="side-h">
-    <div class="s">AI Engineer Tracker</div>
-    <div class="t">Daily routine + syllabus</div>
+    <div class="t">AI Engineer Tracker</div>
     <div class="p" id="sideStat">0 / 0 · 0%</div>
-    <span class="pbar"><i id="sideFill"></i><i class="r" id="sideFillR"></i></span>
   </div>
   <nav id="nav"></nav>
   <div class="side-data">
     <h4>Data</h4>
-    <button class="btn" id="exp">↓  Back up</button>
-    <button class="btn" id="cpy">⧉  Copy backup</button>
-    <button class="btn" id="imp">↑  Restore</button>
+    <button class="btn" id="exp">Back up</button>
+    <button class="btn" id="cpy">Copy backup</button>
+    <button class="btn" id="imp">Restore</button>
     <input type="file" id="restoreFile" class="vh"
            accept="application/json,.json,text/plain">
     <div class="note" id="bkNote">No backup yet.</div>
   </div>
   <div class="side-data" id="syncPanel" hidden>
     <h4>Sync</h4>
-    <button class="btn" id="syncNow">⟳  Sync now</button>
+    <button class="btn" id="syncNow">Sync now</button>
     <div class="note" id="syncNote">Not synced yet.</div>
-    <button class="btn" id="signout">⏻  Sign out</button>
+    <button class="btn" id="signout">Sign out</button>
   </div>
 </aside>
 <div id="scrim"></div>
@@ -366,29 +300,22 @@
 <div class="wrap">
 
 <header>
-  <div class="kicker">Daily routine · certification · syllabus · resources</div>
-  <h1>Do today's blocks. Learn the syllabus.<br>Sit the exam.</h1>
-  <p class="sub">One checklist that resets every morning, then the material it points at. Track 00 is the only thing you tick daily — everything below it is a syllabus you grade once and a resource library you keep.</p>
   <div class="legend">
     <span><i></i> not started</span>
     <span><i class="r"></i> read it</span>
     <span><i class="c"></i> can explain cold</span>
-    <span>tap an item to cycle</span>
+    <span>tap the box to cycle</span>
   </div>
 </header>
 
 <div class="bar">
   <div class="bar-row">
-    <button class="btn menu" id="menu" aria-label="Open navigation" aria-expanded="false">☰ Tracks</button>
-    <span class="gstat" id="gstat">0 / 0</span>
-    <span class="gbar"><i id="gfill"></i><i class="r" id="gfillR"></i></span>
-    <button class="btn" id="find" aria-label="Show filter" aria-expanded="false">🔍</button>
-  </div>
-  <div class="bar-row2" id="row2">
-    <button class="btn" id="tgl">Show: all</button>
-    <input class="q" id="q" placeholder="filter…" autocomplete="off"
+    <button class="btn menu" id="menu" aria-label="Open navigation" aria-expanded="false">Tracks</button>
+    <input class="q" id="q" placeholder="Filter items" aria-label="Filter items" autocomplete="off"
            autocorrect="off" autocapitalize="none" spellcheck="false">
+    <button class="btn" id="tgl">Show: all</button>
   </div>
+  <div class="bar-cap"><span class="gstat" id="gstat">0 / 0</span></div>
 </div>
 
 <div id="banners"></div>
@@ -396,11 +323,9 @@
 <main id="main"></main>
 
 <footer>
-  Today's boxes reset at midnight, local time. Syllabus grades persist.<br>
-  Cached in this browser (<code>mt.v3</code>, <code>mt.days.v2</code>) and synced to the database, so
-  every device sees the same progress. <b>The database is a second copy, not a backup</b> — it has the
-  same delete button as everything else, so keep taking the JSON one.<br>
-  Exam facts from the official Anthropic exam guides (CCAR-F v1.0, Jul 2026). Interview material from dated first-hand accounts, not listicles.
+  Today resets at midnight; syllabus grades persist. Progress lives in this browser
+  (<code>mt.v3</code>, <code>mt.days.v2</code>) and syncs to the database — a second copy, not a backup,
+  so keep taking the JSON one.
 </footer>
 </div>
 
@@ -581,15 +506,15 @@ const TRACKS = [
    ["Introduction to agent skills",null,null,"Anthropic Academy &middot; Introduction to agent skills - Configuration and multi-file skills, plus Skills vs other features|https://anthropic.skilljar.com/introduction-to-agent-skills","Build the course's skill with allowed-tools restricted. Pass = a disallowed tool call is refused inside the skill|https://anthropic.skilljar.com/introduction-to-agent-skills","https://anthropic.skilljar.com/introduction-to-agent-skills|advanced configuration options like restricting tool access with allowed-tools and using scripts that execute without consuming context"],
    ["Introduction to subagents",null,null,"Anthropic Academy &middot; Introduction to subagents - Designing effective subagents: structured output, obstacle reporting, tool limits|https://anthropic.skilljar.com/introduction-to-subagents","Build a reviewer subagent with a structured output contract. Pass = the parent context receives only the summary, not the exploration|https://anthropic.skilljar.com/introduction-to-subagents","https://anthropic.skilljar.com/introduction-to-subagents|They let you delegate tasks to isolated assistants that do their work separately and return just the information you need"],
    ["Building with the Claude API",null,null,"Anthropic Academy &middot; Building with the Claude API - the Tool use and Prompt evaluation sections only|https://anthropic.skilljar.com/claude-with-the-anthropic-api","Exercise on prompt evals, then the quiz. Pass = both quizzes passed. Skip the Temperature and Streaming lessons, they are out of scope|https://anthropic.skilljar.com/claude-with-the-anthropic-api","https://anthropic-partners.skilljar.com/page/claude-certified-architect-foundations-prep-courses|This comprehensive course covers the full spectrum of working with Anthropic models using the Claude API"],
-   ["These are <i>certificates of completion</i>, not certifications — don't conflate them","trap",null,"Partner Academy &sect; Certificates of completion and certifications - the distinction, stated officially|https://anthropic-partners.skilljar.com/page/certification-eligibility","Say out loud what goes on LinkedIn. Pass = only the Credly badge from a passed Pearson VUE exam, never a course certificate","https://anthropic-partners.skilljar.com/page/certification-eligibility|A Claude Academy certificate of completion records that you finished a course and passed its quiz. A Claude certification is a proctored exam"]]},
+   ["These are <i>certificates of completion</i>, not certifications — don't conflate them",null,"trap","Partner Academy &sect; Certificates of completion and certifications - the distinction, stated officially|https://anthropic-partners.skilljar.com/page/certification-eligibility","Say out loud what goes on LinkedIn. Pass = only the Credly badge from a passed Pearson VUE exam, never a course certificate","https://anthropic-partners.skilljar.com/page/certification-eligibility|A Claude Academy certificate of completion records that you finished a course and passed its quiz. A Claude certification is a proctored exam"]]},
 
   {t:"Explicitly out of scope — do not study", note:"Read once and mean it. The value here is the hours you do not spend — if you catch yourself studying one of these, stop.", items:[
-   ["❌ Fine-tuning · Claude's internal architecture, training or weights · Constitutional AI and RLHF methodology","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Delete these from your notes. Pass = nothing in your revision file mentions fine-tuning, weights, RLHF or Constitutional AI","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Fine-tuning Claude models or training custom models"],
-   ["❌ Embedding models and vector DB implementation · tokenization specifics · benchmarking and model comparison","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Skip every RAG and embeddings notebook in the cookbook. Pass = you open none of them while revising for this exam","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Embedding models or vector database implementation details"],
-   ["❌ Deploying or hosting MCP servers (infra, networking, containers) · cloud provider configuration","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Keep your MCP work local over stdio. Pass = you configure servers in .mcp.json and never containerise or deploy one","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Deploying or hosting MCP servers (infrastructure, networking, container orchestration)"],
-   ["❌ Computer use · vision and image analysis · streaming and SSE implementation","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Skip the Streaming and multimodal lessons in Building with the Claude API. Pass = you still pass that course's quizzes","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Computer use (browser automation, desktop interaction) / Vision/image analysis capabilities"],
-   ["❌ API auth, billing and account management · rate limits, quotas, pricing math · OAuth and key rotation","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Do not revise pricing tables. Pass = the only cost arithmetic you practise is the 4.5 batch SLA window, which IS in scope","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Rate limiting, quotas, or API pricing calculations / OAuth, API key rotation, or authentication protocol details"],
-   ["❌ Prompt caching implementation detail — know only that it exists","no",null,"Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Write one sentence on what prompt caching is for. Pass = you can say it, and then stop reading about it","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Prompt caching implementation details (beyond knowing it exists)"]]}
+   ["❌ Fine-tuning · Claude's internal architecture, training or weights · Constitutional AI and RLHF methodology",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Delete these from your notes. Pass = nothing in your revision file mentions fine-tuning, weights, RLHF or Constitutional AI","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Fine-tuning Claude models or training custom models"],
+   ["❌ Embedding models and vector DB implementation · tokenization specifics · benchmarking and model comparison",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Skip every RAG and embeddings notebook in the cookbook. Pass = you open none of them while revising for this exam","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Embedding models or vector database implementation details"],
+   ["❌ Deploying or hosting MCP servers (infra, networking, containers) · cloud provider configuration",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Keep your MCP work local over stdio. Pass = you configure servers in .mcp.json and never containerise or deploy one","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Deploying or hosting MCP servers (infrastructure, networking, container orchestration)"],
+   ["❌ Computer use · vision and image analysis · streaming and SSE implementation",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Skip the Streaming and multimodal lessons in Building with the Claude API. Pass = you still pass that course's quizzes","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Computer use (browser automation, desktop interaction) / Vision/image analysis capabilities"],
+   ["❌ API auth, billing and account management · rate limits, quotas, pricing math · OAuth and key rotation",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Do not revise pricing tables. Pass = the only cost arithmetic you practise is the 4.5 batch SLA window, which IS in scope","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Rate limiting, quotas, or API pricing calculations / OAuth, API key rotation, or authentication protocol details"],
+   ["❌ Prompt caching implementation detail — know only that it exists",null,"no","Exam guide &sect;17 Appendix - Out-of-Scope Topics, pp. 37-38, the official exclusion list|https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf","Write one sentence on what prompt caching is for. Pass = you can say it, and then stop reading about it","https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf|Prompt caching implementation details (beyond knowing it exists)"]]}
  ]},
 
 /* ================= 02 ================= */
@@ -711,7 +636,8 @@ const TRACKS = [
    ["<b>When is an agent the wrong solution?</b>","A workflow with fixed steps, a hard latency budget, or a task where a wrong action is expensive and irreversible. Have this answer crisp — it separates senior from mid","deep","Anthropic &middot; Building effective agents &sect; When (and when not) to use agents, plus When and how to use frameworks|https://www.anthropic.com/engineering/building-effective-agents","Take one shipped jobagent feature and rebuild it as a fixed workflow. Pass = you can state the latency, cost and accuracy deltas as numbers|https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents","https://www.anthropic.com/engineering/building-effective-agents|for many applications, optimizing single LLM calls with retrieval and in-context examples is usually enough"],
    ["Multi-agent coordination, and its honest cost","Anthropic's own multi-agent research system reports roughly 15× the token usage of chat. Quoting that tradeoff unprompted reads very well",null,"Anthropic &middot; How we built our multi-agent research system &sect; Benefits of a multi-agent system - the 90.2% win and the token cost|https://www.anthropic.com/engineering/multi-agent-research-system","Run the same brief single-agent and orchestrator-workers, logging tokens both ways. Pass = you can name your own multiplier|https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents","https://www.anthropic.com/engineering/multi-agent-research-system|agents typically use about 4x more tokens than chat interactions, and multi-agent systems use about 15x more tokens than chats"],
    ["Agent memory: scratchpads, summarisation, and what to persist between sessions",null,null,"Anthropic &middot; Effective context engineering &sect; long-horizon techniques - compaction, structured note-taking, sub-agents|https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents","Add a LangGraph checkpointer and resume a 12-step run from step 3. Pass = the next node reads the earlier decision out of graph state|https://docs.langchain.com/oss/python/langgraph/persistence","https://www.reddit.com/r/LangChain/comments/1wmafge/langgraph_vs_crewai_for_multiagent_handoffs_which/|I'd treat graph state as the canonical handoff record, not just natural language transcript."],
-   ["Context engineering as a named discipline","Take-home rubrics now allocate explicit weight to it — one published rubric gives it 25%",null,"Anthropic &middot; Effective context engineering &sect; Context engineering vs prompt engineering, and the attention-budget framing|https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents","Instrument one run's token split across system, tools, MCP and history. Pass = cut 30% with no accuracy drop on your eval|https://www.anthropic.com/engineering/code-execution-with-mcp","https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents|Context, therefore, must be treated as a finite resource with diminishing marginal returns."]]},
+   ["Context engineering as a named discipline","Take-home rubrics now allocate explicit weight to it — one published rubric gives it 25%",null,"Anthropic &middot; Effective context engineering &sect; Context engineering vs prompt engineering, and the attention-budget framing|https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents","Instrument one run's token split across system, tools, MCP and history. Pass = cut 30% with no accuracy drop on your eval|https://www.anthropic.com/engineering/code-execution-with-mcp","https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents|Context, therefore, must be treated as a finite resource with diminishing marginal returns."],
+   ["Dex Horthy on context engineering — The Pragmatic Engineer (Jul 2026, 93 min)", "The talk behind 12-Factor Agents. It gives you the words interviewers use when they ask how you keep an agent's context small", null, "YouTube &middot; The Pragmatic Engineer, Context engineering with Dex Horthy|https://www.youtube.com/watch?v=Usufn8IQJgw", "Write down the 5 context rules your own agent actually follows. Pass = each one maps to a moment in the talk|https://www.youtube.com/watch?v=Usufn8IQJgw", null]]},
   {t:"MCP, at spec depth", note:"Read the spec itself, then build the three-tool server in the same session. Your resume claims MCP; a hostile expert will ask about the control model and transports inside three minutes.", items:[
    ["<b>The primitive control model</b>","Tools are <i>model</i>-controlled · resources are <i>application</i>-controlled · prompts are <i>user</i>-controlled. That part still holds and is the first thing a knowledgeable interviewer probes. <b>Do not add the sampling/roots half</b> — as of spec 2026-07-28 both are Deprecated (SEP-2577) and servers can no longer initiate requests at all; they return an <code>InputRequiredResult</code> under Multi Round-Trip Requests instead","deep","MCP docs &middot; Understanding MCP servers &sect; Core Server Features - the who-controls-it table for tools / resources / prompts|https://modelcontextprotocol.io/docs/latest/learn/server-concepts","Expose the same data as a tool, a resource and a prompt on one server. Pass = you can say which of the three a client surfaces without the model asking|https://github.com/modelcontextprotocol/servers/tree/main/src/everything","https://modelcontextprotocol.io/specification/2026-07-28/changelog|Deprecate the Roots, Sampling, and Logging features ... new implementations should not add support for them"],
    ["Transports: stdio vs Streamable HTTP","“SSE is deprecated” was the 2025 trap. The 2026 one is bigger: <b>MCP is now stateless</b> — no <code>initialize</code> handshake, no <code>Mcp-Session-Id</code>, no SSE resumability, and a new mandatory <code>server/discover</code>. <em>Any tutorial that walks an initialize lifecycle is now wrong, not merely old</em>","trap","MCP spec &middot; Key Changes for 2026-07-28 - the stateless rewrite, then the stdio and Streamable HTTP bindings|https://modelcontextprotocol.io/specification/2026-07-28/changelog","Run one server over both bindings via Inspector CLI. Pass = tools/list succeeds on each with no Mcp-Session-Id anywhere|https://modelcontextprotocol.io/docs/latest/tools/inspector/cli","https://modelcontextprotocol.io/specification/2026-07-28/changelog|Make MCP stateless: remove the initialize/notifications/initialized handshake. Every request now carries its protocol version"],
@@ -720,11 +646,13 @@ const TRACKS = [
    ["Server configuration and scope: <code>.mcp.json</code> project scope vs user scope, and env-var expansion",null,null,"Claude Code MCP docs &sect; Environment variable expansion in .mcp.json, and the project/user/local scope precedence|https://code.claude.com/docs/en/mcp","Commit a .mcp.json using ${VAR:-default} and Bearer ${API_KEY}. Pass = an unset var gives a named warning and a credential var gives a 401|https://code.claude.com/docs/en/mcp","https://code.claude.com/docs/en/mcp|~Environment variables can be expanded in .mcp.json using ${VAR} and ${VAR:-default} syntax"],
    ["<b>MCP-specific attack classes</b>","Tool poisoning · rug pull · tool shadowing · confused deputy · indirect prompt injection through resource content · cross-tenant leakage","trap","Invariant Labs &middot; Tool poisoning attacks - where rug pull, tool shadowing and tool poisoning as terms actually come from|https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks","Hide an instruction in a tool description on your own server and connect it alongside a trusted one. Pass = you can show it overriding the trusted tool|https://modelcontextprotocol.io/docs/latest/tutorials/security/security_best_practices","https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks|a malicious server cannot only exfiltrate sensitive data from the user but also hijack the agent's behavior"],
    ["Build one: a 3-tool MCP server with one resource and one prompt, wired into a real client","Then draw the client↔server lifecycle from memory. This single exercise covers a large share of CCAR-F Domain 2","deep","MCP docs &middot; Build an MCP server, pinned to /docs/latest - the weather server, then the resources and prompts additions|https://modelcontextprotocol.io/docs/latest/develop/build-server","Build it, then verify headlessly: Inspector CLI --method tools/list, resources/list and prompts/get must all exit 0 before you wire a client|https://modelcontextprotocol.io/docs/latest/tools/inspector/cli","https://modelcontextprotocol.io/docs/latest/tools/inspector/cli|~Each CLI run connects to a server, invokes the single request you name with --method, prints the result, and exits."],
-   ["Debugging: why anything written to stdout corrupts a stdio server, and where logs must go instead",null,null,"MCP spec &middot; stdio binding - the server MUST NOT write anything to stdout that is not a valid MCP message; stderr is for logging|https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio","Add a stray print to a working stdio server, confirm the client breaks, move it to stderr. Pass = tools/list recovers with the log still visible|https://modelcontextprotocol.io/docs/latest/tools/debugging","https://www.reddit.com/r/mcp/comments/1wqqq3s/heads_up_if_a_stdio_mcp_server_suddenly_shows/|the server connects and the client shows it green with zero tools, so you go looking at your own config first"]]},
+   ["Debugging: why anything written to stdout corrupts a stdio server, and where logs must go instead",null,null,"MCP spec &middot; stdio binding - the server MUST NOT write anything to stdout that is not a valid MCP message; stderr is for logging|https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio","Add a stray print to a working stdio server, confirm the client breaks, move it to stderr. Pass = tools/list recovers with the log still visible|https://modelcontextprotocol.io/docs/latest/tools/debugging","https://www.reddit.com/r/mcp/comments/1wqqq3s/heads_up_if_a_stdio_mcp_server_suddenly_shows/|the server connects and the client shows it green with zero tools, so you go looking at your own config first"],
+   ["The 2026-07-28 extensions: <b>Tasks</b> (long-running work) and <b>MCP Apps</b> (server-rendered UI)", "The two additions most tutorials still miss. Know when a tool call should become a Task — the client polls for status instead of holding one request open — and what an App changes about where the UI lives", "trap", "MCP blog &middot; The 2026-07-28 Specification - stateless core, then the Tasks and MCP Apps extensions|https://blog.modelcontextprotocol.io/tags/protocol/", "Turn one slow tool on your AML server into a Task. Pass = the client polls status and no request times out|https://modelcontextprotocol.io/specification/2026-07-28/changelog", null]]},
   {t:"Safety and injection", note:"Attack your own server. Put an injection string in a document, retrieve it, watch what the agent does — then add the gate and watch it stop.", items:[
    ["Prompt injection — direct, and indirect via retrieved content or tool output","<b>The correct answer is architectural, not a better prompt.</b> Separate instructions from data, treat all tool output as untrusted, constrain what tools can do, and require confirmation for irreversible actions. Most candidates answer with prompt wording and lose the round there","trap","Simon Willison &middot; The lethal trifecta for AI agents - private data plus untrusted content plus external communication|https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/","Run AgentChaos against your own server twice, once with a working egress path and once without. Pass = you report both numbers separately|https://www.reddit.com/r/mcp/comments/1wfv39d/agentchaos_testing_prompt_injection_in_mcp_and/","https://www.reddit.com/r/mcp/comments/1wfv39d/agentchaos_testing_prompt_injection_in_mcp_and/|marking results untrusted by default is right, but on its own it mostly changes the prompt"],
    ["Sandboxing tool execution; least privilege; capability bloat",null,null,"MCP docs &middot; Local Server Security - what a stdio server actually inherits, and the client/server shared trust domain|https://modelcontextprotocol.io/docs/latest/tutorials/security/local-server-security","Audit your own client config, remove unused servers, pin every version. Pass = you can name each remaining server's origin and pinned version|https://modelcontextprotocol.io/docs/latest/tutorials/security/local-server-security","https://modelcontextprotocol.io/docs/latest/tutorials/security/local-server-security|That process inherits your environment variables, can read anything your account can read - SSH keys, cloud credentials, browser profiles"],
-   ["Human-in-the-loop gates for irreversible operations",null,null,"12-Factor Agents &sect; Factor 7 - deploy_backend as a high-stakes intent that breaks the loop and waits for approval|https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-07-contact-humans-with-tools.md","Add a LangGraph interrupt before one irreversible write and resume on approve. Pass = the deny path leaves zero side effects behind|https://docs.langchain.com/oss/python/langgraph/interrupts","https://modelcontextprotocol.io/specification/latest/server/tools|there SHOULD always be a human in the loop with the ability to deny tool invocations"]]},
+   ["Human-in-the-loop gates for irreversible operations",null,null,"12-Factor Agents &sect; Factor 7 - deploy_backend as a high-stakes intent that breaks the loop and waits for approval|https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-07-contact-humans-with-tools.md","Add a LangGraph interrupt before one irreversible write and resume on approve. Pass = the deny path leaves zero side effects behind|https://docs.langchain.com/oss/python/langgraph/interrupts","https://modelcontextprotocol.io/specification/latest/server/tools|there SHOULD always be a human in the loop with the ability to deny tool invocations"],
+   ["freeCodeCamp — MCP Security Fundamentals (22 Oct 2026, 2h10)", "A full walk-through of the attack classes in this track, run against real servers", null, "YouTube &middot; freeCodeCamp, MCP Security Fundamentals Course|https://www.youtube.com/watch?v=gYXLRMycVMk", "Reproduce one attack from the course on your own server, then add the gate. Pass = it works before the gate and is blocked after|https://www.youtube.com/watch?v=gYXLRMycVMk", null]]},
   {t:"Read these, in date order", note:"Date order is the point. This field moved fast, and anything predating Streamable HTTP and elicitation is actively misleading.", items:[
    ["Anthropic engineering — the five-post arc","Contextual Retrieval (Sep 2024) → Building Effective Agents (Dec 2024) → Effective Context Engineering (Sep 2025) → Code Execution with MCP (Nov 2025) → Demystifying Evals for AI Agents (Jan 2026). <em>Citing only the Dec 2024 post dates you</em>","trap","Anthropic &middot; Demystifying evals for AI agents (Jan 2026) - the task / trial / grader vocabulary, newest in the arc|https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents","Write 10 tasks with graders for one jobagent flow, 3 trials each. Pass = your pass rate moves under 10 points across repeat runs|https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents","https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents|A grader is logic that scores some aspect of the agent's performance. A task can have multiple graders"],
    ["<a href='https://modelcontextprotocol.io' target='_blank' rel='noopener'>modelcontextprotocol.io</a> — the spec itself","First-party, and cross-vendor adoption is the strongest possible evidence of standard status",null,"MCP spec &middot; Key Changes for 2026-07-28 - start here, not the Overview, which hides the breaking parts|https://modelcontextprotocol.io/specification/2026-07-28/changelog","Read the deprecated-features registry and list what your own servers still use. Pass = you can name each feature's migration path and earliest removal|https://modelcontextprotocol.io/specification/2026-07-28/deprecated","https://modelcontextprotocol.io/specification/2026-07-28/changelog|Remove protocol-level sessions and the Mcp-Session-Id header from the Streamable HTTP transport"],
@@ -762,7 +690,9 @@ const TRACKS = [
    ["<a href='https://eugeneyan.com/writing/llm-patterns/' target='_blank' rel='noopener'>Eugene Yan — Patterns for Building LLM-based Systems</a>","Seven patterns: evals, RAG, fine-tuning, caching, guardrails, defensive UX, collect feedback. Maps almost 1:1 onto a system-design deep dive",null,"Eugene Yan &middot; Patterns for Building LLM-based Systems - pattern 1 Evals: Why, More about, How to apply|https://eugeneyan.com/writing/llm-patterns/","Whiteboard all seven patterns from memory in 10 minutes. Pass = all 7 names, plus the 85% vs 81% judge-vs-human agreement figure|https://eugeneyan.com/writing/llm-patterns/","https://eugeneyan.com/writing/llm-patterns/|GPT-4 had higher agreement with humans (85%) than the humans had amongst themselves (81%)."],
    ["<a href='https://eugeneyan.com/writing/how-to-interview/' target='_blank' rel='noopener'>Eugene Yan — How to Interview and Hire ML/AI Engineers</a>","Read the interviewer's side to know what is being scored",null,"Eugene Yan, Jul 2024 &middot; What technical skills to consider, and Calibrating the phone screen for loop success|https://eugeneyan.com/writing/how-to-interview/","Score yourself 1-5 on each skill he names, then fix the lowest two. Pass = quote your own before and after on the weakest one|https://eugeneyan.com/writing/how-to-interview/","https://eugeneyan.com/writing/how-to-interview/|having a basic understanding of evals is key for anyone building ML-powered products."],
    ["Anthropic — Demystifying Evals for AI Agents",null,null,"Anthropic, 9 Jan 2026 &middot; Going from zero to one: a roadmap to great evals for agents - all three sub-steps|https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents","Rewrite your own eval docs in their task / trial / grader vocabulary. Pass = quote your task count, trials per task and grader mix|https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents","https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents|A task (a.k.a problem or test case) is a single test with defined inputs and success criteria."],
-   ["<a href='https://github.com/benchflow-ai/awesome-evals' target='_blank' rel='noopener'>benchflow-ai/awesome-evals</a>","Small but genuinely curated",null,"benchflow-ai/awesome-evals &middot; the 12-link Must-read starter set, then &sect;8 LLM-as-judge and &sect;9 agent evaluation|https://github.com/benchflow-ai/awesome-evals","Read the 12 starter links and write 150 words on each. Pass = quote how many you had already covered elsewhere in this track|https://github.com/benchflow-ai/awesome-evals","https://github.com/benchflow-ai/awesome-evals|~Must-read starter set (read these first)"]]}
+   ["<a href='https://github.com/benchflow-ai/awesome-evals' target='_blank' rel='noopener'>benchflow-ai/awesome-evals</a>","Small but genuinely curated",null,"benchflow-ai/awesome-evals &middot; the 12-link Must-read starter set, then &sect;8 LLM-as-judge and &sect;9 agent evaluation|https://github.com/benchflow-ai/awesome-evals","Read the 12 starter links and write 150 words on each. Pass = quote how many you had already covered elsewhere in this track|https://github.com/benchflow-ai/awesome-evals","https://github.com/benchflow-ai/awesome-evals|~Must-read starter set (read these first)"],
+   ["⭐ <b>Evals for AI Engineers</b> — Shreya Shankar &amp; Hamel Husain, O'Reilly, Oct 2026", "The FAQ in book form, and it is out now. Ch 3 error analysis (open → axial coding), Ch 5 judge validation, Ch 7 RAG evals, Ch 8 tool-use and agent evals, Ch 9 CI regression — the same order as the harness you build in this track", "deep", "O'Reilly &middot; Evals for AI Engineers - Ch 3, then Ch 5, then Ch 7 and 8|https://www.oreilly.com/library/view/evals-for-ai/9798341660717/", "Run Ch 3's open and axial coding on 50 of your own AML traces before you read Ch 5. Pass = a failure taxonomy of 5–8 modes, each with a count|https://www.oreilly.com/library/view/evals-for-ai/9798341660717/", null],
+   ["Gaurav Sen — AI Interview Questions #4: Evals (Aug 2026, 11 min)", "How the evals question is actually asked, and what a strong answer names", null, "YouTube &middot; Gaurav Sen, AI Interview Questions #4 - Evals in AI|https://www.youtube.com/watch?v=dzVogKf9jIM", "Pause at each question and answer out loud for 90 seconds before he does. Pass = you named error analysis before metrics every time|https://www.youtube.com/watch?v=dzVogKf9jIM", null]]}
  ]},
 
 /* ================= 07 ================= */
@@ -776,7 +706,8 @@ const TRACKS = [
    ["Speculative decoding — a draft model proposes, the target verifies",null,null,"Leviathan, Kalman and Matias &middot; Fast Inference from Transformers via Speculative Decoding - &sect;2 and Algorithm 1|https://arxiv.org/abs/2211.17192","Serve with --speculative-config, logging acceptance rate and tok/s vs baseline. Pass = greedy output is token-identical AND you quote the accept rate|https://www.reddit.com/r/LocalLLaMA/comments/1uyg3za/i_tested_all_llamacpps_speculative_decoding/","https://www.reddit.com/r/LocalLLaMA/comments/1sf57nh/serving_1b_tokensday_locally_in_my_research_lab/|Speculative decoding for GPT-OSS-120B gave ~150 tok/s - the draft model overhead killed it for this setup"],
    ["GQA and MQA — sharing key/value heads to shrink the cache",null,null,"Ainslie et al. &middot; GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints, &sect;2 and &sect;3|https://arxiv.org/abs/2305.13245","Compute KV bytes/token from config.json (layers x kv_heads x head_dim x 2 x dtype) for an MHA and a GQA model. Pass = within 10% of vLLM's reported blocks|https://handbook.modular.com/getting-started/calculating-gpu-memory-for-llms","https://www.reddit.com/r/LocalLLaMA/comments/1sf57nh/serving_1b_tokensday_locally_in_my_research_lab/|~With 65 GB taken by the model we have 50GB for KV cache. This allows several million tokens"],
    ["Quantization for serving: the size, speed and accuracy triangle",null,null,"Stanford CS336 Spring 2026 L10 &middot; the Quantization and pruning chapter at 1:04:29|https://www.youtube.com/watch?v=EfM546A79aM","Serve the same model at BF16, FP8 and NVFP4, recording tok/s, VRAM and score on a fixed eval. Pass = all three columns, and you defend the pick|https://www.reddit.com/r/LocalLLaMA/comments/1uo32yw/qwen_36_27b_vllm_performance_benchmark_results/","https://www.reddit.com/r/LocalLLaMA/comments/1uo32yw/qwen_36_27b_vllm_performance_benchmark_results/|NVFP4 dominates token generation speed (~2.6x faster than BF16): Because token decoding is strictly memory-bandwidth bound"],
-   ["Prefill vs decode: why they have completely different bottlenecks","Prefill is compute-bound, decode is memory-bandwidth-bound. Saying that unprompted is a strong signal","deep","Stanford CS336 Spring 2026 L10 &middot; Arithmetic intensity analysis at 14:23, then Performance bottlenecks at 25:08|https://www.youtube.com/watch?v=EfM546A79aM","Plot TTFT vs input length at batch 1, then ITL vs batch size at fixed length. Pass = TTFT scales with prompt tokens while ITL stays flat until bandwidth saturates|https://handbook.modular.com/inference-optimization/prefill-decode-disaggregation","https://www.reddit.com/r/LocalLLaMA/comments/1uo32yw/qwen_36_27b_vllm_performance_benchmark_results/|Because token decoding is strictly memory-bandwidth bound, compressing weights to 4-bit dramatically slashes PCIe/VRAM data transfers"]]},
+   ["Prefill vs decode: why they have completely different bottlenecks","Prefill is compute-bound, decode is memory-bandwidth-bound. Saying that unprompted is a strong signal","deep","Stanford CS336 Spring 2026 L10 &middot; Arithmetic intensity analysis at 14:23, then Performance bottlenecks at 25:08|https://www.youtube.com/watch?v=EfM546A79aM","Plot TTFT vs input length at batch 1, then ITL vs batch size at fixed length. Pass = TTFT scales with prompt tokens while ITL stays flat until bandwidth saturates|https://handbook.modular.com/inference-optimization/prefill-decode-disaggregation","https://www.reddit.com/r/LocalLLaMA/comments/1uo32yw/qwen_36_27b_vllm_performance_benchmark_results/|Because token decoding is strictly memory-bandwidth bound, compressing weights to 4-bit dramatically slashes PCIe/VRAM data transfers"],
+   ["Mark Moyou — Mastering LLM Inference Optimization (AI Engineer conference, 34 min)", "Prefill vs decode, batching, quantisation and the cost curve. This is the mechanism-level backing for any latency or cost number on your resume", null, "YouTube &middot; AI Engineer, Mastering LLM Inference Optimization - Mark Moyou|https://www.youtube.com/watch?v=9tvJ_GYJA-o", "Retell your −40% latency story naming which of his mechanisms it used and what each one cost. Pass = 25 seconds, two mechanisms, one trade-off|https://www.youtube.com/watch?v=9tvJ_GYJA-o", null]]},
   {t:"Making it cheaper", note:"The 1M-queries question is near-guaranteed. Do the arithmetic out loud on paper until tokens to dollars to p95 is automatic; the interviewer is listening for whether your numbers are real.", items:[
    ["<b>“1M queries a day — cut the cost”</b> <span class='freq'>[near-guaranteed]</span>","The ordered answer: measure where tokens actually go → cut prompt size and context → prompt caching → semantic caching → model tiering and routing → batch what isn't interactive → only then consider fine-tuning a smaller model","deep","Anthropic docs &middot; Optimizing for cost and intelligence - cut spend without losing quality, then trade cost against intelligence|https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence","Pull 30 days from the Usage and Cost Admin API grouped by model, then write before/after $/day for each lever. Pass = both totals are real numbers|https://platform.claude.com/docs/en/manage-claude/usage-cost-api","https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence|The multi-model strategies exist to spend frontier intelligence on that tail without paying frontier rates for the rest"],
    ["Prompt caching vs semantic caching — different mechanisms, different failure modes",null,null,"Anthropic prompt caching docs &middot; What invalidates the cache, and Tracking cache performance - the tools, system, messages hierarchy|https://platform.claude.com/docs/en/build-with-claude/prompt-caching","Report cache_read_input_tokens over total input for a day, then add a semantic cache and report hit rate AND false-hit rate. Pass = both numbers|https://docs.litellm.ai/docs/proxy/caching","https://platform.claude.com/docs/en/build-with-claude/prompt-caching|Cache prefixes are created in the following order: tools, system, then messages. This order forms a hierarchy"],
@@ -842,7 +773,7 @@ const TRACKS = [
   {t:"How it is scored", note:"Score yourself against these four after every rep, before looking at any reference. Expect 40–50 out of 100 early; that is the correct early score, not a failure.", items:[
    ["The four patterns every prompt maps to","Grounding and retrieval · feedback and reinforcement loops · hallucination mitigation · scalability and cost. Recognising which one you're in tells you where the deep dive should go",null,"Anthropic &middot; Building effective agents - Building blocks, workflows and agents, plus When not to use agents|https://www.anthropic.com/engineering/building-effective-agents","Label each of your 13 reps with one line: which pattern, therefore where the deep dive goes. Pass = all 13 labelled before the loop","https://www.anthropic.com/engineering/building-effective-agents|we recommend finding the simplest solution possible"],
    ["Senior signal: reasoning under uncertainty, tradeoff fluency, communication clarity","The actual skill under test is keeping a system predictable when the component at its centre is not",null,"Hello Interview &middot; What is Expected at Each Level - the Senior row: breadth, depth, proactiveness|https://www.hellointerview.com/blog/the-system-design-interview-what-is-expected-at-each-level","Score every rep 0-10 on breadth, depth and proactiveness before any lookup. Pass = depth 8+ in exactly 2 places, not 5|https://www.hellointerview.com/blog/the-system-design-interview-what-is-expected-at-each-level","https://www.hellointerview.com/blog/the-system-design-interview-what-is-expected-at-each-level|I want to see you go deep in around 2 places, demonstrating this practical experience."],
-   ["Cost and latency arithmetic out loud, in every rep","num",null,"Hello Interview &middot; Mastering Estimation - How to Estimate Like an Engineer, and Facts to Know|https://www.hellointerview.com/blog/mastering-estimation","Every rep ends with $/1k requests and p95 TTFT said aloud. Pass = both spoken before minute 10, not at the end|https://www.hellointerview.com/blog/mastering-estimation","https://www.hellointerview.com/blog/mastering-estimation|Candidates who proactively estimate seem more experienced and senior than those that don't."],
+   ["Cost and latency arithmetic out loud, in every rep",null,"num","Hello Interview &middot; Mastering Estimation - How to Estimate Like an Engineer, and Facts to Know|https://www.hellointerview.com/blog/mastering-estimation","Every rep ends with $/1k requests and p95 TTFT said aloud. Pass = both spoken before minute 10, not at the end|https://www.hellointerview.com/blog/mastering-estimation","https://www.hellointerview.com/blog/mastering-estimation|Candidates who proactively estimate seem more experienced and senior than those that don't."],
    ["❌ The documented mistakes","Jumping to a solution before clarifying · treating the model as a source of truth instead of grounding it · designing only the happy path · <b>naming tools instead of explaining mechanisms</b> · ignoring token budgets · ignoring prompt injection and unsafe tool execution · <b>putting control flow in prompts instead of the orchestrator</b> · choosing agents because they're interesting","no","Hello Interview &middot; Over-engineering is getting you down-levelled - First, simplify where possible|https://www.hellointerview.com/blog/over-engineering-is-getting-you-down-levelled","Watch each recording at 1.5x with the mistake list on screen. Pass = zero hits on jumping-to-solution and zero on naming-a-tool-without-a-mechanism|https://huyenchip.com/2024/07/25/genai-platform.html","https://www.hellointerview.com/blog/over-engineering-is-getting-you-down-levelled|One of the most common ways to get down-levelled in system design interviews is to over-engineer."]]},
   {t:"Read these — your interviewer has", note:"Your interviewer has read these. Evidently’s case studies are for breadth — skim the ones matching your target company’s domain the week of the loop.", items:[
    ["<a href='https://huyenchip.com/2024/07/25/genai-platform.html' target='_blank' rel='noopener'>Chip Huyen — Building a Generative AI Platform</a>","The canonical architecture and the mental model most interviewers grade against. Read it first","deep","Chip Huyen &middot; Building A Generative AI Platform - steps 1-5: context, guardrails, router/gateway, cache, write actions|https://huyenchip.com/2024/07/25/genai-platform.html","Redraw all five steps from memory in 15 min, twice a week. Pass = every component in the final figure, in build order|https://huyenchip.com/2024/07/25/genai-platform.html","https://huyenchip.com/2024/07/25/genai-platform.html|The order discussed in this post is common, though you don't need to follow the exact same order."],
@@ -865,50 +796,57 @@ const TRACKS = [
   {t:"The practical LLM-API coding round — the modal round", note:"The modal round, so rehearse the whole thing: 60 minutes, real API, working output at the end. Practise narrating cost implications while you type — that narration is itself scored.", items:[
    ["What it is: build a small working thing against a real LLM API, in 60 minutes to 3 days","It has largely replaced LeetCode at AI-first companies",null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
    ["Graded on clean, extensible structure — <b>not</b> on algorithms","One company states this explicitly in its own process write-up",null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
-   ["Bounded concurrency, retry with backoff, timeouts, and which status codes to retry","deep",null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
+   ["Bounded concurrency, retry with backoff, timeouts, and which status codes to retry",null,"deep","openai-cookbook|https://github.com/openai/openai-cookbook"],
    ["Streaming: SSE, partial-JSON accumulation, time to first token",null,null,"openai-cookbook|https://github.com/openai/openai-cookbook"],
    ["Say the cost implications out loud while you code",null,null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
    ["Real tasks that have been given: parse a flaky API with fallbacks · build a voice-activity detector from scratch in 2.5h · parse complex JSON then summarise via an LLM in 30 min · optimise a FastAPI endpoint with an unfamiliar driver",null,null,"ai-engineering-field-guide|https://github.com/alexeygrigorev/ai-engineering-field-guide"]]},
   {t:"The progressive OOP round — the lab replacement for LeetCode", note:"Run full four-level sessions under a 90-minute timer. Practise the extension, not the first implementation: level 1 is not where you are judged, and level 3 is only as hard as your level 1 design was careless.", items:[
    ["Format: a toy system built level by level over 60 minutes","In-memory KV store, an in-memory SQL-like DB, a credits system with expiry rules, LRU cache, rate limiter, circuit breaker",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
-   ["<b>Solve level 1 fast and clean — level 4 is where they actually judge you</b>","trap",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
+   ["<b>Solve level 1 fast and clean — level 4 is where they actually judge you</b>",null,"trap","field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"],
    ["Practise the extension, not just the first implementation","Most people drill LRU once and never practise being asked to add TTL, then transactions, then nesting",null,"field-guide → interview/questions/02-coding.md|https://github.com/alexeygrigorev/ai-engineering-field-guide"]]},
   {t:"The debugging / code-review round", note:"Plant three bugs in an unfamiliar repo a week earlier, so you have genuinely forgotten them, then fix them on camera narrating the diagnostic before the fix.", items:[
    ["Formats seen: find and fix planted bugs in a small unfamiliar codebase · review a colleague's draft PR · a dedicated code-review interview",null,null,"interviewing.io blog|https://interviewing.io/blog"],
-   ["<b>Say the diagnostic before the fix.</b> Candidates fail this round by guessing fixes","trap",null,"interviewing.io blog|https://interviewing.io/blog"],
+   ["<b>Say the diagnostic before the fix.</b> Candidates fail this round by guessing fixes",null,"trap","interviewing.io blog|https://interviewing.io/blog"],
    ["Practise it: clone an unfamiliar repo, plant three bugs a week earlier, fix them cold in 45 minutes","Nothing off-the-shelf rehearses this format",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"The take-home", note:"Build the reusable skeleton before you start applying — eval harness, README, cost table, retries, one test that validates model output. Then a real take-home becomes assembly rather than invention.", items:[
-   ["<b>Start with the eval harness.</b> Not starting with evals is documented red flag #1","deep",null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
+   ["<b>Start with the eval harness.</b> Not starting with evals is documented red flag #1",null,"deep","anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
    ["README stating tradeoffs <i>and the alternatives you rejected</i>",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
    ["A cost and latency table",null,null,"ray-project/llm-numbers|https://github.com/ray-project/llm-numbers"],
    ["Real error handling, retries, and a test that validates the model output",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
    ["A short recorded walkthrough — repeatedly cited as a differentiator",null,null,"anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
    ["Build a reusable skeleton before you start applying","Retrieval + reranking + citations + eval harness + Docker + README. Then each take-home is a few hours of customisation rather than a fortnight","deep","anthropics/original_performance_takehome|https://github.com/anthropics/original_performance_takehome"],
-   ["Scope discipline: advertised 2–4 hours routinely means 2× that. Refuse anything over ~4h offered before a human conversation","trap",null,"interviewing.io blog|https://interviewing.io/blog"]]},
+   ["Scope discipline: advertised 2–4 hours routinely means 2× that. Refuse anything over ~4h offered before a human conversation",null,"trap","interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"The project deep dive — the most-failed round", note:"The most-failed round, so over-rehearse it. Whiteboard each architecture from memory in three minutes, recorded, and have the ‘what breaks at 100×’ answer ready before anyone asks for it.", items:[
-   ["Be able to reproduce your architecture on a whiteboard in three minutes",null,null,"Exponent Practice|https://www.tryexponent.com/practice"],
-   ["Three decisions you can defend <b>with the alternative you rejected</b>","“I chose X” is junior. “I chose X over Y because our constraint was Z, and here's what it cost us” is senior","deep","Exponent Practice|https://www.tryexponent.com/practice"],
-   ["Two real failures and what they cost",null,null,"Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Be able to reproduce your architecture on a whiteboard in three minutes",null,null,"Aced Practice (formerly Exponent)|https://www.aced.io/practice"],
+   ["Three decisions you can defend <b>with the alternative you rejected</b>","“I chose X” is junior. “I chose X over Y because our constraint was Z, and here's what it cost us” is senior","deep","Aced Practice (formerly Exponent)|https://www.aced.io/practice"],
+   ["Two real failures and what they cost",null,null,"Aced Practice (formerly Exponent)|https://www.aced.io/practice"],
    ["The “what breaks at 100×” answer",null,null,"Evidently — 800 ML system design cases|https://www.evidentlyai.com/ml-system-design"],
-   ["<b>Say “I” not “we”, and be specific about what you personally built</b>","Vague team-level narration is the single most cited reason this round fails","trap","Exponent Practice|https://www.tryexponent.com/practice"],
+   ["<b>Say “I” not “we”, and be specific about what you personally built</b>","Vague team-level narration is the single most cited reason this round fails","trap","Aced Practice (formerly Exponent)|https://www.aced.io/practice"],
    ["Honesty beats bluffing, with evidence","Multiple hired candidates report saying plainly that they didn't know something, or hadn't used a tool before, and being selected anyway on clarity of thought",null,"interviewing.io blog|https://interviewing.io/blog"]]},
   {t:"AI-assisted coding — new, growing, and bimodal", note:"Ask which regime applies, then practise that one. Record yourself decomposing, delegating, verifying and integrating — and catching the model’s mistakes out loud, because catching them is the signal.", items:[
    ["<b>Ask the recruiter which regime applies, per round</b>","Some companies now supply models in the editor and grade how you verify their output; others prohibit AI outright and call it grounds for disqualification; at least one allows it in round 1 and bans it in round 2. There is no default","trap","Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"],
-   ["What is graded: decompose → delegate → <b>verify</b> → integrate. Not typing speed","deep",null,"Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
+   ["What is graded: decompose → delegate → <b>verify</b> → integrate. Not typing speed",null,"deep","Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
    ["The problems are tuned so the model can't solve them alone","Blind prompting hits a dead end and you must defend every line",null,"Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
    ["Practise narrating out loud, including the catches","“The model generated raw SQL here — I'm parameterising it”",null,"METR — AI and experienced-dev productivity|https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/"],
-   ["❌ Never use an AI interview copilot","Roughly a third of surveyed FAANG interviewers have caught suspected AI cheating and some run detection software. It is a permanent-blacklist event","no","Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"]]},
+   ["❌ Never use an AI interview copilot","Roughly a third of surveyed FAANG interviewers have caught suspected AI cheating and some run detection software. It is a permanent-blacklist event","no","Anthropic — candidate AI guidance|https://www.anthropic.com/candidate-ai-guidance"],
+   ["⭐ Watch: <a href='https://www.youtube.com/watch?v=A1kX8fJx53c' target='_blank' rel='noopener'>Hello Interview — AI Coding Interview with a Meta Staff Engineer</a> (May 2026, 53 min)", "The best single walkthrough of this round. Read their written guide first, then watch the video", "deep", "Hello Interview — Meta's AI-enabled coding round|https://www.hellointerview.com/blog/meta-ai-enabled-coding"],
+   ["Watch: <a href='https://www.youtube.com/watch?v=ZE_YEn-okfk' target='_blank' rel='noopener'>Aced — AI Coding Mock Interview with a senior FAANG engineer</a> (Dec 2025, 36 min)", "A second full mock. Pause before each prompt the candidate writes and say yours first", null, "Aced (formerly Exponent)|https://www.aced.io/practice"],
+   ["Where it is reported now: Meta, Microsoft, Amazon (online assessment), Stripe (“AI Programming Exercise”, Jun 2026)", "First-hand Reddit threads, Oct 2025 to Jun 2026. Add one narrated AI-assisted rep a week to block D, and keep the other drills AI-free", null, "r/leetcode — Microsoft SDE2 AI-assisted round, Apr 2026|https://www.reddit.com/r/leetcode/comments/1sfgtu3/ai_assisted_coding_interview_experience_microsoft/"]]},
   {t:"The rest of the loop", note:"Rehearse the recruiter screen and the story bank out loud. These are the cheapest marginal points anywhere in the process and the most commonly skipped.", items:[
-   ["Recruiter screen: one comp number rather than a range; raise location and visa constraints in round 1, before investing four weeks","trap",null,"interviewing.io blog|https://interviewing.io/blog"],
-   ["Behavioural: a bank of stories, each with a 60-second and a 4-minute version","The two most commonly missing: a failure with a named cost, and a disagreement you lost and then committed to",null,"Exponent Practice|https://www.tryexponent.com/practice"],
+   ["Recruiter screen: one comp number rather than a range; raise location and visa constraints in round 1, before investing four weeks",null,"trap","interviewing.io blog|https://interviewing.io/blog"],
+   ["Behavioural: a bank of stories, each with a 60-second and a 4-minute version","The two most commonly missing: a failure with a named cost, and a disagreement you lost and then committed to",null,"Aced Practice (formerly Exponent)|https://www.aced.io/practice"],
    ["Customer / discovery round (common for forward-deployed and applied roles)","<b>Rule: no solution until you have asked five questions.</b> The documented failure mode is pitching instead of investigating","trap","Sierra — the AI-native interview|https://sierra.ai/blog/the-ai-native-interview"],
-   ["Read the company's own engineering blog and its interview reviews the week before the loop","Free, specific, and almost nobody does it",null,"interviewing.io blog|https://interviewing.io/blog"]]},
+   ["Read the company's own engineering blog and its interview reviews the week before the loop","Free, specific, and almost nobody does it",null,"interviewing.io blog|https://interviewing.io/blog"],
+   ["Anthropic's loop from the outside: Aced's process and culture-fit videos (Nov–Dec 2025, about 15 min in total)", "The values round is where most post-onsite rejections happen. Watch both before any Anthropic screen, then the <a href='https://www.youtube.com/watch?v=fRVfozP5Ryc' target='_blank' rel='noopener'>culture-fit</a> one again the night before", null, "Aced — Anthropic SWE interview process|https://www.youtube.com/watch?v=6Dx2EOh53VQ"]]},
   {t:"The best free question banks", note:"Work the field guide end to end — every question in it carries a footnote to where it was actually asked. The rest are supplementary.", items:[
-   ["⭐ <a href='https://github.com/alexeygrigorev/ai-engineering-field-guide' target='_blank' rel='noopener'>alexeygrigorev/ai-engineering-field-guide</a>","The best artifact in this space. 1,765 job descriptions analysed, 100+ real candidate take-home repos, hundreds of sourced threads — and <b>every question carries a footnote to where it was actually asked</b>. Its six question files are about 1,000 lines total; read them end to end","deep"],
+   ["⭐ <a href='https://github.com/alexeygrigorev/ai-engineering-field-guide' target='_blank' rel='noopener'>alexeygrigorev/ai-engineering-field-guide</a>","The best artifact in this space. 6,964 job descriptions analysed (Jan–Aug 2026, updated 29 Sep), 100+ real candidate take-home repos, hundreds of sourced threads — and <b>every question carries a footnote to where it was actually asked</b>. Its six question files are about 1,000 lines total; read them end to end","deep"],
    ["<a href='https://github.com/ombharatiya/ai-system-design-guide' target='_blank' rel='noopener'>ombharatiya/ai-system-design-guide</a>","Living document on production AI system design and evals"],
    ["<a href='https://github.com/alirezadir/AIMLInterviews' target='_blank' rel='noopener'>alirezadir/AIMLInterviews</a>","Renamed from Machine-Learning-Interviews, which is why older links 404. Actively maintained and now covers GenAI"],
    ["<a href='https://github.com/anthropics/original_performance_takehome' target='_blank' rel='noopener'>anthropics/original_performance_takehome</a>","A company's actual take-home, published by the company because the model beat it"],
-   ["❌ Repos to skip","A popular LLM-questions repo (~1.9k★) is a lead-gen funnel with paywalled answers and zero attribution. A once-excellent ML-interview repo (~12.7k★) has not been touched since 2023 and is entirely pre-GenAI. Several “N interview questions” networks are formulaic SEO. <b>Star count is not currency</b>","no"]]}
+   ["❌ Repos to skip","A popular LLM-questions repo (~1.9k★) is a lead-gen funnel with paywalled answers and zero attribution. A once-excellent ML-interview repo (~12.7k★) has not been touched since 2023 and is entirely pre-GenAI. Several “N interview questions” networks are formulaic SEO. <b>Star count is not currency</b>","no"],
+   ["<a href='https://x.com/suraj_sharma14/status/2109864205251993874' target='_blank' rel='noopener'>Suraj Sharma — 25 AI engineer practice problems</a> (X, 13 Oct 2026)", "A coverage checklist, not a study source. Most are already in tracks 04–09. The ones to check: a semantic cache with hit-rate tracking, cheap/smart model routing, rolling back a bad prompt change, SSE disconnects, PII redaction"],
+   ["<a href='https://x.com/kris_aieng/status/2083237800326189270' target='_blank' rel='noopener'>A real AI Engineer screen, question by question</a> (X, 31 Jul 2026)", "Project architecture → vector DB internals → chunking → document parsing → self-attention → LoRA vs full fine-tuning → RAG eval → chain vs agent → hallucinations → precision@k. Run it as a 45-minute mock"],
+   ["<a href='https://www.youtube.com/watch?v=O-kuHMOdjX4' target='_blank' rel='noopener'>Think in Models — Inside a Real AI Engineer Interview</a> (YouTube, Apr 2026)", "A full mock with the evaluation afterwards. Watch it for the format, not the answers. The same channel's <a href='https://www.youtube.com/watch?v=icd5KdbtwxM' target='_blank' rel='noopener'>“What do they ask in an AI System Design Interview?”</a> (Jul 2026) covers the design round"]]}
  ]},
 
 /* ================= 12 ================= */
@@ -921,7 +859,8 @@ const TRACKS = [
    ["<b>Hands-On Large Language Models</b> — Alammar & Grootendorst","Bought for one purpose: the diagrams you redraw from memory. <i>Alammar teaches you to explain it; Raschka teaches you to build it</i>"],
    ["<b>Generative AI System Design Interview</b> — Aminian, Sheng, Xu","Chapters 1–4 and 6 only. The only book-form GenAI system-design framework that exists"],
    ["<b>Grokking Algorithms, 2nd ed.</b> — Bhargava","Only if algorithms are genuinely from zero. Ch 1–8, skim, no exercises. Skipping this on-ramp is the most common mistake at that starting point — it makes everything afterwards roughly twice as fast"],
-   ["<b>Designing Data-Intensive Applications, 2nd ed.</b> — later, not now","60–80 hours with no meaningful skip-to, and it will not appear in a GenAI engineer loop. Excellent book, wrong month","trap"]]},
+   ["<b>Designing Data-Intensive Applications, 2nd ed.</b> — later, not now","60–80 hours with no meaningful skip-to, and it will not appear in a GenAI engineer loop. Excellent book, wrong month","trap"],
+   ["<b>Evals for AI Engineers</b> — Shankar &amp; Husain, O'Reilly, Oct 2026", "Out now. The evals FAQ as a book, ordered the way you build a harness. Read it alongside track 06 rather than later", "deep"]]},
   {t:"❌ Books not to buy", note:"The reasoning matters more than the list — every one of these is well-reviewed and wrong for this loop. Re-read this group whenever you feel the urge to buy something.", items:[
    ["❌ Cracking the Coding Interview 6e (2015)","Eleven years old, Java-centric, predates the pattern-vocabulary era, and superseded by its own official sequel by its own author","no"],
    ["❌ Elements of Programming Interviews","Abandoned since 2018, and its problems assume you already recognise the pattern","no"],
@@ -954,7 +893,7 @@ const TRACKS = [
    ["<a href='https://www.anthropic.com/engineering' target='_blank' rel='noopener'>Anthropic Engineering</a>","Agent design and evals from a frontier lab — and what your interviewer read last week"],
    ["<a href='https://applied-llms.org/' target='_blank' rel='noopener'>What We Learned from a Year of Building with LLMs</a>","Six practitioners; still the best single distillation of hard-won lessons"],
    ["<a href='https://neetcode.io/practice' target='_blank' rel='noopener'>neetcode.io/practice</a>","Topologically ordered, one video per problem, free — which is exactly what Blind 75 lacks"],
-   ["<a href='https://www.tryexponent.com/practice' target='_blank' rel='noopener'>Exponent Practice</a>","Free peer mocks, global pool"],
+   ["<a href='https://www.tryexponent.com/practice' target='_blank' rel='noopener'>Exponent Practice</a>","Exponent is now <a href='https://www.aced.io/practice' target='_blank' rel='noopener'>Aced</a>; the old link redirects. Check whether peer mocks are still free before relying on them"],
    ["⚠️ <code>system-design-primer</code> (360k★)","Star count is not currency — the content is the 2017–2019 canon with no serverless, no modern streaming, no ML serving and no vector stores. One 90-minute checklist skim, then close the tab","trap"]]},
   {t:"Papers — method and figures only, ~45 min each", note:"Method and figures only, about 45 minutes each. Read a paper after the track that references it, never before — you need the question for the paper to land.", items:[
    ["Attention Is All You Need — <b>plus the seven deltas to a modern block</b>"],
@@ -1059,8 +998,7 @@ function addNavLink(id, num, title, counted, cls){
   const a=document.createElement("a");
   a.href="#"+id; a.dataset.nav=id; if(cls) a.className=cls;
   a.innerHTML='<span class="n">'+num+'</span><span class="l">'+title+'</span>'+
-    (counted?'<span class="c" data-navc="'+id+'"></span><i class="mini"><b data-navf="'+id+'"></b>'+
-             '<b class="r" data-navfr="'+id+'"></b></i>':'');
+    (counted?'<span class="c" data-navc="'+id+'"></span>':'');
   navEl.appendChild(a);
 }
 function addNavSep(label){
@@ -1160,7 +1098,7 @@ addNavLink("t00","00","Today",true,"today");
   const nice=dt.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   card.innerHTML='<div class="today-top"><span class="today-date">'+nice+'</span>'+
     '<span class="today-cnt" id="todayCnt"></span>'+
-    '<button class="btn" id="todayReset">reset today</button></div>'+
+    '<button class="btn quiet" id="todayReset">Reset today</button></div>'+
     '<div class="hist" id="hist"></div><div class="hist-lbl">last 21 days</div>';
   sec.appendChild(card);
 
@@ -1216,11 +1154,11 @@ TRACKS.forEach(tr=>{
   head.innerHTML='<span class="sec-num">'+tr.num+'</span><h2>'+tr.title+'</h2>'+
     '<span class="sec-meta"><span class="pct" data-pct="'+tr.id+'">0 / 0</span>'+
     '<span class="pbar"><i data-fill="'+tr.id+'"></i><i class="r" data-fillr="'+tr.id+'"></i></span>'+
-    '<button class="btn" data-regrade="'+tr.id+'" title="knock every &quot;cold&quot; back to &quot;read&quot;">re-grade</button>'+
-    '<button class="btn" data-reset="'+tr.id+'">reset</button></span>';
+    '<button class="btn quiet" data-regrade="'+tr.id+'" title="knock every &quot;cold&quot; back to &quot;read&quot;">Re-grade</button>'+
+    '<button class="btn quiet" data-reset="'+tr.id+'">Reset</button></span>';
   sec.appendChild(head);
   if(tr.note){ const n=document.createElement("p"); n.className="sec-note"; n.innerHTML=tr.note; sec.appendChild(n) }
-  if(tr.lock){ const l=document.createElement("div"); l.className="lockbar"; l.innerHTML="🔒 "+tr.lock; sec.appendChild(l) }
+  if(tr.lock){ const l=document.createElement("div"); l.className="lockbar"; l.innerHTML="<b>Locked.</b> "+tr.lock; sec.appendChild(l) }
 
   tr.groups.forEach(g=>{
     const gd=document.createElement("div"); gd.className="grp";
@@ -1267,46 +1205,20 @@ function paint(id, cold, read, n, pct){
     const nr=$('[data-navfr="'+id+'"]'); if(nr) nr.style.width=(n?read/n*100:0)+"%";
   }
 }
-/* ---------- home: a card per track ----------
-   The 360 items used to live on one page. Each track is now its own view, and the
-   home screen is 12 cards that each carry that track's own progress. */
-const homeWrap=document.createElement("div");
-homeWrap.innerHTML='<div class="home-h">Pick a track</div><div class="grid" id="grid"></div>';
-main.insertBefore(homeWrap, main.firstChild);
-const grid=document.getElementById("grid");
-/* Today is a card too — otherwise its 15 rows push the index below the fold on the
-   one page whose whole job is to be an index. */
-[{id:"t00", num:"00", title:"Today — the daily routine"}].concat(TRACKS).forEach(tr=>{
-  const a=document.createElement("a");
-  a.className="tcard"; a.href="#"+tr.id; a.dataset.card=tr.id;
-  a.innerHTML='<div class="n">'+tr.num+(tr.locked?' · locked':'')+'</div>'+
-    '<div class="t">'+tr.title+'</div>'+
-    '<div class="s" data-cardstat="'+tr.id+'">—</div>'+
-    '<span class="bar"><i data-cardfill="'+tr.id+'"></i><i class="r" data-cardfillr="'+tr.id+'"></i></span>';
-  grid.appendChild(a);
-});
-
-/* Back link, inserted once into every track section */
-document.querySelectorAll("main > section[id^=t]").forEach(sec=>{
-  const b=document.createElement("a");
-  b.className="back"; b.href="#"; b.innerHTML='\u2039 &nbsp;All tracks';
-  sec.insertBefore(b, sec.firstChild);
-});
-
 /* ---------- routing ----------
    Hash is the route: no hash (or #t00) is home, #tNN is that track. Everything is
    already in the DOM, so this is a visibility swap — no second page to load, and
    the sync layer, the stores and all 457 handlers stay exactly as they are. */
 const SECS={}; document.querySelectorAll("main > section[id^=t]").forEach(x=>SECS[x.id]=x);
 function route(){
-  const id=(location.hash||"").replace("#","");
-  const isTrack=!!(id && SECS[id]);
+  const h=(location.hash||"").replace("#","");
+  const id=SECS[h]?h:"t00", isTrack=true;   /* no hash, or an unknown one, opens Today */
   document.body.classList.toggle("track", isTrack);
   document.body.classList.toggle("home", !isTrack);
   for(const k in SECS) SECS[k].style.display = (isTrack && k===id) ? "" : "none";
   if(isTrack){ window.scrollTo(0,0); SECS[id].setAttribute("tabindex","-1"); SECS[id].focus({preventScroll:true}) }
 }
-addEventListener("hashchange", route);
+addEventListener("hashchange", ()=>{ route(); spy() });
 
 /* External links into the rendered library. They set neither data-nav nor a
    <section>, so spy() (which builds links{} from data-nav and secs from <section>)
@@ -1314,7 +1226,7 @@ addEventListener("hashchange", route);
 function addNavExt(href, label){
   const a=document.createElement("a");
   a.href=href; a.className="ext";
-  a.innerHTML='<span class="n">→</span><span class="l">'+label+'</span>';
+  a.innerHTML='<span class="n"></span><span class="l">'+label+'</span>';
   navEl.appendChild(a);
 }
 addNavSep("Library");
@@ -1340,27 +1252,10 @@ function recount(){
     if(tr.locked) locked+=sc.n; else { gc+=sc.c; gr+=sc.r; gn+=sc.n }
     paint(tr.id, sc.c, sc.r, sc.n, sc.pct);
   });
-  const t0s=document.querySelector('[data-cardstat="t00"]');
-  if(t0s) t0s.textContent=dd+" of "+dn+" done today";
-  const t0f=document.querySelector('[data-cardfill="t00"]');
-  if(t0f) t0f.style.width=dp+"%";
-  TRACKS.forEach(tr=>{
-    const sc=score(TRACK_IDS[tr.id]||[]);
-    const cs=document.querySelector('[data-cardstat="'+tr.id+'"]');
-    if(cs) cs.textContent=sc.n?(sc.c+" cold · "+sc.r+" read / "+sc.n+" · "+sc.pct+"%"):"—";
-    const cf=document.querySelector('[data-cardfill="'+tr.id+'"]');
-    if(cf) cf.style.width=(sc.n?sc.c/sc.n*100:0)+"%";
-    const cr=document.querySelector('[data-cardfillr="'+tr.id+'"]');
-    if(cr) cr.style.width=(sc.n?sc.r/sc.n*100:0)+"%";
-  });
   const gp=gn?Math.round((gc+READ_W*gr)/gn*100):0;
   document.getElementById("gstat").innerHTML=
     "<b>"+gc+"</b> cold · "+gr+" read / "+gn+" · "+gp+"%"+(locked?" · "+locked+" locked":"");
-  document.getElementById("gfill").style.width=(gn?gc/gn*100:0)+"%";
-  document.getElementById("gfillR").style.width=(gn?gr/gn*100:0)+"%";
   document.getElementById("sideStat").textContent="Today "+dd+"/"+dn+" · syllabus "+gp+"%";
-  document.getElementById("sideFill").style.width=(gn?gc/gn*100:0)+"%";
-  document.getElementById("sideFillR").style.width=(gn?gr/gn*100:0)+"%";
 }
 
 /* 0 = show everything · 1 = hide "cold" (the old Hide done) · 2 = only untouched */
@@ -1389,14 +1284,6 @@ tglEl.addEventListener("click", ()=>{
 tglEl.classList.toggle("on", showMode>0);
 tglEl.textContent=SHOW_LABEL[showMode];
 
-/* the filter row is collapsed on phones; 🔍 reveals it */
-const findEl=document.getElementById("find"), row2=document.getElementById("row2");
-findEl.addEventListener("click",()=>{
-  const on=row2.classList.toggle("on");
-  findEl.classList.toggle("on",on);
-  findEl.setAttribute("aria-expanded", on?"true":"false");
-  if(on) qEl.focus();
-});
 function setTrack(trackId, fn){
   document.querySelectorAll('li.item[data-track="'+trackId+'"]').forEach(li=>{
     const v=fn(+li.dataset.s||0);
@@ -1473,9 +1360,9 @@ document.getElementById("cpy").addEventListener("click", async ()=>{
   const btn=document.getElementById("cpy");
   try{
     await navigator.clipboard.writeText(JSON.stringify(payload()));
-    btn.textContent="⧉  Copied — paste it somewhere safe"; noteBackup();
-  }catch(e){ btn.textContent="⧉  Copy failed — use Back up" }
-  setTimeout(()=>{ btn.textContent="⧉  Copy backup" }, 3500);
+    btn.textContent="Copied — paste it somewhere safe"; noteBackup();
+  }catch(e){ btn.textContent="Copy failed — use Back up" }
+  setTimeout(()=>{ btn.textContent="Copy backup" }, 3500);
 });
 
 /* Version-sniff, then run the SAME upgrade the migration uses. This is not a legacy
@@ -1550,8 +1437,8 @@ const links={}; navEl.querySelectorAll("a").forEach(a=>links[a.dataset.nav]=a);
 const secs=[...document.querySelectorAll("section")];
 let active=null;
 function spy(){
-  let cur=secs[0];
-  for(const s of secs){ if(s.getBoundingClientRect().top<=140) cur=s; else break }
+  /* one track is visible at a time, so the active link is simply the routed one */
+  const h=(location.hash||"").replace("#",""), cur=SECS[h]?SECS[h]:SECS.t00;
   if(cur && cur.id!==active){
     if(active && links[active]) links[active].classList.remove("active");
     active=cur.id;
@@ -1598,7 +1485,7 @@ if(migratedCount){
   if(at && days_<7) return;
   banner("warn", (at? "No backup in <b>"+days_+" days</b>. " : "<b>You have never backed this up.</b> ")+
     "Safari can clear site data after 7 idle days unless the site is on your home screen. "+
-    "Open the ☰ drawer → <b>Data → Back up</b>.");
+    "Open <b>Tracks → Data → Back up</b>.");
 })();
 drawBackupNote();
 
